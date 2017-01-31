@@ -103,8 +103,12 @@ var leftPressed = false;
 var rightPressed = false;
 var upPressed = false;
 var downPressed = false;
+var examineActive = false;
+var interactActive = false;
+/*var movementActive = false;*/
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
+window.addEventListener("click", onClick);
 
 //rendering stuff
 var canvas = document.querySelector("canvas");
@@ -164,7 +168,37 @@ function onKeyDown(event)
                 downPressed = true;
             }
             break
+		case 49: // 1 on the keyboard
+			if (examineActive == false)
+			{
+				examineActive = true;
+				interactActive = false;
+				/* movementActive = false */
+			}
+			break;
+		case 50: // 2 on the keyboard
+			if (interactActive == false)
+			{
+				interactActive = true;
+				examineActive = false;
+				/* movementActive = false */
+			}
+	/*  case 51: // 3 on the keyboard
+			if (movementActive == false)
+			{
+				movementActive = true;
+				interactActive = false;
+				examineActive = false;
+			}  */
     }
+}
+
+function onClick(e)
+{
+	var mouseX = Math.floor((e.clientX - 132) / TILESIZE);
+	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
+	
+	alert(mouseX + "  " + mouseY);
 }
 
 function onKeyUp(event)
