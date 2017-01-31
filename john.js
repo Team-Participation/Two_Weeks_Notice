@@ -1,25 +1,26 @@
 function Room ()
 {
 	this.wallGrid = createWalls();
-  this.npcs = []; // NPC layer
+	this.npcs = []; // NPC layer
 	this.items = []; // Foreground collectable items that have no collision can be placed on obstacles
 	this.obstacles = []; // Foreground objects such as tables that have collision
-  this.bgtiles = []; // Floor tiles, no collision
+	this.bgtiles = []; // Floor tiles, no collision
 	this.special = []; // as needed
 }
 
 function gameObject ()
 {
 	this.img = "img.png"
-	this.layerCode = 999; // for sorting into draw layer
+	this.layerCode = 0; // for sorting into draw layer
 	this.lookText = ""; // text to display when inspected
-  this.canTake = false;
-  this.takeText = ""; // text for taking
-  this.failTake = "";
-  this.canSpeak = false;
+	this.canTake = false; // whether it will be collected into inventory when used with hand cursor
+	this.takeText = ""; // text for taking
+	this.failTake = ""; // text if can't take
+	this.canSpeak = false; // whether you can talk to it
 	this.failSpeak = ""; // "Chairs can't talk"
-	this.canUse = false;
-	this.usedWith = []; // item interaction flag
+	this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
+	this.usedWith = []; // inventory items that can be used on this object
+	this.dialogue = []; // dialogue tree if can be spoken to
 
 	this.x = 999;
 	this.y = 999;
@@ -29,7 +30,7 @@ function gameObject ()
 
 function Look (gameObject)
 {
-  return gameObject.lookText;
+	return gameObject.lookText;
 }
 
 function Hand (gameObject)
@@ -37,8 +38,8 @@ function Hand (gameObject)
   if (gameObject.canTake)
   {
     inventory.push(gameObject); // or replace with better method than push
-		Room.items.splice(gameObject); // check syntax
-    return gameObject.takeText; // optional when can take
+	Room.items.splice(gameObject); // check syntax, probably wrong
+    return gameObject.takeText; // "You took the _____"
   }
 	else if (gameObject.canUse)
 	{
@@ -46,7 +47,7 @@ function Hand (gameObject)
 	}
 	else
 	{
-		return gameObject.takeText; // on fail - ie; "It's stuck to the wall" - can separate into own var if needed
+		return gameObject.failText; // on fail - ie; "It's stuck to the wall"
 	}
 }
 
