@@ -35,15 +35,15 @@ function Look (gameObject)
 
 function Hand (gameObject)
 {
-  if (gameObject.canTake)
+  if (gameObject.canTake) // If the object is an inventory item, it will be taken
   {
     inventory.push(gameObject); // or replace with better method than push
 	Room.items.splice(gameObject); // check syntax, probably wrong
     return gameObject.takeText; // "You took the _____"
   }
-	else if (gameObject.canUse)
+	else if (gameObject.canUse) // If the object is an interactable map object
 	{
-
+		// Under construction
 	}
 	else
 	{
@@ -55,7 +55,7 @@ function Speak (gameObject)
 {
 	if (gameObject.canSpeak)
 	{
-
+		// Under construction
 	}
 	else
 	{
@@ -63,7 +63,7 @@ function Speak (gameObject)
 	}
 }
 
-function useItem (item, target)
+function useItem (item, target) // for using inventory item on something
 {
-
+	// Under construction
 }
