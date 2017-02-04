@@ -190,6 +190,15 @@ function onKeyDown(event)
 				interactActive = false;
 				examineActive = false;
 			}  */
+		case 27:
+		{
+			console.log("Entering menu from game...");
+			//surface.clearRect(0, 0, canvas.width, canvas.height);
+			//clearInterval(updateIval);
+			//clearInterval(update);
+			changeState(0);
+				
+		}
     }
 }
 
@@ -490,14 +499,15 @@ function exitMenu()
 function enterGame()
 {
 	console.log("Entering game state.");
-	activeBtns = [ buttons[3] ];
+	//activeBtns = [ buttons[3] ];
 }
 
 function updateGame()
 {
 	console.log("In game state.");
-	checkButtons();
-	renderMenu();
+	playerMovement();
+	//checkButtons();
+	render();
 }
 
 function exitGame()
@@ -587,13 +597,14 @@ function renderMenu()
 function onStartClick()
 {
 	changeState(1);
+	/*
 	if (currState == 1)
 	{
 		surface.clearRect(0, 0, canvas.width, canvas.height);
 		clearInterval(updateIval);
 		setInterval(update, 16,67);
 		renderTools();
-	}
+	}*/
 }
 
 function onHelpClick()
@@ -621,11 +632,13 @@ function updateMouse(event)
     mouse.y = event.clientY - rect.top;
 }	
 //Menu part ends here
+/*window.addEventListener("pause", exitInGame);
 
-
-
-
-
-
-
-
+function exitInGame(event)
+{
+	if(event.keyCode == 27)
+	{
+		alert("ESC");
+		changeState(0);
+	}
+}*/
