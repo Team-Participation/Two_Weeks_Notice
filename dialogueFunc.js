@@ -1,5 +1,6 @@
-//just using a clean file for ease of access, will be added to relevant .js when complete
+//WIP: just using a clean file for ease of access, will be added to relevant .js when complete
 
+//on interact with gameObject
 function dialogue()
 {
 	var textBG = new Image();
