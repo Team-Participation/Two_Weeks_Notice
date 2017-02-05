@@ -8,6 +8,22 @@ function Room ()
 	this.special = []; // as needed
 }
 
+function layerLoad (gameObject) // sorts game objects into their appropriate draw layer array
+{
+	switch (gameObject.layerCode)
+	{
+		case 1: 
+			Room.npcs.push(gameObject);
+			break;
+		case 2:
+			Room.items.push(gameObject);
+			break;
+		case 3:
+			Room.obstacles.push(gameObject);
+			break;
+	}
+}
+
 function gameObject ()
 {
 	this.img = "img.png"
