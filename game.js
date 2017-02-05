@@ -21,12 +21,15 @@ function Item ()
 }
 
 // a class to contain all the info of the current room
+
 function Room ()
 {
-    this.wallGrid = createWalls();
-    this.items = [];
-    this.gameObjects = [];
-    this.interactions = [];
+	this.wallGrid = createWalls();
+	this.npcs = []; // NPC layer
+	this.items = []; // Foreground collectable items that have no collision can be placed on obstacles
+	this.obstacles = []; // Foreground objects such as tables that have collision
+	this.bgtiles = []; // Floor tiles, no collision
+	this.special = []; // as needed
 }
 
 //function that walls in the area so that the player can't walk off screen
