@@ -55,7 +55,7 @@ function onKeyDown(event)
 				interactActive = false;
 				examineActive = false;
 				console.log("Speak Active");
-			}  
+			}
 			break;
     }
 }
@@ -64,33 +64,33 @@ function onClick(e)
 {
 	var mouseX = Math.floor((e.clientX - 132) / TILESIZE);
 	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
-	
-	
+
+
 	for (i = 0; i < lengthOfArray; i++){
-		console.log(gameObjectArray[i].x);
-		if (gameObjectArray[i].x == mouseX && gameObjectArray[i].y == mouseY){
+		console.log(gameRoom.objects[i].x);
+		if (gameRoom.objects[i].x == mouseX && gameRoom.objects[i].y == mouseY){
 			if (examineActive){
-				examineAction(gameObjectArray[i]);
+				examineAction(gameRoom.objects[i]);
 			} else if (interactActive){
-				interactAction(gameObjectArray[i]);
+				interactAction(gameRoom.objects[i]);
 			} else if (speakActive){
-				speakAction(gameObjectArray[i]);
+				speakAction(gameRoom.objects[i]);
 			}
 		}
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 	//alert(mouseX + "  " + mouseY);
 }
 
 function examineAction(obj){
-	
+
 	console.log(obj.examineText);
 	return obj.examineText;
-	
+
 }
 
 function interactAction(obj){
@@ -104,19 +104,19 @@ function interactAction(obj){
 	else if (obj.canUse) // If the object is an interactable map object
 	{
 		// Under construction
-		
-		
+
+
 	}
 	else
 	{
 		console.log(obj.failText);
 		return obj.failText; // on fail - ie; "It's stuck to the wall"
 	}
-	
+
 }
 
 function speakAction(obj){
-	
+
 	if (obj.canSpeak){ // If the object can be spoken too
 		dialogueFunction(obj);
 	}
@@ -124,18 +124,18 @@ function speakAction(obj){
 		console.log(obj.failSpeak);
 		return obj.failSpeak;
 	}
-	
+
 }
 
 //function that deals with removing an object from the game screen and deleting it from arrays and what not
 //under construction
 function removeObject(obj){
-	
+
 }
 
 //Function that handles the dialogue of talking to someone
 function dialogueFunction(obj){
-	
+
 }
 
 function onKeyUp(event)
@@ -244,7 +244,7 @@ function render(room)
     }
     //draw the player
     renderPlayer();
-	
+
 	//draw the watercooler
 	renderWatercooler();
 }
@@ -253,7 +253,7 @@ function render(room)
 function renderWatercooler()
 {
 	surface.drawImage(watercooler.image,50,50);
-	
+
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* all of the drawImage functions use one less than the actual player Y value so that
@@ -349,16 +349,16 @@ var stage = document.getElementById("gameScreen");
 var states = [{enter: enterMenu, update: updateMenu, exit: exitMenu},
 			  {enter: enterGame, update: updateGame, exit: exitGame},
 			  {enter: enterHelp, update: updateHelp, exit: exitHelp},
-			  {enter: enterOption, update: updateOption, exit: exitOption},];	
-var lastState = -1; 
+			  {enter: enterOption, update: updateOption, exit: exitOption},];
+var lastState = -1;
 var currState = -1;
 
 var buttons = [{img:"img/StartN.png", imgO:"img/StartH.png", x:676, y:144, w:184, h:72, over:false, click:onStartClick}, // Start button
 			   {img:"img/OptionN.png", imgO:"img/OptionH.png", x:656, y:288, w:224, h:72, over:false, click:onOptionClick},
 			   {img:"img/HelpN.png", imgO:"img/HelpH.png", x:692, y:432, w:152, h:72, over:false, click:onHelpClick}, // Help button
 			   {img:"img/ExitN.png", imgO:"img/ExitH.png", x:692, y:576, w:152, h:72, over:false, click:onExitClick},]
-			   
-			   
+
+
 var activeBtns = [];
 var numAssets = 8;
 var assetsLoaded = 0;
@@ -393,7 +393,7 @@ function onAssetLoad(event)
 	if (++assetsLoaded == numAssets)
 		initGame();
 }
-			  
+
 function initGame()
 {
 	changeState(0); // Change to menu state.
@@ -511,10 +511,10 @@ function onMouseClick()
 	for (var i = 0; i < activeBtns.length; i++)
 	{
 		if (activeBtns[i].over == true)
-		{	
+		{
 			activeBtns[i].click();
 			break;
-		}		
+		}
 	}
 }
 
@@ -570,7 +570,7 @@ function updateMouse(event)
 	var rect = canvas.getBoundingClientRect();
 	mouse.x = event.clientX - rect.left;
     mouse.y = event.clientY - rect.top;
-}	
+}
 //Menu part ends here
 /*window.addEventListener("pause", exitInGame);
 
