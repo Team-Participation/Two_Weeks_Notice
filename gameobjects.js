@@ -1,51 +1,67 @@
 var goldfish = new gameObject
 {
-	this.type = "goldfish";
-	this.img = 'goldfish.png';
+	this.img = 'img/goldfish.png';
 	this.layerCode = 2;
-	this.lookText = 'Unprocessed fishsticks.'
+	this.lookText = 'Unprocessed fishsticks.';
 	this.canTake = true;
 	this.takeText = '...';
 	this.failTake = null;
 	this.canSpeak = false;
-	this.failSpeak = 'It stares back with a blank expression.'
+	this.failSpeak = 'It stares back with a blank expression.';
 	this.canUse = false;
 	this.usedWith = null;
 
-	this.x = 999;
-	this.y = 999;
+	this.x = 16;
+	this.y = 7;
 	this.length = 1;
 	this.height = 1;
 }
 
 var watercooler = new gameObject
 {
-	this.type = "watercooler";
-	this.img = 'watercooler.png';
-	this.imgAlt = 'watercooler2.png';
+	this.img = 'img/watercooler.png';
+	this.imgAlt = 'watercoolerAlt.png';
 	this.layerCode = 3;
-	this.lookText = 'For making uncomfortable small talk.'
+	this.lookText = 'For making uncomfortable small talk.';
 	this.canTake = false;
 	this.takeText = null;
 	this.failTake = null;
 	this.canSpeak = false;
-	this.failSpeak = "It doesn't speak. Watercooler conversations suck anyway."
+	this.failSpeak = "It doesn't speak. Watercooler conversations suck anyway.";
 	this.canUse = false;
 	this.usedWith = ["goldfish"];
 	this.altState = false;
 
-	this.x = 777;
-	this.y = 777;
+	this.x = 2;
+	this.y = 12;
 	this.length = 1;
 	this.height = 2;
 }
 
+var receptionDesk = new gameObject
+{
+	this.img = 'img/reception_desk.png'
+	this.layerCode = 3;
+	this.lookText = "A mighty fine desk.";
+	this.canTake = false;
+	this.takeText = null;
+	this.failTake = null;
+	this.canSpeak = false;
+	this.failSpeak = "It doesn't speak.";
+	this.canUse = false;
+	this.usedWith = null;
+		
+	this.x = 14;
+	this.y = 7;
+	this.length = 3;
+	this.height = 1;
+}
+
 var reception = new gameObject
 {
-	this.type = "reception";
-	this.img = 'reception.png';
+	this.img = 'img/reception.png';
 	this.layerCode = 1;
-	this.lookText = 'I could look at that all day.'
+	this.lookText = 'I could look at that all day.';
 	this.canTake = false;
 	this.takeText = null;
 	this.failTake = null;
@@ -54,8 +70,8 @@ var reception = new gameObject
 	this.canUse = true;
 	this.usedWith = null;
 
-	this.x = 666;
-	this.y = 666;
+	this.x = 15;
+	this.y = 6;
 	this.length = 1;
 	this.height = 2;
 
