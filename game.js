@@ -8,19 +8,6 @@ const WIDTH = 32;
 const MOVETIME = 15;
 const error = 0;
 
-//item array will be populated with these.
-function Item ()
-{
-    //0 = not picked up, 1 = in inventory, 2 = used.
-    this.state = 0;
-    this.name = "Unnamed Item";
-    //where in the room the item is located before being picked up
-    this.location = [1,1];
-    this.sprite = new Image();
-    //this is the image that will appear in your inventory when you have the item
-    this.sprite = "img/defaultItem.png";
-}
-
 function inventory(){
     this.slots = new inventorySlot(11);   
     this.pickUpItm = function(itemObj) {
@@ -112,20 +99,6 @@ function createWalls()
     return walls;
 }
 
-//interactions are anything that brings up text(items, talking, etc).
-function Interaction ()
-{
-    this.dialogue = "This interaction has no dialogue";
-    //-1 means no item, otherwise it's the array location of the item.
-    this.getItem = 1;
-    this.useItem = 1;
-    //the tile location of the interaction.
-    this.location = [1,1];
-}
-
-/* objects in the game, like desks or a water cooler.
- * unlike events, they have collision.
- */
 function gameObject ()
 {
 	this.img = "img.png"
