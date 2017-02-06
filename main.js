@@ -70,7 +70,7 @@ function inventorySlot(){
 function Room ()
 {
     this.wallGrid = createWalls();
-    this.objects[];
+    this.objects = [];
 }
 
 //function that walls in the area so that the player can't walk off screen
@@ -97,7 +97,8 @@ function createWalls()
 
 function gameObject ()
 {
-    this.img = "img.png"
+    this.img = new Image();
+    this.img.src = "img.png"
 	  this.layerCode = 0; // for sorting into draw layer
 				                // 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
 	  this.lookText = ""; // text to display when inspected
@@ -236,7 +237,7 @@ function onClick(e)
 	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
 
 
-	for (i = 0; i < lengthOfArray; i++){
+	for (i = 0; i < gameRoom.objects.length; i++){
 		console.log(gameRoom.objects[i].x);
 		if (gameRoom.objects[i].x == mouseX && gameRoom.objects[i].y == mouseY){
 			if (examineActive){
@@ -508,8 +509,8 @@ function renderObjects(room, objectLayer)
 		if(room.objects[i].layerCode == objectLayer)
 		{
 			surface.drawImage(room.objects[i].img,
-							room.objects[i].x,
-							room.objects[i].y);
+							room.objects[i].x * TILESIZE,
+							room.objects[i].y * TILESIZE);
 		}
 	}
 }
@@ -550,8 +551,8 @@ function objectCollision(playerNextPos, room)
 			{
 				for(var height = 0; height < room.objects[i].height; height++)
 				{
-					if(playerNextPos[0] == room.objects[i].x ++ length &&
-							playerNextPos[1] == room.objects[i].y ++ width)
+					if(playerNextPos[0] == room.objects[i].x + length &&
+							playerNextPos[1] == room.objects[i].y + width)
 					{
 						return false;
 					}

@@ -1,6 +1,7 @@
 var goldfish = new gameObject
 {
-	this.img = 'img/goldfish.png';
+	this.img = new Image();
+	this.img.src = "img/goldfish.png";
 	this.layerCode = 2;
 	this.lookText = 'Unprocessed fishsticks.';
 	this.canTake = true;
@@ -20,7 +21,8 @@ var goldfish = new gameObject
 
 var watercooler = new gameObject
 {
-	this.img = 'img/watercooler.png';
+	this.img = new Image();
+	this.img.src = "img/watercooler.png";
 	this.imgAlt = 'watercoolerAlt.png';
 	this.layerCode = 3;
 	this.lookText = 'For making uncomfortable small talk.';
@@ -42,7 +44,8 @@ var watercooler = new gameObject
 
 var receptionDesk = new gameObject
 {
-	this.img = 'img/reception_desk.png'
+	this.img = new Image();
+	this.img.src = "img/reception_desk.png";
 	this.layerCode = 3;
 	this.lookText = "A mighty fine desk.";
 	this.canTake = false;
@@ -62,7 +65,8 @@ var receptionDesk = new gameObject
 
 var reception = new gameObject
 {
-	this.img = 'img/reception.png';
+	this.img = new Image();
+	this.img.src = "img/reception.png";
 	this.layerCode = 1;
 	this.lookText = 'I could look at that all day.';
 	this.canTake = false;
