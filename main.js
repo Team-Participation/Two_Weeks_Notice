@@ -530,7 +530,7 @@ function objectCollision(playerNextPos, room)
 				for(var height = 0; height < room.objects[i].height; height++)
 				{
 					if(playerNextPos[0] == room.objects[i].x + length &&
-							playerNextPos[1] == room.objects[i].y + width)
+							playerNextPos[1] == room.objects[i].y + height)
 					{
 						return false;
 					}
