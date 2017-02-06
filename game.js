@@ -128,21 +128,23 @@ function Interaction ()
  */
 function gameObject ()
 {
-    //objects don't need to have dialogue, but they can
-    this.dialogue = null;
-    /* 2D array for collision. First is x coord, then y coord.
-     * The outer array contains each square of collision.
-     * By default it's just 1 square.
-     *
-     * I did it this way instead of just a 1D array that just has
-     * the dimensions, like 2 by 4, so that objects don't have to
-     * be squares.
-     *
-     * example of setting a 2 by 2 object named desk:
-     * var desk = new Object();
-     * desk.collision = [[1,1], [1,2], [2,1], [2,2]];
-     */
-    this.collision = [[1,1]];
+	this.img = "img.png"
+	this.layerCode = 0; // for sorting into draw layer
+				// 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
+	this.lookText = ""; // text to display when inspected
+	this.canTake = false; // whether it will be collected into inventory when used with hand cursor
+	this.takeText = ""; // text for taking
+	this.failTake = ""; // text if can't take
+	this.canSpeak = false; // whether you can talk to it
+	this.failSpeak = ""; // "Chairs can't talk"
+	this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
+	this.usedWith = []; // inventory items that can be used on this object
+	this.dialogue = []; // dialogue tree if can be spoken to
+
+	this.x = 999;
+	this.y = 999;
+	this.length = 999;
+	this.height = 999;
 }
 
 var playerX = 10;
