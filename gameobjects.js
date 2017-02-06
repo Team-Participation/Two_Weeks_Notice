@@ -20,7 +20,7 @@ function gameObject ()
 }
 
 var goldfish = new gameObject();
-
+{
 goldfish.img = new Image();
 goldfish.img.src = "img/goldfish.png";
 goldfish.layerCode = 2;
@@ -38,10 +38,10 @@ goldfish.y = 7;
 goldfish.length = 1;
 goldfish.height = 1;
 gameRoom.objects.push(goldfish);
-
+}
 
 var waterCooler = new gameObject();
-
+{
 waterCooler.img = new Image();
 waterCooler.img.src = "img/watercooler.png";
 waterCooler.imgAlt = "watercoolerAlt.png";
@@ -61,10 +61,10 @@ waterCooler.y = 12;
 waterCooler.length = 1;
 waterCooler.height = 2;
 gameRoom.objects.push(waterCooler);
-
+}
 
 var receptionDesk = new gameObject();
-
+{
 receptionDesk.img = new Image();
 receptionDesk.img.src = "img/reception_desk.png";
 receptionDesk.layerCode = 3;
@@ -81,11 +81,11 @@ receptionDesk.x = 14;
 receptionDesk.y = 7;
 receptionDesk.length = 3;
 receptionDesk.height = 1;
-gameRoom.objects[gameRoom.objects.length] = receptionDesk;
-
+gameRoom.objects.push(receptionDesk);
+}
 
 var reception = new gameObject();
-
+{
 reception.img = new Image();
 reception.img.src = "img/reception.png";
 reception.layerCode = 1;
@@ -116,5 +116,5 @@ reception.x = 15;
 reception.y = 6;
 reception.length = 1;
 reception.height = 2;
-gameRoom.objects[gameRoom.objects.length] = reception;
-
+gameRoom.objects.push(reception);
+}

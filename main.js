@@ -104,19 +104,15 @@ var playerY = 10;
 var playerDirection = "down";
 var playerMoving = false;
 var playerMoveTime = 0;
-/* items the player has are stored here. For this example the player can
- * hold 3 items
- */
-var playerInventory = [false, false, false];
 
 //input stuff
 var leftPressed = false;
 var rightPressed = false;
 var upPressed = false;
 var downPressed = false;
-var examineActive = false;
+var examineActive = true;
 var interactActive = false;
-/*var movementActive = false;*/
+var speakActive = false;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 window.addEventListener("click", onClick);
@@ -206,13 +202,22 @@ function onKeyDown(event)
 				console.log("Speak Active");
 			}
 			break;
+		case 27:
+		{
+			console.log("Entering menu from game...");
+			//surface.clearRect(0, 0, canvas.width, canvas.height);
+			//clearInterval(updateIval);
+			//clearInterval(update);
+			changeState(0);
+
+		}
     }
 }
 
-function onClick(e)
+function onClick(e) // Needs to be fixed for different window sizes
 {
-	var mouseX = Math.floor((e.clientX - 132) / TILESIZE);
-	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
+	var mouseX = Math.floor((e.clientX - 132) / TILESIZE) - 1;
+	var mouseY = Math.floor((e.clientY - 20) / TILESIZE);
 
 
 	for (i = 0; i < gameRoom.objects.length; i++){
@@ -232,7 +237,7 @@ function onClick(e)
 
 
 
-	//alert(mouseX + "  " + mouseY);
+	alert(mouseX + "  " + mouseY);
 }
 
 function examineAction(obj){
