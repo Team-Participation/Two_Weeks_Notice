@@ -1,99 +1,120 @@
-var goldfish = new gameObject
+function gameObject ()
 {
-	this.img = new Image();
-	this.img.src = "img/goldfish.png";
-	this.layerCode = 2;
-	this.lookText = 'Unprocessed fishsticks.';
-	this.canTake = true;
-	this.takeText = '...';
-	this.failTake = null;
-	this.canSpeak = false;
-	this.failSpeak = 'It stares back with a blank expression.';
-	this.canUse = false;
-	this.usedWith = null;
+	this.img = "img.png"
+	this.layerCode = 0; // for sorting into draw layer
+				// 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
+	this.lookText = ""; // text to display when inspected
+	this.canTake = false; // whether it will be collected into inventory when used with hand cursor
+	this.takeText = ""; // text for taking
+	this.failTake = ""; // text if can't take
+	this.canSpeak = false; // whether you can talk to it
+	this.failSpeak = ""; // "Chairs can't talk"
+	this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
+	this.usedWith = []; // inventory items that can be used on this object
+	this.dialogue = []; // dialogue tree if can be spoken to
 
-	this.x = 16;
-	this.y = 7;
-	this.length = 1;
-	this.height = 1;
-	gameRoom.objects.push(this);
+	this.x = 999;
+	this.y = 999;
+	this.length = 999;
+	this.height = 999;
 }
 
-var watercooler = new gameObject
-{
-	this.img = new Image();
-	this.img.src = "img/watercooler.png";
-	this.imgAlt = 'watercoolerAlt.png';
-	this.layerCode = 3;
-	this.lookText = 'For making uncomfortable small talk.';
-	this.canTake = false;
-	this.takeText = null;
-	this.failTake = null;
-	this.canSpeak = false;
-	this.failSpeak = "It doesn't speak. Watercooler conversations suck anyway.";
-	this.canUse = false;
-	this.usedWith = ["goldfish"];
-	this.altState = false;
+var goldfish = new gameObject();
 
-	this.x = 2;
-	this.y = 12;
-	this.length = 1;
-	this.height = 2;
-	gameRoom.objects.push(this);
-}
+goldfish.img = new Image();
+goldfish.img.src = "img/goldfish.png";
+goldfish.layerCode = 2;
+goldfish.lookText = "Unprocessed fishsticks.";
+goldfish.canTake = true;
+goldfish.takeText = "...";
+goldfish.failTake = null;
+goldfish.canSpeak = false;
+goldfish.failSpeak = "It stares back with a blank expression.";
+goldfish.canUse = false;
+goldfish.usedWith = null;
 
-var receptionDesk = new gameObject
-{
-	this.img = new Image();
-	this.img.src = "img/reception_desk.png";
-	this.layerCode = 3;
-	this.lookText = "A mighty fine desk.";
-	this.canTake = false;
-	this.takeText = null;
-	this.failTake = null;
-	this.canSpeak = false;
-	this.failSpeak = "It doesn't speak.";
-	this.canUse = false;
-	this.usedWith = null;
+goldfish.x = 16;
+goldfish.y = 7;
+goldfish.length = 1;
+goldfish.height = 1;
+gameRoom.objects.push(goldfish);
 
-	this.x = 14;
-	this.y = 7;
-	this.length = 3;
-	this.height = 1;
-	gameRoom.objects.push(this);
-}
 
-var reception = new gameObject
-{
-	this.img = new Image();
-	this.img.src = "img/reception.png";
-	this.layerCode = 1;
-	this.lookText = 'I could look at that all day.';
-	this.canTake = false;
-	this.takeText = null;
-	this.failTake = null;
-	this.canSpeak = true;
-	this.failSpeak = null;
-	this.canUse = true;
-	this.usedWith = null;
+var waterCooler = new gameObject();
 
-	this.dialogue = [];
-	this.dialogue[0] = {	text: "What do you want?",
-												options:	[	{	reply: "How's your day?", next: 1},
-																		{ reply: "You, in the back seat of my Corolla.", next: 2}
-																	]
-																};
-	this.dialogue[1] = {	text: "Whatever."};
-	this.dialogue[2] = {	text: "In your dreams, creep.",
-												options:	[	{	reply: "Feelsbadman.", next: 1},
-																		{ reply: "Been there, done that.", next: 3}
-																	]
-																};
-	this.dialogue[3] = {	text: "Like, eww."};
+waterCooler.img = new Image();
+waterCooler.img.src = "img/watercooler.png";
+waterCooler.imgAlt = "watercoolerAlt.png";
+waterCooler.layerCode = 3;
+waterCooler.lookText = "For making uncomfortable small talk.";
+waterCooler.canTake = false;
+waterCooler.takeText = null;
+waterCooler.failTake = null;
+waterCooler.canSpeak = false;
+waterCooler.failSpeak = "It doesn't speak. Watercooler conversations suck anyway.";
+waterCooler.canUse = false;
+waterCooler.usedWith = ["goldfish"];
+waterCooler.altState = false;
 
-	this.x = 15;
-	this.y = 6;
-	this.length = 1;
-	this.height = 2;
-	gameRoom.objects.push(this);
-}
+waterCooler.x = 2;
+waterCooler.y = 12;
+waterCooler.length = 1;
+waterCooler.height = 2;
+gameRoom.objects.push(waterCooler);
+
+
+var receptionDesk = new gameObject();
+
+receptionDesk.img = new Image();
+receptionDesk.img.src = "img/reception_desk.png";
+receptionDesk.layerCode = 3;
+receptionDesk.lookText = "A mighty fine desk.";
+receptionDesk.canTake = false;
+receptionDesk.takeText = null;
+receptionDesk.failTake = null;
+receptionDesk.canSpeak = false;
+receptionDesk.failSpeak = "It doesn't speak.";
+receptionDesk.canUse = false;
+receptionDesk.usedWith = null;
+
+receptionDesk.x = 14;
+receptionDesk.y = 7;
+receptionDesk.length = 3;
+receptionDesk.height = 1;
+gameRoom.objects[gameRoom.objects.length] = receptionDesk;
+
+
+var reception = new gameObject();
+
+reception.img = new Image();
+reception.img.src = "img/reception.png";
+reception.layerCode = 1;
+reception.lookText = "I could look at that all day.";
+reception.canTake = false;
+reception.takeText = null;
+reception.failTake = null;
+reception.canSpeak = true;
+reception.failSpeak = null;
+reception.canUse = true;
+reception.usedWith = null;
+
+reception.dialogue = [];
+reception.dialogue[0] = {	text: "What do you want?",
+											options:	[	{	reply: "How's your day?", next: 1},
+																	{ reply: "You, in the back seat of my Corolla.", next: 2}
+																]
+															};
+reception.dialogue[1] = {	text: "Whatever."};
+reception.dialogue[2] = {	text: "In your dreams, creep.",
+											options:	[	{	reply: "Feelsbadman.", next: 1},
+																	{ reply: "Been there, done that.", next: 3}
+																]
+															};
+reception.dialogue[3] = {	text: "Like, eww."};
+
+reception.x = 15;
+reception.y = 6;
+reception.length = 1;
+reception.height = 2;
+gameRoom.objects[gameRoom.objects.length] = reception;
+
