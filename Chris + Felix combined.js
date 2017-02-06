@@ -88,8 +88,8 @@ function onClick(e)
 
 function examineAction(obj){
 
-	console.log(obj.examineText);
-	return obj.examineText;
+	console.log(obj.lookText);
+	return obj.lookText;
 
 }
 
@@ -109,8 +109,8 @@ function interactAction(obj){
 	}
 	else
 	{
-		console.log(obj.failText);
-		return obj.failText; // on fail - ie; "It's stuck to the wall"
+		console.log(obj.failTake);
+		return obj.failTake; // on fail - ie; "It's stuck to the wall"
 	}
 
 }
@@ -245,20 +245,8 @@ function render(room)
     //draw the player
     renderPlayer();
 
-	//draw the watercooler
-	renderWatercooler();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//redner watercooler
-function renderWatercooler()
-{
-	surface.drawImage(watercooler.image,50,50);
 
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/* all of the drawImage functions use one less than the actual player Y value so that
- * his feet are where he is actually standing and not his head
- */
 function renderPlayer()
 {
     //outer if statements make sure the player is facing the proper direction
