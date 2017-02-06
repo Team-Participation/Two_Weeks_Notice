@@ -35,7 +35,7 @@ What are five things that went wrong during this past development period?
 2. Code was sometimes written redundantly by multiple teams due to coordination issues; could be better optimized
 3. Work by teams requiring another team's completed code was sometimes delayed until prerequisite code was completed
 4. Milestones of group may need to be even further ahead of class schedule in order to achieve scope of project
-5. ???
+5. Insufficient time to fully debug everyone's code
 
 
 What are five things that can be improved for future development periods?
@@ -43,6 +43,6 @@ What are five things that can be improved for future development periods?
 1. Get everyone on board with github
 2. Improve team coordination by having weekly milestone meetings in class; more micromanagement
 3. Implement some of the production methodologies from Game Production I; Have frequent sprint milestones in order to make sure scope of project is realized by end of development period
-4. Emphasize intermediate deadlines for teams whose work is required by another team
+4. Emphasize intermediate deadlines for teams whose work is required by another team (ie; debugging)
 5. Make sure every team has a member with more experience to provide guidance
 6. Use more concept sketches to convey desired execution of ideas to teams
