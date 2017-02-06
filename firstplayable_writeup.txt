@@ -8,7 +8,7 @@ How your design or plan has changed since the end of last semester:
 Identify any potential risks and propose solutions:
 
   - Scope of new game is ambitious; risk of biting off more than can chew
-    - Solution is to stay on the ball
+    - Solution is to stay on the ball; have frequent small milestones
 
 List any roadblocks that are preventing the team from making progress and explain how you are going to overcome them:
 
@@ -21,4 +21,22 @@ List any roadblocks that are preventing the team from making progress and explai
 What are five things that went right during this past development period?
 
 1. We met all our milestone goals for first playable
-2. 
+2. All group members were filled with determination, and competence
+3. All group members engaged in _team participation_
+4. Nobody got hurt
+5. ???
+
+What are five things that went wrong during this past development period?
+
+1. Coordination of teams could be better; proper use of github not yet adopted
+2. Code was sometimes written redundantly by multiple teams due to coordination issues; could be better optimized
+3. 
+
+
+What are five things that can be improved for future development periods?
+
+1. Learn to use github
+2. Improve team coordination by having weekly milestone meetings in class
+3. Implement some of the production methodologies from Game Production I
+4. Have frequent sprint milestones in order to make sure scope of project is realized by end of development period
+5. Make sure every team has a member with more experience to provide guidance
