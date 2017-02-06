@@ -98,7 +98,7 @@ function createWalls()
 function gameObject ()
 {
     this.img = new Image();
-    this.img.src = "img.png"
+    this.img.src = "img/defaultItem.png";
 	  this.layerCode = 0; // for sorting into draw layer
 				                // 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
 	  this.lookText = ""; // text to display when inspected
