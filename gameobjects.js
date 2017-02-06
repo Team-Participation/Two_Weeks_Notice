@@ -15,6 +15,7 @@ var goldfish = new gameObject
 	this.y = 7;
 	this.length = 1;
 	this.height = 1;
+	gameRoom.objects.push(this);
 }
 
 var watercooler = new gameObject
@@ -36,6 +37,7 @@ var watercooler = new gameObject
 	this.y = 12;
 	this.length = 1;
 	this.height = 2;
+	gameRoom.objects.push(this);
 }
 
 var receptionDesk = new gameObject
@@ -50,11 +52,12 @@ var receptionDesk = new gameObject
 	this.failSpeak = "It doesn't speak.";
 	this.canUse = false;
 	this.usedWith = null;
-		
+
 	this.x = 14;
 	this.y = 7;
 	this.length = 3;
 	this.height = 1;
+	gameRoom.objects.push(this);
 }
 
 var reception = new gameObject
@@ -70,11 +73,6 @@ var reception = new gameObject
 	this.canUse = true;
 	this.usedWith = null;
 
-	this.x = 15;
-	this.y = 6;
-	this.length = 1;
-	this.height = 2;
-
 	this.dialogue = [];
 	this.dialogue[0] = {	text: "What do you want?",
 												options:	[	{	reply: "How's your day?", next: 1},
@@ -89,4 +87,9 @@ var reception = new gameObject
 																};
 	this.dialogue[3] = {	text: "Like, eww."};
 
+	this.x = 15;
+	this.y = 6;
+	this.length = 1;
+	this.height = 2;
+	gameRoom.objects.push(this);
 }

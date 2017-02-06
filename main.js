@@ -69,12 +69,8 @@ function inventorySlot(){
 
 function Room ()
 {
-	this.wallGrid = createWalls();
-	this.npcs = []; // NPC layer
-	this.items = []; // Foreground collectable items that have no collision can be placed on obstacles
-	this.obstacles = []; // Foreground objects such as tables that have collision
-	this.bgtiles = []; // Floor tiles, no collision
-	this.special = []; // as needed
+    this.wallGrid = createWalls();
+    this.objects[];
 }
 
 //function that walls in the area so that the player can't walk off screen
@@ -101,23 +97,23 @@ function createWalls()
 
 function gameObject ()
 {
-	this.img = "img.png"
-	this.layerCode = 0; // for sorting into draw layer
-				// 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
-	this.lookText = ""; // text to display when inspected
-	this.canTake = false; // whether it will be collected into inventory when used with hand cursor
-	this.takeText = ""; // text for taking
-	this.failTake = ""; // text if can't take
-	this.canSpeak = false; // whether you can talk to it
-	this.failSpeak = ""; // "Chairs can't talk"
-	this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
-	this.usedWith = []; // inventory items that can be used on this object
-	this.dialogue = []; // dialogue tree if can be spoken to
+    this.img = "img.png"
+	  this.layerCode = 0; // for sorting into draw layer
+				                // 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
+	  this.lookText = ""; // text to display when inspected
+	  this.canTake = false; // whether it will be collected into inventory when used with hand cursor
+	  this.takeText = ""; // text for taking
+	  this.failTake = ""; // text if can't take
+	  this.canSpeak = false; // whether you can talk to it
+	  this.failSpeak = ""; // "Chairs can't talk"
+	  this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
+	  this.usedWith = []; // inventory items that can be used on this object
+	  this.dialogue = []; // dialogue tree if can be spoken to
 
-	this.x = 999;
-	this.y = 999;
-	this.length = 999;
-	this.height = 999;
+	  this.x = 999;
+	  this.y = 999;
+	  this.length = 999;
+    this.height = 999;
 }
 
 var playerX = 10;
@@ -341,6 +337,7 @@ function update()
     render();
 }
 
+//new version of playerMovement function, replaces the old one
 //player movement function, should be called every update
 function playerMovement()
 {
@@ -353,7 +350,8 @@ function playerMovement()
         if(rightPressed && !leftPressed)
         {
             playerDirection = "right";
-            if(wallCollision([playerX + 1, playerY], gameRoom.wallGrid))
+            if(wallCollision([playerX + 1, playerY], gameRoom.wallGrid) &&
+				objectCollision([playerX + 1, playerY], gameRoom))
             {
                 playerMoveTime = 1;
                 playerX ++;
@@ -362,7 +360,8 @@ function playerMovement()
         else if(leftPressed && !rightPressed)
         {
             playerDirection = "left";
-            if(wallCollision([playerX - 1, playerY], gameRoom.wallGrid))
+            if(wallCollision([playerX - 1, playerY], gameRoom.wallGrid) &&
+				objectCollision([playerX - 1, playerY], gameRoom))
             {
                 playerMoveTime = 1;
                 playerX --;
@@ -371,7 +370,8 @@ function playerMovement()
         else if(downPressed && !upPressed)
         {
             playerDirection = "down";
-            if(wallCollision([playerX, playerY + 1], gameRoom.wallGrid))
+            if(wallCollision([playerX, playerY + 1], gameRoom.wallGrid) &&
+				objectCollision([playerX, playerY + 1], gameRoom))
             {
                 playerMoveTime = 1;
                 playerY ++;
@@ -380,7 +380,8 @@ function playerMovement()
         else if(upPressed && !downPressed)
         {
             playerDirection = "up";
-            if(wallCollision([playerX, playerY - 1], gameRoom.wallGrid))
+            if(wallCollision([playerX, playerY - 1], gameRoom.wallGrid) &&
+				objectCollision([playerX, playerY - 1], gameRoom))
             {
                 playerMoveTime = 1;
                 playerY --;
@@ -398,29 +399,24 @@ function playerMovement()
     }
 }
 
+//start of new render code
 function render(room)
 {
+	//make sure render functions are in order of what appears on top of what
     surface.clearRect(0, 0, canvas.width, canvas.height);
-    //draws the floor tiles
-    for(var col = 0; col < WIDTH; col++)
-    {
-        for(var row = 0; row < HEIGHT; row++)
-        {
-            surface.drawImage(tileSprite, col * TILESIZE, row * TILESIZE);
-        }
-    }
-    //render the walls of the room
-    for(var i = 0; i < gameRoom.wallGrid.length; i++)
-    {
-        surface.drawImage(wallSprite,
-                        gameRoom.wallGrid[i][0] * TILESIZE,
-                        gameRoom.wallGrid[i][1] * TILESIZE);
-    }
+    //draws the floor tiles & walls
+    renderBackground();
+	//each renderObjects function renders a different layer of objects(NPC, item, obstacle)
+	renderObjects(gameRoom, 1);
+	renderObjects(gameRoom, 2);
+	renderObjects(gameRoom, 3);
     //draw the player
     renderPlayer();
-
 }
 
+/* all of the drawImage functions use one less than the actual player Y value so that
+ * his feet are where he is actually standing and not his head
+ */
 function renderPlayer()
 {
     //outer if statements make sure the player is facing the proper direction
@@ -487,6 +483,37 @@ function renderPlayer()
     }
 }
 
+function renderBackground()
+{
+	for(var col = 0; col < WIDTH; col++)
+    {
+        for(var row = 0; row < HEIGHT; row++)
+        {
+            surface.drawImage(tileSprite, col * TILESIZE, row * TILESIZE);
+        }
+    }
+    //render the walls of the room
+    for(var i = 0; i < gameRoom.wallGrid.length; i++)
+    {
+        surface.drawImage(wallSprite,
+                        gameRoom.wallGrid[i][0] * TILESIZE,
+                        gameRoom.wallGrid[i][1] * TILESIZE);
+    }
+}
+
+function renderObjects(room, objectLayer)
+{
+	for(var i = 0; i < room.objects.length; i++)
+	{
+		if(room.objects[i].layerCode == objectLayer)
+		{
+			surface.drawImage(room.objects[i].img,
+							room.objects[i].x,
+							room.objects[i].y);
+		}
+	}
+}
+//end of new render code
 
 
 /* function returns false if the player bumps into a wall
@@ -504,6 +531,35 @@ function wallCollision(playerNextPos, walls)
         }
     }
     return true;
+}
+
+//new function objectCollision, can just be placed under the wallCollision function
+//true = can move, false = cannot move
+function objectCollision(playerNextPos, room)
+{
+	//check for each object in the current room
+	for(var i = 0; i < room.objects.length; i++)
+	{
+		//if statement to skip items, since they don't have collision
+		if(room.objects[i].layerCode != 2)
+		{
+			/* these for statements make sure to check for each tile the object
+			 * takes up, if it has a length and/or width greater than 1
+			 */
+			for(var length = 0; length < room.objects[i].length; length++)
+			{
+				for(var height = 0; height < room.objects[i].height; height++)
+				{
+					if(playerNextPos[0] == room.objects[i].x ++ length &&
+							playerNextPos[1] == room.objects[i].y ++ width)
+					{
+						return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
 }
 
 //Menu part start here
