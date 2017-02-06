@@ -95,28 +95,6 @@ function createWalls()
     return walls;
 }
 
-function gameObject ()
-{
-    this.img = new Image();
-    this.img.src = "img/defaultItem.png";
-	  this.layerCode = 0; // for sorting into draw layer
-				                // 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
-	  this.lookText = ""; // text to display when inspected
-	  this.canTake = false; // whether it will be collected into inventory when used with hand cursor
-	  this.takeText = ""; // text for taking
-	  this.failTake = ""; // text if can't take
-	  this.canSpeak = false; // whether you can talk to it
-	  this.failSpeak = ""; // "Chairs can't talk"
-	  this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
-	  this.usedWith = []; // inventory items that can be used on this object
-	  this.dialogue = []; // dialogue tree if can be spoken to
-
-	  this.x = 999;
-	  this.y = 999;
-	  this.length = 999;
-    this.height = 999;
-}
-
 var playerX = 10;
 var playerY = 10;
 /* the direction the player is facing: "up", "down", "left", or "right"
@@ -408,9 +386,9 @@ function render(room)
     //draws the floor tiles & walls
     renderBackground();
 	//each renderObjects function renders a different layer of objects(NPC, item, obstacle)
-	renderObjects(gameRoom, 1);
-	renderObjects(gameRoom, 2);
 	renderObjects(gameRoom, 3);
+	renderObjects(gameRoom, 2);
+	renderObjects(gameRoom, 1);
     //draw the player
     renderPlayer();
 }
