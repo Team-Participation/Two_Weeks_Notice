@@ -1,31 +1,3 @@
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//gameobject sprite
-var watercoolerPic = new Image();
-watercoolerPic.src = "img/watercooler.png";
-
-//watercooler gameObject
-var watercooler = {
-	image:watercoolerPic, 
-	x:2,
-	y:2,
-	examineText: "Yes, this is watercooler",
-	canTake: false, // whether it will be collected into inventory when used with hand cursor
-	failTake: "Need at least 99 STR to pick this up", // text if can't take
-	canSpeak: false, // whether you can talk to it
-	failSpeak: "It doesn't speak. Watercooler conversations suck anyway.", // "Watercoolers can't talk"
-	canUse: false, // whether it can be used as a stationary object without taking into inventory - like opening a door
-	usedWith: "fix this", // inventory items that can be used on this object
-	};
-
-// array to hold game objects
-var gameObjectArray = [];
-
-//adding gameObjetcs to the gameObjectArray
-gameObjectArray.push(watercooler);
-lengthOfArray = 1;
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function onKeyDown(event)
 {
     switch(event.keyCode)
