@@ -216,8 +216,8 @@ function onKeyDown(event)
 
 function onClick(e) // Needs to be fixed for different window sizes
 {
-	var mouseX = Math.floor((e.clientX - 132) / TILESIZE) - 1;
-	var mouseY = Math.floor((e.clientY - 20) / TILESIZE);
+	var mouseX = Math.floor((e.clientX - 20) / TILESIZE) + 1;
+	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
 
 
 	for (i = 0; i < gameRoom.objects.length; i++){
