@@ -233,7 +233,7 @@ function onClick(e) // Needs to be fixed for different window sizes
 		}
 
 	}
-	alert(mouseX + "  " + mouseY);
+	//alert(mouseX + "  " + mouseY);
 }
 
 function examineAction(obj){
