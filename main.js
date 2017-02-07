@@ -9,7 +9,7 @@ const MOVETIME = 15;
 const error = 0;
 
 function inventory(){
-    this.slots = new inventorySlot(11);   
+    this.slots = new inventorySlot(11);
     this.pickUpItm = function(itemObj) {
         var itemStored = this.slots.findIndex(function(inventorySlot){return inventorySlot.item.name == itemObj.name});
         if(itemStored == -1){
@@ -62,19 +62,15 @@ function inventorySlot(){
         this.item = null;
         this.quantity = 0;
     };
-    
+
 }
 
 // a class to contain all the info of the current room
 
 function Room ()
 {
-	this.wallGrid = createWalls();
-	this.npcs = []; // NPC layer
-	this.items = []; // Foreground collectable items that have no collision can be placed on obstacles
-	this.obstacles = []; // Foreground objects such as tables that have collision
-	this.bgtiles = []; // Floor tiles, no collision
-	this.special = []; // as needed
+    this.wallGrid = createWalls();
+    this.objects = [];
 }
 
 //function that walls in the area so that the player can't walk off screen
@@ -99,27 +95,6 @@ function createWalls()
     return walls;
 }
 
-function gameObject ()
-{
-	this.img = "img.png"
-	this.layerCode = 0; // for sorting into draw layer
-				// 1 = NPC, 2 = Items, 3 = Obstacles, 4 = Background, 5 = Special
-	this.lookText = ""; // text to display when inspected
-	this.canTake = false; // whether it will be collected into inventory when used with hand cursor
-	this.takeText = ""; // text for taking
-	this.failTake = ""; // text if can't take
-	this.canSpeak = false; // whether you can talk to it
-	this.failSpeak = ""; // "Chairs can't talk"
-	this.canUse = false; // whether it can be used as a stationary object without taking into inventory - like opening a door
-	this.usedWith = []; // inventory items that can be used on this object
-	this.dialogue = []; // dialogue tree if can be spoken to
-
-	this.x = 999;
-	this.y = 999;
-	this.length = 999;
-	this.height = 999;
-}
-
 var playerX = 10;
 var playerY = 10;
 /* the direction the player is facing: "up", "down", "left", or "right"
@@ -129,19 +104,15 @@ var playerY = 10;
 var playerDirection = "down";
 var playerMoving = false;
 var playerMoveTime = 0;
-/* items the player has are stored here. For this example the player can
- * hold 3 items
- */
-var playerInventory = [false, false, false];
 
 //input stuff
 var leftPressed = false;
 var rightPressed = false;
 var upPressed = false;
 var downPressed = false;
-var examineActive = false;
+var examineActive = true;
 var interactActive = false;
-/*var movementActive = false;*/
+var speakActive = false;
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
 window.addEventListener("click", onClick);
@@ -189,27 +160,28 @@ function onKeyDown(event)
             {
                 rightPressed = true;
             }
-            break
+            break;
         case 38: // up
         case 87: // w
             if(upPressed == false)
             {
                 upPressed = true;
             }
-            break
+            break;
         case 40: // down
         case 83: // s
             if(downPressed == false)
             {
                 downPressed = true;
             }
-            break
+            break;
 		case 49: // 1 on the keyboard
 			if (examineActive == false)
 			{
 				examineActive = true;
 				interactActive = false;
-				/* movementActive = false */
+				speakActive = false;
+				console.log("Examine Active");
 			}
 			break;
 		case 50: // 2 on the keyboard
@@ -217,15 +189,19 @@ function onKeyDown(event)
 			{
 				interactActive = true;
 				examineActive = false;
-				/* movementActive = false */
+				speakActive = false;
+				console.log("Interact Active");
 			}
-	/*  case 51: // 3 on the keyboard
-			if (movementActive == false)
+			break;
+	    case 51: // 3 on the keyboard
+			if (speakActive == false)
 			{
-				movementActive = true;
+				speakActive = true;
 				interactActive = false;
 				examineActive = false;
-			}  */
+				console.log("Speak Active");
+			}
+			break;
 		case 27:
 		{
 			console.log("Entering menu from game...");
@@ -233,17 +209,83 @@ function onKeyDown(event)
 			//clearInterval(updateIval);
 			//clearInterval(update);
 			changeState(0);
-				
+
 		}
     }
 }
 
-function onClick(e)
+function onClick(e) // Needs to be fixed for different window sizes
 {
-	var mouseX = Math.floor((e.clientX - 132) / TILESIZE);
+	var mouseX = Math.floor((e.clientX - 20) / TILESIZE) + 1;
 	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
-	
-	alert(mouseX + "  " + mouseY);
+
+
+	for (i = 0; i < gameRoom.objects.length; i++){
+		console.log(gameRoom.objects[i].x);
+		if (gameRoom.objects[i].x == mouseX && gameRoom.objects[i].y == mouseY){
+			if (examineActive){
+				examineAction(gameRoom.objects[i]);
+			} else if (interactActive){
+				interactAction(gameRoom.objects[i]);
+			} else if (speakActive){
+				speakAction(gameRoom.objects[i]);
+			}
+		}
+
+	}
+	//alert(mouseX + "  " + mouseY);
+}
+
+function examineAction(obj){
+
+	console.log(obj.lookText);
+	return obj.lookText;
+
+}
+
+function interactAction(obj){
+	if (obj.canTake) // If the object is an inventory item, it will be taken
+  {
+    inventory.push(obj); // or replace with better method than push
+	console.log(obj.takeText);
+    return obj.takeText; // "You took the _____"
+	removeObject(obj);
+  }
+	else if (obj.canUse) // If the object is an interactable map object
+	{
+		// Under construction
+
+
+	}
+	else
+	{
+		console.log(obj.failTake);
+		return obj.failTake; // on fail - ie; "It's stuck to the wall"
+	}
+
+}
+
+function speakAction(obj){
+
+	if (obj.canSpeak){ // If the object can be spoken too
+		dialogueFunction(obj);
+	}
+	else{
+		console.log(obj.failSpeak);
+		return obj.failSpeak;
+	}
+
+}
+
+//function that deals with removing an object from the game screen and deleting it from arrays and what not
+//under construction
+function removeObject(obj){
+
+}
+
+//Function that handles the dialogue of talking to someone
+function dialogueFunction(obj){
+
 }
 
 function onKeyUp(event)
@@ -275,6 +317,7 @@ function update()
     render();
 }
 
+//new version of playerMovement function, replaces the old one
 //player movement function, should be called every update
 function playerMovement()
 {
@@ -287,7 +330,8 @@ function playerMovement()
         if(rightPressed && !leftPressed)
         {
             playerDirection = "right";
-            if(wallCollision([playerX + 1, playerY], gameRoom.wallGrid))
+            if(wallCollision([playerX + 1, playerY], gameRoom.wallGrid) &&
+				objectCollision([playerX + 1, playerY], gameRoom))
             {
                 playerMoveTime = 1;
                 playerX ++;
@@ -296,7 +340,8 @@ function playerMovement()
         else if(leftPressed && !rightPressed)
         {
             playerDirection = "left";
-            if(wallCollision([playerX - 1, playerY], gameRoom.wallGrid))
+            if(wallCollision([playerX - 1, playerY], gameRoom.wallGrid) &&
+				objectCollision([playerX - 1, playerY], gameRoom))
             {
                 playerMoveTime = 1;
                 playerX --;
@@ -305,7 +350,8 @@ function playerMovement()
         else if(downPressed && !upPressed)
         {
             playerDirection = "down";
-            if(wallCollision([playerX, playerY + 1], gameRoom.wallGrid))
+            if(wallCollision([playerX, playerY + 1], gameRoom.wallGrid) &&
+				objectCollision([playerX, playerY + 1], gameRoom))
             {
                 playerMoveTime = 1;
                 playerY ++;
@@ -314,7 +360,8 @@ function playerMovement()
         else if(upPressed && !downPressed)
         {
             playerDirection = "up";
-            if(wallCollision([playerX, playerY - 1], gameRoom.wallGrid))
+            if(wallCollision([playerX, playerY - 1], gameRoom.wallGrid) &&
+				objectCollision([playerX, playerY - 1], gameRoom))
             {
                 playerMoveTime = 1;
                 playerY --;
@@ -332,24 +379,17 @@ function playerMovement()
     }
 }
 
+//start of new render code
 function render(room)
 {
+	//make sure render functions are in order of what appears on top of what
     surface.clearRect(0, 0, canvas.width, canvas.height);
-    //draws the floor tiles
-    for(var col = 0; col < WIDTH; col++)
-    {
-        for(var row = 0; row < HEIGHT; row++)
-        {
-            surface.drawImage(tileSprite, col * TILESIZE, row * TILESIZE);
-        }
-    }
-    //render the walls of the room
-    for(var i = 0; i < gameRoom.wallGrid.length; i++)
-    {
-        surface.drawImage(wallSprite,
-                        gameRoom.wallGrid[i][0] * TILESIZE,
-                        gameRoom.wallGrid[i][1] * TILESIZE);
-    }
+    //draws the floor tiles & walls
+    renderBackground();
+	//each renderObjects function renders a different layer of objects(NPC, item, obstacle)
+	renderObjects(gameRoom, 3);
+	renderObjects(gameRoom, 2);
+	renderObjects(gameRoom, 1);
     //draw the player
     renderPlayer();
 }
@@ -423,6 +463,39 @@ function renderPlayer()
     }
 }
 
+function renderBackground()
+{
+	for(var col = 0; col < WIDTH; col++)
+    {
+        for(var row = 0; row < HEIGHT; row++)
+        {
+            surface.drawImage(tileSprite, col * TILESIZE, row * TILESIZE);
+        }
+    }
+    //render the walls of the room
+    for(var i = 0; i < gameRoom.wallGrid.length; i++)
+    {
+        surface.drawImage(wallSprite,
+                        gameRoom.wallGrid[i][0] * TILESIZE,
+                        gameRoom.wallGrid[i][1] * TILESIZE);
+    }
+}
+
+function renderObjects(room, objectLayer)
+{
+	for(var i = 0; i < room.objects.length; i++)
+	{
+		if(room.objects[i].layerCode == objectLayer)
+		{
+			surface.drawImage(room.objects[i].img,
+							(room.objects[i].x - 1) * TILESIZE,
+							(room.objects[i].y - 1) * TILESIZE);
+		}
+	}
+}
+//end of new render code
+
+
 /* function returns false if the player bumps into a wall
  * playerNextPos needs to be an array containing the coords
  * of the tile the player is tring to move to
@@ -440,21 +513,50 @@ function wallCollision(playerNextPos, walls)
     return true;
 }
 
+//new function objectCollision, can just be placed under the wallCollision function
+//true = can move, false = cannot move
+function objectCollision(playerNextPos, room)
+{
+	//check for each object in the current room
+	for(var i = 0; i < room.objects.length; i++)
+	{
+		//if statement to skip items, since they don't have collision
+		if(room.objects[i].layerCode != 2)
+		{
+			/* these for statements make sure to check for each tile the object
+			 * takes up, if it has a length and/or width greater than 1
+			 */
+			for(var length = 0; length < room.objects[i].length; length++)
+			{
+				for(var height = 0; height < room.objects[i].height; height++)
+				{
+					if(playerNextPos[0] == room.objects[i].x + length &&
+							playerNextPos[1] == room.objects[i].y + height)
+					{
+						return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+
 //Menu part start here
 var stage = document.getElementById("gameScreen");
 var states = [{enter: enterMenu, update: updateMenu, exit: exitMenu},
 			  {enter: enterGame, update: updateGame, exit: exitGame},
 			  {enter: enterHelp, update: updateHelp, exit: exitHelp},
-			  {enter: enterOption, update: updateOption, exit: exitOption},];	
-var lastState = -1; 
+			  {enter: enterOption, update: updateOption, exit: exitOption},];
+var lastState = -1;
 var currState = -1;
 
 var buttons = [{img:"img/StartN.png", imgO:"img/StartH.png", x:676, y:144, w:184, h:72, over:false, click:onStartClick}, // Start button
 			   {img:"img/OptionN.png", imgO:"img/OptionH.png", x:656, y:288, w:224, h:72, over:false, click:onOptionClick},
 			   {img:"img/HelpN.png", imgO:"img/HelpH.png", x:692, y:432, w:152, h:72, over:false, click:onHelpClick}, // Help button
 			   {img:"img/ExitN.png", imgO:"img/ExitH.png", x:692, y:576, w:152, h:72, over:false, click:onExitClick},]
-			   
-			   
+
+
 var activeBtns = [];
 var numAssets = 8;
 var assetsLoaded = 0;
@@ -489,7 +591,7 @@ function onAssetLoad(event)
 	if (++assetsLoaded == numAssets)
 		initGame();
 }
-			  
+
 function initGame()
 {
 	changeState(0); // Change to menu state.
@@ -607,10 +709,10 @@ function onMouseClick()
 	for (var i = 0; i < activeBtns.length; i++)
 	{
 		if (activeBtns[i].over == true)
-		{	
+		{
 			activeBtns[i].click();
 			break;
-		}		
+		}
 	}
 }
 
@@ -666,7 +768,7 @@ function updateMouse(event)
 	var rect = canvas.getBoundingClientRect();
 	mouse.x = event.clientX - rect.left;
     mouse.y = event.clientY - rect.top;
-}	
+}
 //Menu part ends here
 /*window.addEventListener("pause", exitInGame);
 
