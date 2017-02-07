@@ -20,13 +20,13 @@ var speakActive = false;
 
 //player sprites
 var playerUpSprite = new Image();
-playerUpSprite.src = "img/playerUp.png";
+playerUpSprite.src = "assets/sprites/playerUp.png";
 var playerDownSprite = new Image();
-playerDownSprite.src = "img/playerDown.png";
+playerDownSprite.src = "assets/sprites/playerDown.png";
 var playerLeftSprite = new Image();
-playerLeftSprite.src = "img/playerLeft.png";
+playerLeftSprite.src = "assets/sprites/playerLeft.png";
 var playerRightSprite = new Image();
-playerRightSprite.src = "img/playerRight.png";
+playerRightSprite.src = "assets/sprites/playerRight.png";
 
 function onKeyDown(event)
 {
