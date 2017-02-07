@@ -233,10 +233,6 @@ function onClick(e) // Needs to be fixed for different window sizes
 		}
 
 	}
-
-
-
-
 	alert(mouseX + "  " + mouseY);
 }
 
@@ -492,8 +488,8 @@ function renderObjects(room, objectLayer)
 		if(room.objects[i].layerCode == objectLayer)
 		{
 			surface.drawImage(room.objects[i].img,
-							room.objects[i].x * TILESIZE,
-							room.objects[i].y * TILESIZE);
+							(room.objects[i].x - 1) * TILESIZE,
+							(room.objects[i].y - 1) * TILESIZE);
 		}
 	}
 }
