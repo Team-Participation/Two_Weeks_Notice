@@ -35,9 +35,9 @@ function createWalls()
 
 //background sprites
 var tileSprite = new Image();
-tileSprite.src = "img/tile.png";
+tileSprite.src = "assets/background/tile.png";
 var wallSprite = new Image();
-wallSprite.src = "img/wall.png";
+wallSprite.src = "assets/background/wall.png";
 
 
 /* function returns false if the player bumps into a wall

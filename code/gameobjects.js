@@ -22,7 +22,7 @@ function gameObject ()
 var goldfish = new gameObject();
 {
 goldfish.img = new Image();
-goldfish.img.src = "img/goldfish.png";
+goldfish.img.src = "assets/background/goldfish.png";
 goldfish.layerCode = 2;
 goldfish.lookText = "Unprocessed fishsticks.";
 goldfish.canTake = true;
@@ -43,7 +43,7 @@ gameRoom.objects.push(goldfish);
 var waterCooler = new gameObject();
 {
 waterCooler.img = new Image();
-waterCooler.img.src = "img/watercooler.png";
+waterCooler.img.src = "assets/background/watercooler.png";
 waterCooler.imgAlt = "watercoolerAlt.png";
 waterCooler.layerCode = 3;
 waterCooler.lookText = "For making uncomfortable small talk.";
@@ -66,7 +66,7 @@ gameRoom.objects.push(waterCooler);
 var receptionDesk = new gameObject();
 {
 receptionDesk.img = new Image();
-receptionDesk.img.src = "img/reception_desk.png";
+receptionDesk.img.src = "assets/background/reception_desk.png";
 receptionDesk.layerCode = 3;
 receptionDesk.lookText = "A mighty fine desk.";
 receptionDesk.canTake = false;
@@ -87,7 +87,7 @@ gameRoom.objects.push(receptionDesk);
 var reception = new gameObject();
 {
 reception.img = new Image();
-reception.img.src = "img/reception.png";
+reception.img.src = "assets/background/reception.png";
 reception.layerCode = 1;
 reception.lookText = "I could look at that all day.";
 reception.canTake = false;

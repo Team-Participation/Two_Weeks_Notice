@@ -8,10 +8,10 @@ var states = [{enter: enterMenu, update: updateMenu, exit: exitMenu},
 var lastState = -1;
 var currState = -1;
 
-var buttons = [{img:"img/StartN.png", imgO:"img/StartH.png", x:676, y:144, w:184, h:72, over:false, click:onStartClick}, // Start button
-			   {img:"img/OptionN.png", imgO:"img/OptionH.png", x:656, y:288, w:224, h:72, over:false, click:onOptionClick},
-			   {img:"img/HelpN.png", imgO:"img/HelpH.png", x:692, y:432, w:152, h:72, over:false, click:onHelpClick}, // Help button
-			   {img:"img/ExitN.png", imgO:"img/ExitH.png", x:692, y:576, w:152, h:72, over:false, click:onExitClick},]
+var buttons = [{img:"assets/gui/StartN.png", imgO:"assets/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, click:onStartClick}, // Start button
+			   {img:"assets/gui/OptionN.png", imgO:"assets/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, click:onOptionClick},
+			   {img:"assets/gui/HelpN.png", imgO:"assets/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, click:onHelpClick}, // Help button
+			   {img:"assets/gui/ExitN.png", imgO:"assets/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, click:onExitClick},]
 
 
 var activeBtns = [];
