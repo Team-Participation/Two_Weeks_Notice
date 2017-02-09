@@ -14,40 +14,42 @@ __Bolded__ names will act as team coordinators.
 ### Team addEventListener
 __Chris__, Felix, Prem, Jordan
 
-Implement Inventory
-	-item/environment interaction
-Implement Dialogue/Textboxes
-Finalize UI
+Implement Inventory  
+* item/environment interaction  
+
+Implement Dialogue/Textboxes  
+Finalize UI  
 Consolidate and remove redundancies from Stage I
 
 
 ### Team LevelUp
 __Sohaib__, Brandon, Pedro, Ryan (if needed)
 
-Transition support between level screens
-Shell for all 4 game screens
+Transition support between level screens  
+Shell for all 4 game screens  
 Framework for level editing
-	-2D array with number codes for tileset
-	-Use for obstacle and bgtile draw layers (see existing code)
-		-This is to simplify collision mapping
-		-Interactable part of obstacles like watercooler will move into special array
+* 2D array with number codes for tileset
+* Use for obstacle and bgtile draw layers (see existing code)
+* ^This is to simplify collision mapping
+* ^Interactable part of obstacles like watercooler will move into special array
 
 
 ### Team Comp. Bombparty
 Ryan, John
 
-Rendering
-Assembly
+Rendering  
+Assembly  
 Optimization
 
 
 ### Misc.
 John
 
-Storyboard
-	-event tree
-	-write dialogue
-Borrow assets
+Storyboard  
+* event tree
+* write dialogue  
+
+Borrow assets  
 
 ***
 
