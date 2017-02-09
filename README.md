@@ -12,7 +12,7 @@ We will reconvene to debrief and plan Stage III on Feb. 21.
 __Bolded__ names will act as team coordinators.
 
 ### Team addEventListener
-__Chris__ Felix, Prem, Jordan
+__Chris__, Felix, Prem, Jordan
 
 Implement Inventory
 	-item/environment interaction
