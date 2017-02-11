@@ -15,7 +15,7 @@ function gameObject ()
 
 	this.x = 999;
 	this.y = 999;
-	this.length = 999;
+	this.width = 999;
 	this.height = 999;
 }
 
@@ -35,7 +35,7 @@ goldfish.usedWith = null;
 
 goldfish.x = 16;
 goldfish.y = 7;
-goldfish.length = 1;
+goldfish.width = 1;
 goldfish.height = 1;
 gameRoom.objects.push(goldfish);
 }
@@ -58,7 +58,7 @@ waterCooler.altState = false;
 
 waterCooler.x = 2;
 waterCooler.y = 12;
-waterCooler.length = 1;
+waterCooler.width = 1;
 waterCooler.height = 2;
 gameRoom.objects.push(waterCooler);
 }
@@ -79,7 +79,7 @@ receptionDesk.usedWith = null;
 
 receptionDesk.x = 14;
 receptionDesk.y = 7;
-receptionDesk.length = 3;
+receptionDesk.width = 3;
 receptionDesk.height = 1;
 gameRoom.objects.push(receptionDesk);
 }
@@ -114,7 +114,7 @@ reception.dialogue[3] = {	text: "Like, eww."};
 
 reception.x = 15;
 reception.y = 6;
-reception.length = 1;
+reception.width = 1;
 reception.height = 2;
 gameRoom.objects.push(reception);
 }

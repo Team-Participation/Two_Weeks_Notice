@@ -1,261 +1,125 @@
+function Player() {
+    this.x = 10;
+    this.y = 10;
+    this.hop = 48;
+    this.time = 0;
+    
+    this.direction = "down";
+    this.examineActive = true;
+    this.interactActive = false;
+    this.speakActive = false;
+    
+    this.playerUpSprite = new Image();
+    this.playerUpSprite.src = "assets/sprites/playerUp.png";
+    this.playerDownSprite = new Image();
+    this.playerDownSprite.src = "assets/sprites/playerDown.png";
+    this.playerLeftSprite = new Image();
+    this.playerLeftSprite.src = "assets/sprites/playerLeft.png";
+    this.playerRightSprite = new Image();
+    this.playerRightSprite.src = "assets/sprites/playerRight.png";
+}
 
-var playerX = 10;
-var playerY = 10;
-/* the direction the player is facing: "up", "down", "left", or "right"
- * seems like this could be used a lot so I'm just gonna make it simple
- * and easy to use instead of using an int or something.
- */
-var playerDirection = "down";
-var playerMoving = false;
-var playerMoveTime = 0;
-
-//input stuff
-var leftPressed = false;
-var rightPressed = false;
-var upPressed = false;
-var downPressed = false;
-var examineActive = true;
-var interactActive = false;
-var speakActive = false;
-
-//player sprites
-var playerUpSprite = new Image();
-playerUpSprite.src = "assets/sprites/playerUp.png";
-var playerDownSprite = new Image();
-playerDownSprite.src = "assets/sprites/playerDown.png";
-var playerLeftSprite = new Image();
-playerLeftSprite.src = "assets/sprites/playerLeft.png";
-var playerRightSprite = new Image();
-playerRightSprite.src = "assets/sprites/playerRight.png";
-
-function onKeyDown(event)
-{
-    switch(event.keyCode)
+Player.prototype.update = function() {
+    if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
+    if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
+    if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
+    if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
+    if(this.time == 15)
     {
-        case 37: // left
-        case 65: // a
-            if(leftPressed == false)
-            {
-                leftPressed = true;
-            }
-            break;
-        case 39: // right
-        case 68: // d
-            if(rightPressed == false)
-            {
-                rightPressed = true;
-            }
-            break;
-        case 38: // up
-        case 87: // w
-            if(upPressed == false)
-            {
-                upPressed = true;
-            }
-            break;
-        case 40: // down
-        case 83: // s
-            if(downPressed == false)
-            {
-                downPressed = true;
-            }
-            break;
-		case 49: // 1 on the keyboard
-			if (examineActive == false)
-			{
-				examineActive = true;
-				interactActive = false;
-				speakActive = false;
-				console.log("Examine Active");
-			}
-			break;
-		case 50: // 2 on the keyboard
-			if (interactActive == false)
-			{
-				interactActive = true;
-				examineActive = false;
-				speakActive = false;
-				console.log("Interact Active");
-			}
-			break;
-	    case 51: // 3 on the keyboard
-			if (speakActive == false)
-			{
-				speakActive = true;
-				interactActive = false;
-				examineActive = false;
-				console.log("Speak Active");
-			}
-			break;
-		case 27:
-		{
-			console.log("Entering menu from game...");
-			//surface.clearRect(0, 0, canvas.width, canvas.height);
-			//clearInterval(updateIval);
-			//clearInterval(update);
-			changeState(0);
+        this.time = 0;
+    }else if(this.time != 0){
+        this.time++;
+    }
+};
 
-		}
+Player.prototype.moveRight = function() {
+    if(this.time == 0){
+        this.direction = "right";
+        if(wallCollision([this.x + 1, this.y], gameRoom.wallGrid) &&
+           objectCollision([this.x + 1, this.y], gameRoom))
+        {
+            this.x ++;
+            this.time ++;
+        }
+    }
+    
+};
+
+Player.prototype.moveLeft = function() {
+    if(this.time == 0){
+        this.direction = "left";
+        if(wallCollision([this.x - 1, this.y], gameRoom.wallGrid) &&
+           objectCollision([this.x - 1, this.y], gameRoom))
+        {
+            this.x --;
+            this.time ++;
+        }
+    }
+};
+
+Player.prototype.moveDown = function() {
+    if(this.time == 0){
+        this.direction = "down";
+        if(wallCollision([this.x, this.y + 2], gameRoom.wallGrid) &&
+           objectCollision([this.x, this.y + 2], gameRoom))
+        {
+            this.y ++;
+            this.time ++;
+        }
+    }
+};
+
+Player.prototype.moveUp = function() {
+    if(this.time == 0){
+        this.direction = "up";
+        if(wallCollision([this.x, this.y - 1], gameRoom.wallGrid) &&
+           objectCollision([this.x, this.y - 1], gameRoom))
+        {
+            this.y --;
+            this.time ++;
+        }
+    }
+};
+
+Player.prototype.draw = function(context) {
+    if(this.direction == "up"){
+        this.time != 0 ? context.drawImage(this.playerUpSprite, this.x * this.hop, this.y * this.hop - this.hop * this.time / 15) :
+        context.drawImage(this.playerUpSprite, this.x * this.hop, (this.y - 1) * this.hop);
+    }else if(this.direction == "down"){
+        this.time != 0 ? context.drawImage(this.playerDownSprite, this.x * this.hop, (this.y - 2) * this.hop  + this.hop * this.time / 15) :
+        context.drawImage(this.playerDownSprite, this.x * this.hop, (this.y - 1) * this.hop);
+    }else if(this.direction == "right"){
+        this.time != 0 ? context.drawImage(this.playerRightSprite, (this.x - 1) * this.hop + this.hop * this.time / 15, (this.y - 1) * this.hop) :
+        context.drawImage(this.playerRightSprite, this.x * this.hop, (this.y - 1) * this.hop);
+    }else if(this.direction == "left"){
+        this.time != 0 ? context.drawImage(this.playerLeftSprite, (this.x + 1) * this.hop - this.hop * this.time / 15, (this.y - 1) * this.hop) :
+        context.drawImage(this.playerLeftSprite, this.x * this.hop, (this.y - 1) * this.hop);
     }
 }
 
-function onClick(e) // Needs to be fixed for different window sizes
-{
-	var mouseX = Math.floor((e.clientX - 20) / TILESIZE) + 1;
-	var mouseY = Math.floor((e.clientY - 20) / TILESIZE) + 1;
+var keyHandler = {
+    keyPressed: {},
+    RIGHT: 39,
+    RIGHT2: 68,
+    LEFT: 37,
+    LEFT2: 65,
+    UP: 38,
+    UP2: 87,
+    DOWN: 40,
+    DOWN2: 83,
+        
+    isDown: function(keyCode) {
+        return this.keyPressed[keyCode];
+    },
 
+    onKeydown: function(event) {
+        this.keyPressed[event.keyCode] = true;
+    },
 
-	for (i = 0; i < gameRoom.objects.length; i++){
-		console.log(gameRoom.objects[i].x);
-		if (gameRoom.objects[i].x == mouseX && gameRoom.objects[i].y == mouseY){
-			if (examineActive){
-				examineAction(gameRoom.objects[i]);
-			} else if (interactActive){
-				interactAction(gameRoom.objects[i]);
-			} else if (speakActive){
-				speakAction(gameRoom.objects[i]);
-			}
-		}
-
-	}
-	//alert(mouseX + "  " + mouseY);
-}
-
-function examineAction(obj){
-
-	console.log(obj.lookText);
-	return obj.lookText;
-
-}
-
-function interactAction(obj){
-	if (obj.canTake) // If the object is an inventory item, it will be taken
-  {
-    inventory.push(obj); // or replace with better method than push
-	console.log(obj.takeText);
-    return obj.takeText; // "You took the _____"
-	removeObject(obj);
-  }
-	else if (obj.canUse) // If the object is an interactable map object
-	{
-		// Under construction
-
-
-	}
-	else
-	{
-		console.log(obj.failTake);
-		return obj.failTake; // on fail - ie; "It's stuck to the wall"
-	}
-
-}
-
-function speakAction(obj){
-
-	if (obj.canSpeak){ // If the object can be spoken too
-		dialogueFunction(obj);
-	}
-	else{
-		console.log(obj.failSpeak);
-		return obj.failSpeak;
-	}
-
-}
-
-//function that deals with removing an object from the game screen and deleting it from arrays and what not
-//under construction
-function removeObject(obj){
-
-}
-
-//Function that handles the dialogue of talking to someone
-function dialogueFunction(obj){
-
-}
-
-function onKeyUp(event)
-{
-    switch(event.keyCode)
-    {
-        case 37: // left
-        case 65: // a
-            leftPressed = false;
-            break;
-        case 39: // right
-        case 68: // d
-            rightPressed = false;
-            break;
-        case 38: // up
-        case 87: // w
-            upPressed = false;
-            break;
-        case 40: // down
-        case 83: // s
-            downPressed = false;
-            break;
+    onKeyup: function(event) {
+        delete this.keyPressed[event.keyCode];
     }
 }
 
-
-
-//new version of playerMovement function, replaces the old one
-//player movement function, should be called every update
-function playerMovement()
-{
-    /* the if statement stops the player from moving another tile if
-     * they're already in the process of moving to another tile.
-     * Player cannot move diagonally.
-     */
-    if(playerMoveTime == 0)
-    {
-        if(rightPressed && !leftPressed)
-        {
-            playerDirection = "right";
-            if(wallCollision([playerX + 1, playerY], gameRoom.wallGrid) &&
-				objectCollision([playerX + 1, playerY], gameRoom))
-            {
-                playerMoveTime = 1;
-                playerX ++;
-            }
-        }
-        else if(leftPressed && !rightPressed)
-        {
-            playerDirection = "left";
-            if(wallCollision([playerX - 1, playerY], gameRoom.wallGrid) &&
-				objectCollision([playerX - 1, playerY], gameRoom))
-            {
-                playerMoveTime = 1;
-                playerX --;
-            }
-        }
-        else if(downPressed && !upPressed)
-        {
-            playerDirection = "down";
-            if(wallCollision([playerX, playerY + 1], gameRoom.wallGrid) &&
-				objectCollision([playerX, playerY + 1], gameRoom))
-            {
-                playerMoveTime = 1;
-                playerY ++;
-            }
-        }
-        else if(upPressed && !downPressed)
-        {
-            playerDirection = "up";
-            if(wallCollision([playerX, playerY - 1], gameRoom.wallGrid) &&
-				objectCollision([playerX, playerY - 1], gameRoom))
-            {
-                playerMoveTime = 1;
-                playerY --;
-            }
-        }
-    }
-    else
-    {
-        //if moving, advances the movement to the next tile each frame
-        playerMoveTime ++;
-        if(playerMoveTime == MOVETIME)
-        {
-            playerMoveTime = 0;
-        }
-    }
-}
+window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);
+window.addEventListener('keydown', function(event) { keyHandler.onKeydown(event); }, false);

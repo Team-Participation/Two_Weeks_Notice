@@ -20,15 +20,15 @@ var assetsLoaded = 0;
 
 var mouse = {x:0, y:0};
 
-const fps = 30; // or 60. The game's set frame rate all update functions will run at.
+const fps = 120; // or 60. The game's set frame rate all update functions will run at.
 const fpsMS = 1/fps*1000; // The frames per second as a millisecond interval.
 var updateIval;
 
 
 //optimize this
-window.addEventListener("keydown", onKeyDown);
-window.addEventListener("keyup", onKeyUp);
-window.addEventListener("click", onClick);
+//window.addEventListener("keydown", onKeyDown);
+//window.addEventListener("keyup", onKeyUp);
+//window.addEventListener("click", onClick);
 
 window.addEventListener("load", loadAssets);
 canvas.addEventListener("mousemove", updateMouse);
@@ -106,7 +106,7 @@ function enterGame()
 function updateGame()
 {
 	console.log("In game state.");
-	playerMovement();
+	//playerMovement();
 	//checkButtons();
 	render();
 }

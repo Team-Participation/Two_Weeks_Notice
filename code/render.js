@@ -18,7 +18,7 @@ function render(room)
 	renderObjects(gameRoom, 2);
 	renderObjects(gameRoom, 1);
     //draw the player
-    renderPlayer();
+    //renderPlayer();
 }
 
 /* all of the drawImage functions use one less than the actual player Y value so that
@@ -27,7 +27,7 @@ function render(room)
 function renderPlayer()
 {
     //outer if statements make sure the player is facing the proper direction
-    if(playerDirection == "up")
+    if(player.direction == "up")
     {
         //inner if statements deal with movement
         if(playerMoveTime != 0)
