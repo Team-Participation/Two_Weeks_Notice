@@ -1,12 +1,7 @@
 /* tiles are set so that when each tile is a square, the aspect
  * ratio is 16*9. This is just temporary.
  */
-const TILESIZE = 48;
-const HEIGHT = 18;
-const WIDTH = 32;
-//this is how many frames it takes to move 1 tile
-const MOVETIME = 15;
-const error = 0;
+
 
 var game = {
     fps: 60,
@@ -39,9 +34,17 @@ game.start = function() {
     game.canvas.width = game.width;
     game.canvas.height = game.height;
     game.context = game.canvas.getContext("2d");
-
+    game.stage = document.getElementById("gameScreen");
+    
+    game.ui = new uiController();
+    
     game.player = new Player();
-
+    
+    game.ui.drawInitial();
+    game.player.room.initSprites();
+    game.player.room.initObjects();
+    game.player.room.createWalls();
+    
     game.onEachFrame(game.run);
 };
 
@@ -65,12 +68,26 @@ game.run = (function() {
 })();
 
 game.draw = function() {
-    game.context.clearRect(0, 0, game.width, game.height);
-    game.player.draw(game.context);
+    if(states.currentState == "game"){
+        game.context.clearRect(0, 0, game.width, game.height);
+        game.player.room.drawRoom();
+        game.player.room.drawObjects(3);
+        game.player.room.drawObjects(2);
+        game.player.room.drawObjects(1);
+        game.player.draw(game.context);
+    }else if(states.currentState == "menu"){
+        if (menuEst.assetsLoaded == 8){
+            game.ui.drawMenu();
+        }
+    }
 };
 
 game.update = function() {
-    game.player.update();
+    if(states.currentState == "game"){
+        game.player.update();
+    }else if(states.currentState == "menu"){
+        game.ui.updateMenu();
+    }
 };
 
 game.start();
