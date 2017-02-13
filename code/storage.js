@@ -1,4 +1,3 @@
-
 function inventory(){
     this.slots = new inventorySlot(11);
     this.pickUpItm = function(itemObj) {
