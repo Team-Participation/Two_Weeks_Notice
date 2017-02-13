@@ -1,6 +1,63 @@
+# Stage II Goals
+### _Feb 7 - 21_
+
+First order of business for everyone is to clean up your existing code.
+
+The original game.js code has been subdivided into separate files based on logical function. These can be found under the optimization branch in Github, which will eventually be merged with the master branch. Create your own fork/branch for your work. Refer to Sohaib for Github related questions.
+
+Deadline for Stage II code submission will be Sunday Feb. 19 so that assembly and debugging of full build can take place on the Monday before class.
+
+We will reconvene to debrief and plan Stage III on Feb. 21.
+
+__Bolded__ names will act as team coordinators.
+
+### Team addEventListener
+__Chris__, Felix, Prem, Jordan
+
+Implement Inventory  
+* item/environment interaction  
+
+Implement Dialogue/Textboxes  
+Finalize UI  
+Consolidate and remove redundancies from Stage I
+
+
+### Team LevelUp
+__Sohaib__, Brandon, Pedro, Ryan (if needed)
+
+Transition support between level screens  
+Shell for all 4 game screens  
+Framework for level editing
+* 2D array with number codes for tileset
+* Use for obstacle and bgtile draw layers (see existing code)
+* ^This is to simplify collision mapping
+* ^Interactable part of obstacles like watercooler will move into special array
+
+
+### Team Comp. Bombparty
+Ryan, John
+
+Rendering  
+Assembly  
+Optimization
+
+
+### Misc.
+John
+
+Storyboard  
+* event tree
+* write dialogue  
+
+Borrow assets  
+
+***
+
+# Level Plan
+
 ![alt text](https://github.com/Team-Participation/Two_Weeks_Notice/raw/Optimization/assets/images/2WNLevelPlan.png "Level Plan")
 
-# Plan Review
+# Stage I Plan Review
 
 ## How your design or plan has changed since the end of last semester:
 
