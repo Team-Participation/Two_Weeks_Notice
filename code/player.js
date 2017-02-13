@@ -21,16 +21,16 @@ function Player() {
 }
 
 Player.prototype.update = function() {
-    if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
-    if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
-    if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
-    if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
-    if(this.time == 29)
+    if(this.time == 30)
     {
         this.time = 0;
     }else if(this.time != 0){
         this.time++;
     }
+    if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
+    if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
+    if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
+    if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
 };
 
 Player.prototype.moveRight = function() {
@@ -74,7 +74,7 @@ Player.prototype.moveUp = function() {
     if(this.time == 0){
         this.direction = "up";
         if(this.room.wallCollision([this.x, this.y - 2]) &&
-           this.room.objectCollision([this.x, this.y - 2]))
+           this.room.objectCollision([this.x, this.y - 1]))
         {
             this.y --;
             this.time ++;

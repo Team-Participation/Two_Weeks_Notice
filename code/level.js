@@ -66,8 +66,8 @@ room.prototype.drawObjects = function(objectLayer) {
         if(this.objects[i].layerCode == objectLayer)
         {
             game.context.drawImage(this.objects[i].img,
-                                   (this.objects[i].x - 1) * this.tileSize,
-                                   (this.objects[i].y - 1) * this.tileSize);
+                                   (this.objects[i].x) * this.tileSize,
+                                   (this.objects[i].y) * this.tileSize);
         }
     }
 }
@@ -96,53 +96,74 @@ room.prototype.objectCollision = function(playerNextPos) {
     for(var i = 0; i < this.objects.length; i++)
     {
         //if statement to skip items, since they don't have collision
-        if(this.objects[i].layerCode != 2)
+        if(this.objects[i].layerCode == 2 || this.objects[i].layerCode == 3)
         {
+            
+            var width = this.objects[i].colwidth == 1 ? 0 : this.objects[i].colwidth - 1;
+            var height = this.objects[i].colheight == 1 ? 0 : this.objects[i].colheight - 1;
+            
+            if (playerNextPos[0] <= this.objects[i].colx  + width &&
+                playerNextPos[0] >= this.objects[i].colx &&
+                playerNextPos[1] -1 <= this.objects[i].coly + height &&
+                playerNextPos[1] >= this.objects[i].coly) {
+                return false;
+            }
+            
             /* these for statements make sure to check for each tile the object
-         * takes up, if it has a length and/or width greater than 1
-         */
-            for(var length = 0; length < this.objects[i].length; length++)
+         * takes up, if it has a width and/or width greater than 1
+         *
+            for(var width = 0; width < this.objects[i].width; width++)
             {
                 for(var height = 0; height < this.objects[i].height; height++)
                 {
-                    if(playerNextPos[0] == this.objects[i].x + length &&
-                       playerNextPos[1] == this.objects[i].y + height)
+                    if(playerNextPos[0] == this.objects[i].x - width && playerNextPos[1] == this.objects[i].y - height)
                     {
+                        console.log("collision" + this.objects[i].x);
+                        console.log("collision" + this.objects[i].y);
                         return false;
                     }
                 }
             }
+            */
         }
     }
     return true;
 }
 
 room.prototype.initObjects = function() {
-    var goldfish = new Object();
-    goldfish.img = new Image();
-    goldfish.img.src = "assets/background/goldfish.png";
-    goldfish.layerCode = 2;
-    goldfish.lookText = "Unprocessed fishsticks.";
-    goldfish.canTake = true;
-    goldfish.takeText = "...";
-    goldfish.failTake = null;
-    goldfish.canSpeak = false;
-    goldfish.failSpeak = "It stares back with a blank expression.";
-    goldfish.canUse = false;
-    goldfish.usedWith = null;
+    var goldFish = new Object();
+    goldFish.img = new Image();
+    goldFish.img.src = "assets/background/goldfish.png";
+    goldFish.id = "goldFish";
+    goldFish.layerCode = 3;
+    goldFish.lookText = "Unprocessed fishsticks.";
+    goldFish.canTake = true;
+    goldFish.takeText = "...";
+    goldFish.failTake = null;
+    goldFish.canSpeak = false;
+    goldFish.failSpeak = "It stares back with a blank expression.";
+    goldFish.canUse = false;
+    goldFish.usedWith = null;
 
-    goldfish.x = 16;
-    goldfish.y = 7;
-    goldfish.width = 1;
-    goldfish.height = 1;
-    this.objects.push(goldfish);
+    goldFish.x = 15;
+    goldFish.y = 6;
+    goldFish.width = 1;
+    goldFish.height = 1;
+    
+    goldFish.colx = 15;
+    goldFish.coly = 6;
+    goldFish.width = 1;
+    goldFish.height = 1;
+    
+    this.objects.push(goldFish);
     
 
     var waterCooler = new Object();
     waterCooler.img = new Image();
     waterCooler.img.src = "assets/background/watercooler.png";
+    waterCooler.id = "waterCooler";
     waterCooler.imgAlt = "watercoolerAlt.png";
-    waterCooler.layerCode = 3;
+    waterCooler.layerCode = 2;
     waterCooler.lookText = "For making uncomfortable small talk.";
     waterCooler.canTake = false;
     waterCooler.takeText = null;
@@ -153,16 +174,22 @@ room.prototype.initObjects = function() {
     waterCooler.usedWith = ["goldfish"];
     waterCooler.altState = false;
 
-    waterCooler.x = 2;
-    waterCooler.y = 12;
+    waterCooler.x = 1;
+    waterCooler.y = 11;
     waterCooler.width = 1;
     waterCooler.height = 2;
+    waterCooler.colx = 1;
+    waterCooler.coly = 12;
+    waterCooler.colwidth = 1;
+    waterCooler.colheight = 1;
+   
     this.objects.push(waterCooler);
 
     var receptionDesk = new Object();
     receptionDesk.img = new Image();
     receptionDesk.img.src = "assets/background/reception_desk.png";
-    receptionDesk.layerCode = 3;
+    receptionDesk.id = "receptionDesk";
+    receptionDesk.layerCode = 2;
     receptionDesk.lookText = "A mighty fine desk.";
     receptionDesk.canTake = false;
     receptionDesk.takeText = null;
@@ -172,15 +199,22 @@ room.prototype.initObjects = function() {
     receptionDesk.canUse = false;
     receptionDesk.usedWith = null;
 
-    receptionDesk.x = 14;
-    receptionDesk.y = 7;
+    receptionDesk.x = 13;
+    receptionDesk.y = 6;
     receptionDesk.width = 3;
     receptionDesk.height = 1;
+    
+    receptionDesk.colx = 13;
+    receptionDesk.coly = 6;
+    receptionDesk.colwidth = 3;
+    receptionDesk.colheight = 1;
+    
     this.objects.push(receptionDesk);
     
     var reception = new Object();
     reception.img = new Image();
     reception.img.src = "assets/background/reception.png";
+    reception.id = "reception";
     reception.layerCode = 1;
     reception.lookText = "I could look at that all day.";
     reception.canTake = false;
@@ -203,9 +237,14 @@ room.prototype.initObjects = function() {
                                         ]
                             };
     reception.dialogue[3] = {	text: "Like, eww."};
-    reception.x = 15;
-    reception.y = 6;
+    reception.x = 14;
+    reception.y = 5;
     reception.width = 1;
     reception.height = 2;
+    
+    reception.colx = 14;
+    reception.coly = 6;
+    reception.colwidth = 1;
+    reception.colheight = 1;
     this.objects.push(reception);
 }
