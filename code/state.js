@@ -1,10 +1,155 @@
 
 //Menu part start here
+function gameMenu(){
+    this.buttons;
+    this.buttonsHover;
+    this.assetsLoaded = 0;
+    this.mouse = {x:0, y:0};
+    this.buttonsData = [{img:"assets/gui/StartN.png", imgHover:"assets/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, ative: true, click: startGame}, // Start button
+                        {img:"assets/gui/OptionN.png", imgHover:"assets/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, ative: true,  click: enterOptions},
+                        {img:"assets/gui/HelpN.png", imgHover:"assets/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, ative: true, click: enterHelp}, // Help button
+                        {img:"assets/gui/ExitN.png", imgHover:"assets/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, ative: true, click: enterGame}]
+};
+
+gameMenu.prototype.initButtons = function(){
+    for (var i = 0; i < this.buttonsData.length; i++)
+    {
+        this.buttons = new Image();
+        this.buttons.src = this.buttonsData[i].img;
+        this.buttons.addEventListener("load", this.onAssetLoad(this));
+        this.buttonsData[i].img = this.buttons; // .img used to hold the path string, now it holds the actual image object.
+        this.buttonsHover = new Image();
+        this.buttonsHover.src = this.buttonsData[i].imgHover;
+        this.buttonsHover.addEventListener("load", this.onAssetLoad(this));
+        this.buttonsData[i].imgHover = this.buttonsHover;
+    }
+};
+
+gameMenu.prototype.onAssetLoad = function(event){
+    this.assetsLoaded += 1;
+};
+
+gameMenu.prototype.drawMenu = function(){
+    game.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
+    document.body.style.cursor = "default";
+    for (var i = 0; i < this.buttonsData.length; i++)
+    {
+        if (this.buttonsData[i].over == true)
+        {
+            
+            game.context.drawImage(this.buttonsData[i].imgHover, this.buttonsData[i].x, this.buttonsData[i].y);
+            document.body.style.cursor = "pointer";
+        }
+        else{
+            game.context.drawImage(this.buttonsData[i].img, this.buttonsData[i].x, this.buttonsData[i].y);
+        }
+    }
+};
+
+gameMenu.prototype.mouseEnable = function() {
+    game.canvas.addEventListener("mousemove", updateMouse);
+    game.canvas.addEventListener("click", onMouseClick);
+}
+
+gameMenu.prototype.mouseDisable = function() {
+    game.canvas.removeEventListener("mousemove", this.updateMouse);
+    game.canvas.removeEventListener("click", this.onMouseClick);
+}
+
+gameMenu.prototype.initMenu = function() {
+    this.mouseEnable();
+    this.initButtons();
+};
+
+function updateMouse(event) {
+    var rect = game.canvas.getBoundingClientRect();
+    menuEst.mouse.x = event.clientX - rect.left;
+    menuEst.mouse.y = event.clientY - rect.top;
+}
+
+function onMouseClick(event) {
+    for (var i = 0; i < menuEst.buttonsData.length; i++)
+    {
+        if (menuEst.buttonsData[i].over == true)
+        {
+            menuEst.buttonsData[i].click();
+            break;
+        }
+    }
+}
+
+gameMenu.prototype.updateMenu = function() {
+    for (var i = 0; i < this.buttonsData.length; i++)
+    {
+        this.buttonsData[i].over = false;
+        if(!(this.mouse.x < this.buttonsData[i].x ||
+             this.mouse.x > this.buttonsData[i].x+this.buttonsData[i].w ||
+             this.mouse.y < this.buttonsData[i].y ||
+             this.mouse.y > this.buttonsData[i].y+this.buttonsData[i].h))
+        {
+            this.buttonsData[i].over = true; // If our mouse is inside the button box, flip the over flag to true.
+        }
+    }
+};
+
+
+var states = {
+    currentState: "none",
+    initial: "menu",
+    menuStates: {
+        menu:  {enter: enterMenu, to: startGame},
+        game:  {start: startGame, enter: enterGame, pause: pauseGame, to: enterOptions},
+        help:  {enter: enterHelp, to: enterOptions},
+        options:  {enter: enterOptions, to: enterGame}
+    },
+    
+};
+
+var menuEst = new gameMenu();
+
+function enterMenu() {
+    game.stage.style.backgroundColor = "cyan";
+    menuEst.initMenu();
+};
+
+function startGame() {
+    states.currentState = "game";
+};
+
+function enterGame() {
+
+};
+
+function pauseGame() {
+
+};
+
+function enterOptions() {
+
+};
+
+function enterHelp() {
+
+};
+
+
+
+
+
+
+/*
+var canvas = document.querySelector("canvas");
+canvas.width = 1536;
+canvas.height = 864;
+var surface = canvas.getContext("2d");
+
+
+
+
+
+
+
 var stage = document.getElementById("gameScreen");
-var states = [{enter: enterMenu, update: updateMenu, exit: exitMenu},
-			  {enter: enterGame, update: updateGame, exit: exitGame},
-			  {enter: enterHelp, update: updateHelp, exit: exitHelp},
-			  {enter: enterOption, update: updateOption, exit: exitOption},];
 var lastState = -1;
 var currState = -1;
 
@@ -20,15 +165,15 @@ var assetsLoaded = 0;
 
 var mouse = {x:0, y:0};
 
-const fps = 30; // or 60. The game's set frame rate all update functions will run at.
+const fps = 60; // or 60. The game's set frame rate all update functions will run at.
 const fpsMS = 1/fps*1000; // The frames per second as a millisecond interval.
 var updateIval;
 
 
 //optimize this
-window.addEventListener("keydown", onKeyDown);
-window.addEventListener("keyup", onKeyUp);
-window.addEventListener("click", onClick);
+//window.addEventListener("keydown", onKeyDown);
+//window.addEventListener("keyup", onKeyUp);
+//window.addEventListener("click", onClick);
 
 window.addEventListener("load", loadAssets);
 canvas.addEventListener("mousemove", updateMouse);
@@ -106,7 +251,7 @@ function enterGame()
 function updateGame()
 {
 	console.log("In game state.");
-	playerMovement();
+	//playerMovement();
 	//checkButtons();
 	render();
 }
@@ -198,14 +343,7 @@ function renderMenu()
 function onStartClick()
 {
 	changeState(1);
-	/*
-	if (currState == 1)
-	{
-		surface.clearRect(0, 0, canvas.width, canvas.height);
-		clearInterval(updateIval);
-		setInterval(update, 16,67);
-		renderTools();
-	}*/
+	
 }
 
 function onHelpClick()
@@ -243,3 +381,12 @@ function exitInGame(event)
 		changeState(0);
 	}
 }*/
+
+/*
+	if (currState == 1)
+	{
+		surface.clearRect(0, 0, canvas.width, canvas.height);
+		clearInterval(updateIval);
+		setInterval(update, 16,67);
+		renderTools();
+	}*/
