@@ -87,15 +87,20 @@ game.draw = function() {
         if (menuEst.assetsLoaded == 8){
             game.ui.drawMenu();
         }
-    }
+    }else if(states.currentState == "pause"){
+			game.ui.drawPauseMenu();
+		}
 };
 
 game.update = function() {
+	game.ui.checkState();
     if(states.currentState == "game"){
         game.player.update();
     }else if(states.currentState == "menu"){
         game.ui.updateMenu();
-    }
+    }else if(states.currentState == "pause"){
+		game.ui.updateMenu();
+		} 
 };
 
 game.start();

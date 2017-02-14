@@ -15,6 +15,7 @@ var keyHandler = {
     UP2: 87,
     DOWN: 40,
     DOWN2: 83,
+	ESC: 27,
 
     isDown: function(keyCode) {
         return this.keyPressed[keyCode];

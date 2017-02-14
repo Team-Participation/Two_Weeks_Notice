@@ -45,7 +45,33 @@ gameMenu.prototype.drawMenu = function(){
         }
     }
 };
+//Pause menu
+gameMenu.prototype.checkState = function(){
+	if (keyHandler.isDown(keyHandler.ESC)){
+		states.currentState = "pause";
+	}
+}
 
+gameMenu.prototype.drawPauseMenu = function(){
+	if (states.currentState == "pause")
+	{
+		game.context.fillStyle = "orange";
+		game.context.fillRect(576, 96, 384, 624);
+		document.body.style.cursor = "default";
+		for (var i = 0; i < this.buttonsData.length; i++)
+		{
+			if (this.buttonsData[i].over == true)
+			{
+				game.context.drawImage(this.buttonsData[i].imgHover, this.buttonsData[i].x, this.buttonsData[i].y);
+				document.body.style.cursor = "pointer";
+			}
+			else{
+				game.context.drawImage(this.buttonsData[i].img, this.buttonsData[i].x, this.buttonsData[i].y);
+			}
+		}
+	}
+};
+//Pause menu ends here
 gameMenu.prototype.mouseEnable = function() {
     game.canvas.addEventListener("mousemove", updateMouse);
     game.canvas.addEventListener("click", onMouseClick);
@@ -100,7 +126,8 @@ var states = {
         menu:  {enter: enterMenu, to: startGame},
         game:  {start: startGame, enter: enterGame, pause: pauseGame, to: enterOptions},
         help:  {enter: enterHelp, to: enterOptions},
-        options:  {enter: enterOptions, to: enterGame}
+        options:  {enter: enterOptions, to: enterGame},
+		pause: {enter: enterPauseMenu, to:enterGame}
     },
     
 };
@@ -132,6 +159,9 @@ function enterHelp() {
 
 };
 
+function enterPauseMenu() {
+
+};
 
 
 
