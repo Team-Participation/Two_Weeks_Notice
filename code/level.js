@@ -72,6 +72,24 @@ room.prototype.drawObjects = function(objectLayer) {
     }
 }
 
+room.prototype.onObject = function(playerPos) {
+    
+    for(var i = 0; i < this.objects.length; i++)
+    {
+        //if statement to skip items, since they don't have collision
+        var width = this.objects[i].colwidth == 1 ? 0 : this.objects[i].colwidth - 1;
+        var height = this.objects[i].colheight == 1 ? 0 : this.objects[i].colheight - 1;
+
+        if (playerPos[0] <= this.objects[i].x  + width &&
+            playerPos[0] >= this.objects[i].x &&
+            playerPos[1] <= this.objects[i].y + height &&
+            playerPos[1] >= this.objects[i].y) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /* function returns false if the player bumps into a wall
  * playerNextPos needs to be an array containing the coords
  * of the tile the player is tring to move to
@@ -104,7 +122,7 @@ room.prototype.objectCollision = function(playerNextPos) {
             
             if (playerNextPos[0] <= this.objects[i].colx  + width &&
                 playerNextPos[0] >= this.objects[i].colx &&
-                playerNextPos[1] -1 <= this.objects[i].coly + height &&
+                playerNextPos[1] <= this.objects[i].coly + height &&
                 playerNextPos[1] >= this.objects[i].coly) {
                 return false;
             }
@@ -152,8 +170,8 @@ room.prototype.initObjects = function() {
     
     goldFish.colx = 15;
     goldFish.coly = 6;
-    goldFish.width = 1;
-    goldFish.height = 1;
+    goldFish.colwidth = 1;
+    goldFish.colheight = 1;
     
     this.objects.push(goldFish);
     

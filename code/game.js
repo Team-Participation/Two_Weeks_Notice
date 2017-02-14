@@ -1,13 +1,12 @@
 /* tiles are set so that when each tile is a square, the aspect
  * ratio is 16*9. This is just temporary.
  */
-
-
 var game = {
     fps: 60,
     tileSize: 48,
     width: 1536,
-    height: 864
+    height: 864,
+    bgmemory: 0
 };
 
 game.onEachFrame = (function() {
@@ -71,10 +70,18 @@ game.draw = function() {
     if(states.currentState == "game"){
         game.context.clearRect(0, 0, game.width, game.height);
         game.player.room.drawRoom();
-        game.player.draw(game.context);
-        game.player.room.drawObjects(1);
-        game.player.room.drawObjects(2);
-        game.player.room.drawObjects(3);
+        if(game.player.onObject() || game.bgmemory >= 1 && game.bgmemory <= 60){
+            game.player.draw(game.context);
+            game.player.room.drawObjects(1);
+            game.player.room.drawObjects(2);
+            game.player.room.drawObjects(3);
+            game.bgmemory = (game.bgmemory == 60 ? 0 : game.bgmemory+1);
+        }else{
+            game.player.room.drawObjects(1);
+            game.player.room.drawObjects(2);
+            game.player.room.drawObjects(3);
+            game.player.draw(game.context);
+        }
         
     }else if(states.currentState == "menu"){
         if (menuEst.assetsLoaded == 8){

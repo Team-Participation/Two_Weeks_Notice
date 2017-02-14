@@ -82,6 +82,10 @@ Player.prototype.moveUp = function() {
     }
 };
 
+Player.prototype.onObject = function() {
+    return this.room.onObject([this.x, this.y]);
+};
+
 Player.prototype.draw = function(context) {
     if(this.direction == "up"){
         this.time != 0 ? context.drawImage(this.playerUpSprite, this.x * this.hop, this.y * this.hop - this.hop * this.time / 30) :
