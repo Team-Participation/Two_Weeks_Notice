@@ -126,23 +126,6 @@ room.prototype.objectCollision = function(playerNextPos) {
                 playerNextPos[1] >= this.objects[i].coly) {
                 return false;
             }
-            
-            /* these for statements make sure to check for each tile the object
-         * takes up, if it has a width and/or width greater than 1
-         *
-            for(var width = 0; width < this.objects[i].width; width++)
-            {
-                for(var height = 0; height < this.objects[i].height; height++)
-                {
-                    if(playerNextPos[0] == this.objects[i].x - width && playerNextPos[1] == this.objects[i].y - height)
-                    {
-                        console.log("collision" + this.objects[i].x);
-                        console.log("collision" + this.objects[i].y);
-                        return false;
-                    }
-                }
-            }
-            */
         }
     }
     return true;
