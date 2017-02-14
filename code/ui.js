@@ -11,12 +11,20 @@ uiController.prototype.drawInitial = function(){
     states.currentState = "menu";
 }
 
+uiController.prototype.checkState = function(){
+	menuEst.checkState();
+}
+
 uiController.prototype.updateMenu = function(){
     menuEst.updateMenu();
 }
 
 uiController.prototype.drawMenu = function(){
     menuEst.drawMenu();
+}
+
+uiController.prototype.drawPauseMenu = function(){
+    menuEst.drawPauseMenu();
 }
 
 uiController.prototype.wallCollision = function(playerNextPos){
