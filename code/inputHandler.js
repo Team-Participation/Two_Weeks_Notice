@@ -7,6 +7,7 @@ const error = 0;
 
 var keyHandler = {
     keyPressed: {},
+    keyUp: {},
     RIGHT: 39,
     RIGHT2: 68,
     LEFT: 37,
@@ -20,12 +21,25 @@ var keyHandler = {
     isDown: function(keyCode) {
         return this.keyPressed[keyCode];
     },
+    
+    isKeyUp: function(keyCode) {
+        return this.keyUp[keyCode];
+    },
+    
+    deleteIsKeyUp: function(keyCode) {
+        delete this.keyUp[keyCode];
+    },
 
     onKeydown: function(event) {
         this.keyPressed[event.keyCode] = true;
     },
 
     onKeyup: function(event) {
+        if(this.keyUp[event.keyCode] == true){
+            this.keyUp[event.keyCode] = false;
+        }else{
+            this.keyUp[event.keyCode] = true;
+        }
         delete this.keyPressed[event.keyCode];
     }
 }
