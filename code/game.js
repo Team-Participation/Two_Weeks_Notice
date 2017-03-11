@@ -84,7 +84,7 @@ game.draw = function() {
         }
         
     }else if(states.currentState == "menu"){
-        if (menuEst.assetsLoaded == 8){
+        if (menuEst.assetsLoaded == menuEst.numAssetsLoaded()){
             game.ui.drawMenu();
         }
     }else if(states.currentState == "pause"){
