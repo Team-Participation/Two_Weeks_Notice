@@ -75,6 +75,7 @@ gameMenu.prototype.drawPauseMenu = function(){
 gameMenu.prototype.mouseEnable = function() {
     game.canvas.addEventListener("mousemove", updateMouse);
     game.canvas.addEventListener("click", onMouseClick);
+	game.canvas.addEventListener("click", onLeftClick);
 }
 
 gameMenu.prototype.mouseDisable = function() {

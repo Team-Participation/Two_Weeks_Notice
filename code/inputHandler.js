@@ -5,6 +5,9 @@ const WIDTH = 32;
 const MOVETIME = 15;
 const error = 0;
 
+var mouseX;
+var mouseY;
+
 var keyHandler = {
     keyPressed: {},
     RIGHT: 39,
@@ -15,6 +18,9 @@ var keyHandler = {
     UP2: 87,
     DOWN: 40,
     DOWN2: 83,
+	EXAMINE: 49, //1 on Keyboard
+	INTERACT: 50, //2 on Keyboard
+	SPEAK: 51,    //3 on Keyboard
 	ESC: 27,
 
     isDown: function(keyCode) {
@@ -28,6 +34,67 @@ var keyHandler = {
     onKeyup: function(event) {
         delete this.keyPressed[event.keyCode];
     }
+}
+
+function onLeftClick(event) {
+	mouseX = (Math.floor(menuEst.mouse.x / TILESIZE));
+	mouseY = (Math.floor(menuEst.mouse.y / TILESIZE));
+	
+	for (i = 0; i < game.player.room.objects.length; i++){
+		//console.log(game.player.room.objects[i].x + " " + game.player.room.objects[i].y);
+		if (game.player.room.objects[i].x == mouseX && game.player.room.objects[i].y == mouseY){
+			if (game.player.examineActive){
+				examineAction(game.player.room.objects[i]);
+			} else if (game.player.interactActive){
+				interactAction(game.player.room.objects[i]);
+			} else if (game.player.speakActive){
+				speakAction(game.player.room.objects[i]);
+			}
+		}
+
+	}
+	//alert (mouseX + " " + mouseY);
+}
+
+function examineAction(obj){
+
+	console.log(obj.lookText);
+	return obj.lookText;
+
+}
+
+function interactAction(obj){
+	if (obj.canTake) // If the object is an inventory item, it will be taken
+  {
+    inventory.push(obj); // or replace with better method than push
+	console.log(obj.takeText);
+    return obj.takeText; // "You took the _____"
+	//removeObject(obj);
+  }
+	else if (obj.canUse) // If the object is an interactable map object
+	{
+		// Under construction
+
+
+	}
+	else
+	{
+		console.log(obj.failTake);
+		return obj.failTake; // on fail - ie; "It's stuck to the wall"
+	}
+
+}
+
+function speakAction(obj){
+
+	if (obj.canSpeak){ // If the object can be spoken too
+		dialogueFunction(obj);
+	}
+	else{
+		console.log(obj.failSpeak);
+		return obj.failSpeak;
+	}
+
 }
 
 window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);
