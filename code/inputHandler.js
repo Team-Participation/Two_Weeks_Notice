@@ -70,6 +70,7 @@ function onLeftClick(event) {
 	//alert (mouseX + " " + mouseY);
 }
 
+
 function examineAction(obj){
 
 	console.log(obj.lookText);
@@ -82,8 +83,8 @@ function interactAction(obj){
   {
     inventory.push(obj); // or replace with better method than push
 	console.log(obj.takeText);
+	removeObject(obj);
     return obj.takeText; // "You took the _____"
-	//removeObject(obj);
   }
 	else if (obj.canUse) // If the object is an interactable map object
 	{
@@ -109,6 +110,12 @@ function speakAction(obj){
 		return obj.failSpeak;
 	}
 
+}
+
+function removeObject(obj){
+	obj.x = -1;
+	obj.y = -1;
+	obj.img.src = "";
 }
 
 window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);
