@@ -8,6 +8,10 @@ const error = 0;
 var mouseX;
 var mouseY;
 
+var textDiv = document.getElementById("textScreen"); //makes a varible for the textScreen div
+var textBox = document.getElementById("textCanvas"); //makes a varible for the textCanvas canvas
+var writing = textBox.getContext("2d"); //to allow drawing 
+	 
 var keyHandler = {
     keyPressed: {},
     keyUp: {},
@@ -70,10 +74,33 @@ function onLeftClick(event) {
 	//alert (mouseX + " " + mouseY);
 }
 
+// creates a timer for 2.5 seconds
+function timedText() {
+   
+    setTimeout(myTimeout1, 2500) 
+}
 
+// after the timer the canvas will become hidden
+function myTimeout1() {
+    document.getElementById("textScreen").style.visibility = "hidden";
+	writing.clearRect(0,0,textCanvas.width, textCanvas.height);
+
+}
+
+// function for creating the textbox that appears during object interaction
+function drawTextBox(text)
+{
+	textDiv.style.visibility = "visible"; //canvas is now visable
+	writing.font = "15px Arial";
+	writing.textAlign = "center"
+	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
+	timedText(); //canvas becomes hidden again
+	
+}
+	
 function examineAction(obj){
 
-	console.log(obj.lookText);
+	drawTextBox(obj.lookText);
 	return obj.lookText;
 
 }
@@ -82,9 +109,10 @@ function interactAction(obj){
 	if (obj.canTake) // If the object is an inventory item, it will be taken
   {
     inventory.push(obj); // or replace with better method than push
-	console.log(obj.takeText);
+	drawTextBox(obj.takeText);
 	removeObject(obj);
     return obj.takeText; // "You took the _____"
+	//removeObject(obj);
   }
 	else if (obj.canUse) // If the object is an interactable map object
 	{
@@ -94,7 +122,7 @@ function interactAction(obj){
 	}
 	else
 	{
-		console.log(obj.failTake);
+		drawTextBox(obj.failTake);
 		return obj.failTake; // on fail - ie; "It's stuck to the wall"
 	}
 
@@ -106,7 +134,8 @@ function speakAction(obj){
 		dialogueFunction(obj);
 	}
 	else{
-		console.log(obj.failSpeak);
+		
+		drawTextBox(obj.failSpeak);
 		return obj.failSpeak;
 	}
 
