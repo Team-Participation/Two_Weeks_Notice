@@ -10,6 +10,12 @@ function gameMenu(){
                         {id:"options", img:"assets/gui/OptionN.png", imgHover:"assets/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: enterOptions},
                         {id:"help", img:"assets/gui/HelpN.png", imgHover:"assets/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: enterHelp}, // Help button
                         {id:"exit", img:"assets/gui/ExitN.png", imgHover:"assets/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: enterGame}]
+	//temporary fix to buttons position for new resolution
+	for(var i = 0; i < this.buttonsData.length; i++)
+	{
+		this.buttonsData[i].x /= 1.5;
+		this.buttonsData[i].y /= 1.5;
+	}
 };
 
 gameMenu.prototype.setActive = function(id,bool){
@@ -49,6 +55,7 @@ gameMenu.prototype.drawMenu = function(){
         if(this.buttonsData[i].active == true){
             if (this.buttonsData[i].over == true)
             {
+				//set these to /1.5 when the resolution changed
                 game.context.drawImage(this.buttonsData[i].imgHover, this.buttonsData[i].x, this.buttonsData[i].y);
                 document.body.style.cursor = "pointer";
             }
@@ -135,7 +142,7 @@ gameMenu.prototype.updateMenu = function() {
              this.mouse.y < this.buttonsData[i].y ||
              this.mouse.y > this.buttonsData[i].y+this.buttonsData[i].h))
         {
-            this.buttonsData[i].over = true; // If our mouse is inside the button box, flip the over flag to true.
+            this.buttonsData[i].over = true; // If the mouse is inside the button box, flip the over flag to true.
         }
     }
 };
@@ -163,6 +170,7 @@ function enterMenu() {
 function startGame() {
     keyHandler.deleteIsKeyUp(keyHandler.ESC);
     states.currentState = "game";
+	invDiv.style.visibility = "visible";
 };
 
 function enterGame() {

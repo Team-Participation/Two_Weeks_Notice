@@ -1,7 +1,7 @@
 function Player() {
     this.x = 10;
     this.y = 10;
-    this.hop = 48;
+    this.hop = 32;
     this.time = 0;
     this.room = new room();
     
@@ -9,6 +9,8 @@ function Player() {
 	this.examineActive = true;
     this.interactActive = false;
     this.speakActive = false;
+	
+	this.optSelect = 0;
     
     this.playerUpSprite = new Image();
     this.playerUpSprite.src = "assets/sprites/playerUp.png";
@@ -35,6 +37,39 @@ Player.prototype.update = function() {
 	if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
 	if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
 	if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
+	
+	if (keyHandler.isDown(keyHandler.OPT1) && game.player.speakActive && optSelect == 1){
+		this.optSelect = "O";
+		dialogueFunction(lastObj);
+		console.log(this.optSelect);
+		this.optSelect = 0;
+	} 
+	if (keyHandler.isDown(keyHandler.OPT2) && game.player.speakActive && optSelect == 1){
+		this.optSelect = "P";
+		dialogueFunction(lastObj);
+		console.log(this.optSelect);
+		this.optSelect = 0;
+	}
+	if (keyHandler.isDown(keyHandler.OPT3) && game.player.speakActive && optSelect == 2){
+		this.optSelect = "U";
+		dialogueFunction(lastObj);
+		console.log(this.optSelect);
+		this.optSelect = 0;
+	} 
+	if (keyHandler.isDown(keyHandler.OPT4) && game.player.speakActive && optSelect == 2){
+		this.optSelect = "I";
+		dialogueFunction(lastObj);
+		console.log(this.optSelect);
+		this.optSelect = 0;
+	}
+	
+	if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
+	if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
+	if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
+	if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
+	if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
+	if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
+	if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
 };
 
 Player.prototype.moveRight = function() {
@@ -87,32 +122,56 @@ Player.prototype.moveUp = function() {
 };
 
 Player.prototype.examine = function(){
-	if (!this.examineActive){
+	if (!this.examineActive && states.currentState == "game"){
 		this.examineActive = true;
 		this.interactActive = false;
 		this.speakActive = false;
 		console.log("Examine Active");
+		deactivateItems();
+		setTimeout(drawEye, 100);
+		function drawEye()
+		{
+			invContext.clearRect(0, 0, 240, 80);
+			invContext.drawImage(eyeA.img, 0, 0, 80, 80);
+			invContext.drawImage(hand.img, 80, 0, 80, 80);
+			invContext.drawImage(talk.img, 160, 0, 80, 80);
+		}
 	}
 }
 
-
 Player.prototype.interact = function(){
-	if (!this.interactActive){
+	if (!this.interactActive && states.currentState == "game"){
 		this.examineActive = false;
 		this.interactActive = true;
 		this.speakActive = false;
 		console.log("Interact Active");
-		
+		deactivateItems();
+		setTimeout(drawHand, 100);
+		function drawHand()
+		{
+			invContext.clearRect(0, 0, 240, 80);
+			invContext.drawImage(eye.img, 0, 0, 80, 80);
+			invContext.drawImage(handA.img, 80, 0, 80, 80);
+			invContext.drawImage(talk.img, 160, 0, 80, 80);
+		}
 	}
 }
 
-
 Player.prototype.speak = function(){
-	if (!this.speakActive){
+	if (!this.speakActive && states.currentState == "game"){
 		this.examineActive = false;
 		this.interactActive = false;
 		this.speakActive = true;
 		console.log("Speak Active");
+		deactivateItems();
+		setTimeout(drawTalk, 100);
+		function drawTalk()
+		{
+			invContext.clearRect(0, 0, 240, 80);
+			invContext.drawImage(eye.img, 0, 0, 80, 80);
+			invContext.drawImage(hand.img, 80, 0, 80, 80);
+			invContext.drawImage(talkA.img, 160, 0, 80, 80);
+		}
 	}
 }
 
