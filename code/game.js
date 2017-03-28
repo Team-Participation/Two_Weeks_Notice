@@ -9,6 +9,8 @@ var game = {
     bgmemory: 0
 };
 
+
+
 game.onEachFrame = (function() {
     var requestAnimationFrame = window.requestAnimationFrame || 
         window.webkitRequestAnimationFrame || 
@@ -43,7 +45,7 @@ game.start = function() {
     game.player.room.initSprites();
     game.player.room.initObjects();
     game.player.room.createWalls();
-    
+	
     game.onEachFrame(game.run);
 };
 
@@ -69,13 +71,13 @@ game.run = (function() {
 game.draw = function() {
     if(states.currentState == "game"){
         game.context.clearRect(0, 0, game.width, game.height);
-        game.player.room.drawRoom();
-        if(game.player.onObject() || game.bgmemory >= 1 && game.bgmemory <= 60){
+		game.player.room.drawRoom();
+	   if(game.player.onObject() || game.bgmemory >= 1 && game.bgmemory <= 60){
             game.player.draw(game.context);
-            game.player.room.drawObjects(1);
+			game.player.room.drawObjects(1);
             game.player.room.drawObjects(2);
             game.player.room.drawObjects(3);
-            game.bgmemory = (game.bgmemory == 60 ? 0 : game.bgmemory+1);
+			game.bgmemory = (game.bgmemory == 60 ? 0 : game.bgmemory+1);
         }else{
             game.player.room.drawObjects(1);
             game.player.room.drawObjects(2);
