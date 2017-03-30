@@ -71,7 +71,8 @@ game.run = (function() {
 game.draw = function() {
     if(states.currentState == "game"){
         game.context.clearRect(0, 0, game.width, game.height);
-		game.player.room.drawRoom();
+		//game.player.room.drawRoom();
+		firstRoom.drawBG();
 	   if(game.player.onObject() || game.bgmemory >= 1 && game.bgmemory <= 60){
             game.player.draw(game.context);
 			game.player.room.drawObjects(1);
@@ -84,8 +85,10 @@ game.draw = function() {
             game.player.room.drawObjects(3);
             game.player.draw(game.context);
         }
+		firstRoom.drawTallBG();
         
     }else if(states.currentState == "menu"){
+		
         if (menuEst.assetsLoaded == menuEst.numAssetsLoaded()){
             game.ui.drawMenu();
         }

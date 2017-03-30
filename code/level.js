@@ -9,11 +9,22 @@ function room ()
     this.wallSprite;
 
     this.walls = [];
+	this.collisionArray = [];
     this.objects = [];
+	this.BGArray = [];
+	this.tallBG = [];
 }
 
+
+
+
+
+
+
+
+
 var backgroundSpriteSheet = new Image();
-backgroundSpriteSheet.src = "assets/background/tileset.png";
+backgroundSpriteSheet.src = "assets/background/newSpriteSheet.png";
 
 //taking sprites from a sheet takes more lines of code so I'm using a class & function for drawing sprites
 function sprite(x, y) {
@@ -64,6 +75,55 @@ room.prototype.createWalls = function() {
         }
     }
 }
+
+
+
+
+
+
+
+
+room.prototype.drawBG = function() {
+	for(var row = 0; row < this.BGArray.length; row++)
+	{
+		for(var col = 0; col < this.BGArray[row].length; col++)
+		{
+			for(var i = 0; i < this.BGArray[row][col].length; i++)
+			{
+				//console.log("sx: ", (this.BGArray[row][col][i] % 10));
+				//console.log("sy: ", (Math.floor(this.BGArray[row][col][i] / 10)));
+				game.context.drawImage(backgroundSpriteSheet, 
+							(this.BGArray[row][col][i] % 10) * this.tileSize, 
+							(Math.floor(this.BGArray[row][col][i] / 10) * this.tileSize),
+							this.tileSize, this.tileSize,
+							col * this.tileSize, row * this.tileSize,
+							this.tileSize, this.tileSize);
+			}
+		}
+	}
+}
+
+room.prototype.drawTallBG = function() {
+	for(var i = 0; i < this.tallBG.length; i++)
+	{
+		//starts at 1 so it doesn't redraw the floor, just everything else
+		console.log(this.tallBG[i][0], " ", this.tallBG[i][1]);
+		for(var j = 1; j < this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]].length; j++)
+		{
+			game.context.drawImage(backgroundSpriteSheet,
+						(this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]][j] % 10) * this.tileSize,
+						Math.floor(this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]][j] / 10) * this.tileSize,
+						this.tileSize, this.tileSize,
+						this.tallBG[i][0] * this.tileSize, this.tallBG[i][1] * this.tileSize,
+						this.tileSize, this.tileSize);
+		}
+	}
+}
+
+
+
+
+
 
 room.prototype.drawRoom = function() {
 
