@@ -163,7 +163,7 @@ var states = {
 var menuEst = new gameMenu();
 
 function enterMenu() {
-    game.stage.style.backgroundColor = "cyan";
+    game.stage.style.backgroundColor = "#404040";
     menuEst.initMenu();
 };
 

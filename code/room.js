@@ -5,17 +5,17 @@ firstRoom.height = 16;
 
 firstRoom.collisionArray[1] =  [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true];
 firstRoom.collisionArray[2] =  [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true];
-firstRoom.collisionArray[3] =  [false, false, false, false, false, false, false, false, false, false, false, false, true,  false, true,  true,  true,  true,  true,  true,  true];
+firstRoom.collisionArray[3] =  [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,  true,  true,  true,  true,  true,  true];
 firstRoom.collisionArray[4] =  [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-firstRoom.collisionArray[5] =  [false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, true,  true,  false, false, false, false, false];
+firstRoom.collisionArray[5] =  [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 firstRoom.collisionArray[6] =  [false, false, false, false, false, false, true,  true,  true,  true,  false, false, false, false, true,  true,  false, false, false, false, false];
-firstRoom.collisionArray[7] =  [false, true,  true,  true,  false, false, true,  true,  false, true,  false, false, false, true,  true,  true,  true,  false, false, false, false];
+firstRoom.collisionArray[7] =  [false, true,  false, false, false, false, true,  true,  false, true,  false, false, false, false, true,  true,  false, false, false, false, false];
 firstRoom.collisionArray[8] =  [false, true,  true,  true,  false, false, true,  false, false, true,  false, false, false, false, true,  true,  false, false, false, false, false];
 firstRoom.collisionArray[9] =  [false, true,  true,  true,  false, false, true,  false, false, true,  false, false, false, false, false, false, false, false, false, false, false];
-firstRoom.collisionArray[10] = [false, false, false, false, false, false, false, false, false, true,  false, false, false, false, true,  true,  false, false, false, false, false];
+firstRoom.collisionArray[10] = [false, false, false, false, false, false, false, false, false, true,  false, false, false, false, false, false, false, false, false, false, false];
 firstRoom.collisionArray[11] = [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, true,  true,  false, false, false, false, false];
-firstRoom.collisionArray[12] = [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, true,  true,  true,  true,  false, false, false, false];
-firstRoom.collisionArray[13] = [true,  true,  false, true,  true,  false, true,  true,  false, true,  true,  false, false, false, true,  true,  false, false, false, false, false];
+firstRoom.collisionArray[12] = [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, true,  true,  false, false, false, false, false];
+firstRoom.collisionArray[13] = [true,  false, false, true,  false, false, true,  false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false];
 firstRoom.collisionArray[14] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 firstRoom.collisionArray[15] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 firstRoom.collisionArray[16] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -37,4 +37,4 @@ firstRoom.BGArray = [[[0],[0],[0],[0],[0],[0],[0],[1],[0],[0],[0],[0],[1],[2],[3
 					[[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30]],
 					[[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30],[30]]];
 
-firstRoom.tallBG = [[14, 4], [15, 4], [14, 9], [15, 9], [10, 11], [0, 9], [1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [7, 9], [8, 9]];
+firstRoom.tallBG = [[1, 5], [2, 6], [3, 6], [14, 4], [15, 4], [14, 9], [15, 9], [10, 11], [0, 9], [1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [7, 9], [8, 9], [6, 4], [7, 4], [8, 4], [9, 4], [14, 4], [15, 4], [14, 9], [15, 9]];
