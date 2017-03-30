@@ -5,9 +5,6 @@ function room ()
     this.width = 32;
     this.tileSize = 32;
 
-    this.tileSprite;
-    this.wallSprite;
-
     this.walls = [];
 	this.collisionArray = [];
     this.objects = [];
@@ -25,62 +22,6 @@ function room ()
 
 var backgroundSpriteSheet = new Image();
 backgroundSpriteSheet.src = "assets/background/newSpriteSheet.png";
-
-//taking sprites from a sheet takes more lines of code so I'm using a class & function for drawing sprites
-function sprite(x, y) {
-	this.sx = x * 32;
-	this.sy = y * 32;
-	this.swidth = 32;
-	this.sheight = 32;
-	//spriteType says which sprite sheet to load from
-	this.spriteType = "background";
-}
-
-//more cases can be added to the switch statement when there are more sprite sheets
-sprite.prototype.draw = function(x, y) {
-	switch(this.spriteType)
-	{
-		case "background":
-			game.context.drawImage(backgroundSpriteSheet, 
-					this.sx, this.sy, this.swidth, this.sheight, x, y);
-			break;
-	}
-}
-
-//background sprites
-room.prototype.initSprites = function() {
-
-    this.tileSprite = new Image();
-    this.tileSprite.src = "assets/background/tile.png";
-    this.wallSprite = new Image();
-    this.wallSprite.src = "assets/background/wall.png";
-}
-
-//function that walls in the area so that the player can't walk off screen
-room.prototype.createWalls = function() {
-    
-    for(var col = 0; col < this.width; col++)
-    {
-        for(var row = 0; row < this.height; row++)
-        {
-            //col + 1 because coords aren't 0-indexed
-            if(col + 1 == 1 || col + 1 == this.width)
-            {
-                this.walls.push([col, row]);
-            }
-            else if(row + 1 == 1 || row + 1 == this.height)
-            {
-                this.walls.push([col, row]);
-            }
-        }
-    }
-}
-
-
-
-
-
-
 
 
 room.prototype.drawBG = function() {
@@ -119,29 +60,6 @@ room.prototype.drawTallBG = function() {
 	}
 }
 
-
-
-
-
-
-room.prototype.drawRoom = function() {
-
-    for(var col = 0; col < this.width; col++)
-    {
-        for(var row = 0; row < this.height; row++)
-        {
-            game.context.drawImage(this.tileSprite, col * this.tileSize, row * this.tileSize);
-        }
-    }
-    //render the walls of the room
-    for(var i = 0; i < this.walls.length; i++)
-    {
-        game.context.drawImage(this.wallSprite,
-                               this.walls[i][0] * this.tileSize,
-                               this.walls[i][1] * this.tileSize);
-    }
-}
-
 room.prototype.drawObjects = function(objectLayer) {
     for(var i = 0; i < this.objects.length; i++)
     {
@@ -177,8 +95,15 @@ room.prototype.onObject = function(playerPos) {
  * of the tile the player is tring to move to
  */
 room.prototype.wallCollision = function(playerNextPos){
-    
-    return !firstRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
+    if(playerNextPos[0] < firstRoom.width && playerNextPos[0] >= 0 &&
+			playerNextPos[1] <= firstRoom.height && playerNextPos[1] >= 0) 
+	{
+		return !firstRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
+	}
+    else 
+	{
+	return false;	
+	}
 }
 
 //new function objectCollision, can just be placed under the wallCollision function
@@ -205,163 +130,6 @@ room.prototype.objectCollision = function(playerNextPos) {
     }
     return true;
 }
-
-
-room.prototype.initBackground = function()
-{
-	//numbered sprites without any special instructions are just top to bottom
-	wallBaseSprite = new sprite(0, 14);
-	wallMidSprite = new sprite(0, 13);
-	wallTopSprite = new sprite(0, 12);
-	doorBaseSprite = new sprite(1, 14);
-	doorMidSprite = new sprite(1, 13);
-	doorTopSprite = new sprite(1, 12);
-	floorSprite = new sprite(0, 15);
-	/*window goes like this:
-	 * 1 2 3
-	 * 4 5 6
-	 */
-	window1Sprite = new sprite(2, 12);
-	window2Sprite = new sprite(3, 12);
-	window3Sprite = new sprite(4, 12);
-	window4Sprite = new sprite(2, 13);
-	window5Sprite = new sprite(3, 13);
-	window6Sprite = new sprite(4, 13);
-	
-	//grey floor sprites
-	wall2BaseSprite = new sprite(4, 14);
-	floor2Sprite = new sprite(4, 15);
-	
-	//desk objects
-	phoneUpSprite = new sprite(0, 9);
-	phoneLeftSprite = new sprite(0, 10);
-	phoneRightSprite = new sprite(0, 11);
-	computerDownSprite = new sprite(1, 9);
-	computerLeft1Sprite = new sprite(1, 10);
-	computerLeft2Sprite = new sprite(1, 11);
-	computerRight1Sprite = new sprite(2, 10);
-	computerRight2Sprite = new sprite(2, 11);
-	angledMonitor1Sprite = new sprite(3, 10);
-	angledMonitor2Sprite = new sprite(3, 11);
-	deskPlantSprite = new sprite(2, 9);
-	deskLampSprite = new sprite(3, 9);
-	fishBowlSprite = new sprite(4, 9);
-	emptyFishBowlSprite = new sprite(4, 10);
-	coffeMakerSprite = new sprite(5, 9);
-	microwaveSprite = new sprite(6, 9);
-	cactusSprite = new sprite(2, 8);
-	
-	//chairs
-	lobbyChairDown1Sprite = new sprite(4, 7);
-	lobbyChairDown2Sprite = new sprite(4, 8);
-	lobbyChairUp1Sprite = new sprite(5, 7);
-	lobbyChairUp2Sprite = new sprite(5, 8);
-	lobbyChairLeft1Sprite = new sprite(6, 7);
-	lobbyChairLeft2Sprite = new sprite(6, 8);
-	lobbyChairRight1Sprite = new sprite(7, 7);
-	lobbyChairRight2Sprite = new sprite(7, 8);
-	spinChairRightSprite = new sprite(8, 7);
-	spinChairLeftSprite = new sprite(8, 8);
-	spinChairDownSprite = new sprite(9, 7);
-	spinChairUpSprite = new sprite(9, 8);
-	bossChair1Sprite = new sprite(10, 7);
-	bossChair2Sprite = new sprite(10, 8);
-	toilet1Sprite = new sprite(11, 7);
-	toilet2Sprite = new sprite(11, 8);
-	
-	//misc. objects
-	extinguisherSprite = new sprite(7, 9);
-	recycle1Sprite = new sprite(3, 7);
-	recycle2Sprite = new sprite(3, 8);
-	trashCanSprite = new sprite(2, 7);
-	tree1Sprite = new sprite(0, 7);
-	tree2Sprite = new sprite(0, 8);
-	fern1Sprite = new sprite(1, 7);
-	fern2Sprite = new sprite(1, 8);
-	
-	//furniture
-	leftCabinet1Sprite = new sprite(0, 5);
-	leftCabinet2Sprite = new sprite(0, 6);
-	midCabinet1Sprite = new sprite(1, 5);
-	midCabinet2Sprite = new sprite(1, 6);
-	rightCabinet1Sprite = new sprite(2, 5);
-	rightCabinet2Sprite = new sprite(2, 6);
-	cabinetSink1Sprite = new sprite(3, 5);
-	cabinetSink2Sprite = new sprite(3, 6);
-	cabinetStove1Sprite = new sprite(4, 5);
-	cabinetStove2Sprite = new sprite(4, 6);
-	fridge1Sprite = new sprite(5, 5);
-	fridge2Sprite = new sprite(5, 6);
-	snackMachine1Sprite = new sprite(6, 5);
-	snackMachine2Sprite = new sprite(6, 6);
-	drinkMachine1Sprite = new sprite(7, 5);
-	drinkMachine2Sprite = new sprite(7, 6);
-	//bookshelf 1, 2 & 3 is one shelf, 4, 5 & 6 is the other shelf
-	bookshelf1Sprite = new sprite(8, 4);
-	bookshelf2Sprite = new sprite(8, 5);
-	bookshelf3Sprite = new sprite(8, 6);
-	bookshelf4Sprite = new sprite(9, 4);
-	bookshelf5Sprite = new sprite(9, 5);
-	bookshelf6Sprite = new sprite(9, 6);
-	/* wood table goes like this:
-	 * 1 2 3
-	 * 4 5 6
-	 * 7 8 9
-	 */
-	woodTable1Sprite = new sprite(9, 0);
-	woodTable2Sprite = new sprite(10, 0);
-	woodTable3Sprite = new sprite(11, 0);
-	woodTable4Sprite = new sprite(9, 1);
-	woodTable5Sprite = new sprite(10, 1);
-	woodTable6Sprite = new sprite(11, 1);
-	woodTable7Sprite = new sprite(9, 2);
-	woodTable8Sprite = new sprite(10, 2);
-	woodTable9Sprite = new sprite(11, 2);
-	/* glass table goes like this:
-	 * 1 2
-	 * 3 4
-	 */
-	glassTable1Sprite = new sprite(4, 2);
-	glassTable2Sprite = new sprite(5, 2);
-	glassTable3Sprite = new sprite(4, 3);
-	glassTable4Sprite = new sprite(5, 3);
-	/* photocopier goes like this:
-	 * 1 2
-	 * 3 4
-	 */
-	photocopier1Sprite = new sprite(4, 0);
-	photocopier2Sprite = new sprite(5, 0);
-	photocopier3Sprite = new sprite(4, 1);
-	photocopier4Sprite = new sprite(5, 1);
-	/* cubicle goes like this(does not include right wall because it has a repeating texture)
-	 * 1  2  3
-	 * 4  5  6
-	 * 7  8  9
-	 * 10
-	 */
-	cubicle1Sprite = new sprite(0, 0);
-	cublicle2Sprite = new sprite(1, 0);
-	cubicle3Sprite = new sprite(2, 0);
-	cubicle4Sprite = new sprite(0, 1);
-	cubicle5Sprite = new sprite(1, 1);
-	cubicle6Sprite = new sprite(2, 1);
-	cubicle7Sprite = new sprite(0, 2);
-	cubicle8Sprite = new sprite(1, 2);
-	cubicle9Sprite = new sprite(2, 2);
-	cubicle10Sprite = new sprite(0, 3);
-	cubicleRightWallSprite = new sprite(3, 1);
-	cubicleRightWall2Sprite = new sprite(3, 2);
-	cubicleRightwall3Sprite = new sprite(3, 3);
-	//lamp desks have the same third tile as regular sideways cubicle desks
-	sidewaysCubicleDesk1Sprite = new sprite(6, 0);
-	sidewaysCubicleDesk2Sprite = new sprite(6, 1);
-	sidewaysCubicleDesk3Sprite = new sprite(6, 2);
-	lampDeskLeft1Sprite = new sprite(7, 0);
-	lampDeskLeft2Sprite = new sprite(7, 1);
-	lampDeskRight1Sprite = new sprite(8, 0);
-	lampDeskRight2Sprite = new sprite(8, 1);
-	//note: I didn't put in the grey cabinets in the top right
-}	
 
 room.prototype.initObjects = function() {
     var goldFish = new Object();

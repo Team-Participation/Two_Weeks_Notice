@@ -42,9 +42,7 @@ game.start = function() {
     game.player = new Player();
     
     game.ui.drawInitial();
-    game.player.room.initSprites();
     game.player.room.initObjects();
-    game.player.room.createWalls();
 	
     game.onEachFrame(game.run);
 };
