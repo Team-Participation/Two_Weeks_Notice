@@ -4,4 +4,4 @@ New map framework
 <br>
 Walk animation (needs tweaks)
 <br>
-Interact reworked, simplified
+Interact upgraded with 50% more Farhang
