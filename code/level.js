@@ -33,8 +33,8 @@ room.prototype.drawBG = function() {
 			{
 				//console.log("sx: ", (this.BGArray[row][col][i] % 10));
 				//console.log("sy: ", (Math.floor(this.BGArray[row][col][i] / 10)));
-				game.context.drawImage(backgroundSpriteSheet, 
-							(this.BGArray[row][col][i] % 10) * this.tileSize, 
+				game.context.drawImage(backgroundSpriteSheet,
+							(this.BGArray[row][col][i] % 10) * this.tileSize,
 							(Math.floor(this.BGArray[row][col][i] / 10) * this.tileSize),
 							this.tileSize, this.tileSize,
 							col * this.tileSize, row * this.tileSize,
@@ -73,7 +73,7 @@ room.prototype.drawObjects = function(objectLayer) {
 }
 
 room.prototype.onObject = function(playerPos) {
-    
+
     for(var i = 0; i < this.objects.length; i++)
     {
         //if statement to skip items, since they don't have collision
@@ -96,30 +96,31 @@ room.prototype.onObject = function(playerPos) {
  */
 room.prototype.wallCollision = function(playerNextPos){
     if(playerNextPos[0] < firstRoom.width && playerNextPos[0] >= 0 &&
-			playerNextPos[1] <= firstRoom.height && playerNextPos[1] >= 0) 
+			playerNextPos[1] <= firstRoom.height && playerNextPos[1] >= 0)
 	{
 		return !firstRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
 	}
-    else 
+    else
 	{
-	return false;	
+	return false;
 	}
 }
 
 //new function objectCollision, can just be placed under the wallCollision function
 //true = can move, false = cannot move
+
 room.prototype.objectCollision = function(playerNextPos) {
-    
+
     //check for each object in the current room
     for(var i = 0; i < this.objects.length; i++)
     {
         //if statement to skip items, since they don't have collision
         if(this.objects[i].layerCode == 2 || this.objects[i].layerCode == 3)
         {
-            
+
             var width = this.objects[i].colwidth == 1 ? 0 : this.objects[i].colwidth - 1;
             var height = this.objects[i].colheight == 1 ? 0 : this.objects[i].colheight - 1;
-            
+
             if (playerNextPos[0] <= this.objects[i].colx  + width &&
                 playerNextPos[0] >= this.objects[i].colx &&
                 playerNextPos[1] <= this.objects[i].coly + height &&
@@ -140,7 +141,6 @@ room.prototype.initObjects = function() {
 	goldFish.aimg.src = "assets/background/goldfishA.png";
 	goldFish.oimg.src = "assets/background/goldfish.png";
     goldFish.id = "goldFish";
-    goldFish.layerCode = 3;
     goldFish.lookText = "Unprocessed fishsticks.";
     goldFish.canTake = true;
     goldFish.takeText = "You picked up the goldfish.";
@@ -150,18 +150,17 @@ room.prototype.initObjects = function() {
     goldFish.canUse = false;
     goldFish.usedWith = null;
 
-    goldFish.x = 15;
-    goldFish.y = 6;
+    goldFish.x = 6;
+    goldFish.y = 7;
     goldFish.width = 1;
     goldFish.height = 1;
-    
-    goldFish.colx = 15;
-    goldFish.coly = 6;
-    goldFish.colwidth = 1;
-    goldFish.colheight = 1;
-    
+
+    goldFish.z = 2;
+    goldFish.tileID = 124;
+    goldFish.tileIDalt = 125;
+
     this.objects.push(goldFish);
-    
+
 
     var waterCooler = new Object();
     waterCooler.img = new Image();
@@ -177,47 +176,28 @@ room.prototype.initObjects = function() {
     waterCooler.failSpeak = "It doesn't speak. Watercooler conversations suck anyway.";
     waterCooler.canUse = false;
     waterCooler.usedWith = "goldFish";
-	waterCooler.usedWithText = "You dropped the goldfish into the watercooler"
+	  waterCooler.usedWithText = "You dropped the goldfish into the watercooler"
     waterCooler.altState = false;
-	waterCooler.altLookText = "Fishy! Fishy! Wake up! Wake up!"
+	  waterCooler.altLookText = "Fishy! Fishy! Wake up! Wake up!"
 
-    waterCooler.x = 1;
-    waterCooler.y = 11;
+    waterCooler.spcUse = function()
+    {
+      waterCooler.altState = true;
+      delete firstRoom.BGArray[waterCooler.y][waterCooler.x][waterCooler.z];
+      firstRoom.BGArray[waterCooler.y][waterCooler.x][waterCooler.z] = waterCooler.tileIDalt;
+    }
+
+    waterCooler.x = 9;
+    waterCooler.y = 8;
     waterCooler.width = 1;
     waterCooler.height = 2;
-    waterCooler.colx = 1;
-    waterCooler.coly = 12;
-    waterCooler.colwidth = 1;
-    waterCooler.colheight = 1;
-   
+
+    waterCooler.z = 2;
+    waterCooler.tileID = 125;
+    waterCooler.tileIDalt = 126;
+
     this.objects.push(waterCooler);
 
-    var receptionDesk = new Object();
-    receptionDesk.img = new Image();
-    receptionDesk.img.src = "assets/background/reception_desk.png";
-    receptionDesk.id = "receptionDesk";
-    receptionDesk.layerCode = 2;
-    receptionDesk.lookText = "A mighty fine desk.";
-    receptionDesk.canTake = false;
-    receptionDesk.takeText = null;
-    receptionDesk.failTake = "Seriously? The desk...";
-    receptionDesk.canSpeak = false;
-    receptionDesk.failSpeak = "It doesn't speak.";
-    receptionDesk.canUse = false;
-    receptionDesk.usedWith = null;
-
-    receptionDesk.x = 13;
-    receptionDesk.y = 6;
-    receptionDesk.width = 3;
-    receptionDesk.height = 1;
-    
-    receptionDesk.colx = 13;
-    receptionDesk.coly = 6;
-    receptionDesk.colwidth = 3;
-    receptionDesk.colheight = 1;
-    
-    this.objects.push(receptionDesk);
-    
     var reception = new Object();
     reception.img = new Image();
     reception.img.src = "assets/background/reception.png";
@@ -231,15 +211,15 @@ room.prototype.initObjects = function() {
     reception.failSpeak = null;
     reception.canUse = false;
     reception.usedWith = null;
-	
+
 	reception.diaText = "Receptionist: What do you want?";
 	reception.diaText2 = "You:  O -- How's your day?  OR  P -- You in the backseat of my Corolla";
 	reception.diaText3 = "Receptionist: Whatever.";
 	reception.diaText4 = "Receptionist: In your dreams, creep.";
 	reception.diaText5 = "You: U: Feelsbadman.  I: Been there, done that.";
 	reception.diaText6 = "Receptionist: Like ewww...";
-	
-	
+
+
     reception.dialogue = [];
     reception.dialogue[0] = {	text: "What do you want?",
                              options:	[	{	reply: "How's your day?", next: 1},
@@ -253,27 +233,10 @@ room.prototype.initObjects = function() {
                                         ]
                             };
     reception.dialogue[3] = {	text: "Like, eww."};
-    reception.x = 14;
+    reception.x = 7;
     reception.y = 5;
     reception.width = 1;
     reception.height = 2;
-    
-    reception.colx = 14;
-    reception.coly = 6;
-    reception.colwidth = 1;
-    reception.colheight = 1;
+
     this.objects.push(reception);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

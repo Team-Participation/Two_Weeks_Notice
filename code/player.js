@@ -1,17 +1,17 @@
 function Player() {
-    this.x = 10;
-    this.y = 10;
+    this.x = 2;
+    this.y = 4;
     this.hop = 32;
     this.time = 0;
     this.room = new room();
-    
+
     this.direction = "down";
 	this.examineActive = true;
     this.interactActive = false;
     this.speakActive = false;
-	
+
 	this.optSelect = 0;
-    
+
 	this.playerSpriteSheet = new Image();
 	this.playerSpriteSheet.src = "assets/sprites/playerSpriteSheet.png";
     //this.playerUpSprite = new Image();
@@ -35,17 +35,17 @@ Player.prototype.update = function() {
     if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
     if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
     if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
-	
+
 	if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
 	if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
 	if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
-	
+
 	if (keyHandler.isDown(keyHandler.OPT1) && game.player.speakActive && optSelect == 1){
 		this.optSelect = "O";
 		dialogueFunction(lastObj);
 		console.log(this.optSelect);
 		this.optSelect = 0;
-	} 
+	}
 	if (keyHandler.isDown(keyHandler.OPT2) && game.player.speakActive && optSelect == 1){
 		this.optSelect = "P";
 		dialogueFunction(lastObj);
@@ -57,14 +57,14 @@ Player.prototype.update = function() {
 		dialogueFunction(lastObj);
 		console.log(this.optSelect);
 		this.optSelect = 0;
-	} 
+	}
 	if (keyHandler.isDown(keyHandler.OPT4) && game.player.speakActive && optSelect == 2){
 		this.optSelect = "I";
 		dialogueFunction(lastObj);
 		console.log(this.optSelect);
 		this.optSelect = 0;
 	}
-	
+
 	if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
 	if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
 	if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
@@ -84,7 +84,7 @@ Player.prototype.moveRight = function() {
             this.time ++;
         }
     }
-    
+
 };
 
 Player.prototype.moveLeft = function() {
@@ -181,7 +181,7 @@ Player.prototype.onObject = function() {
     return this.room.onObject([this.x, this.y]);
 };
 
-Player.prototype.draw = function(context) 
+Player.prototype.draw = function(context)
 {
     if(this.direction == "up")
 	{
