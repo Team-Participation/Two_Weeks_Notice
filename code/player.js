@@ -112,7 +112,7 @@ Player.prototype.moveDown = function() {
 Player.prototype.moveUp = function() {
     if(this.time == 0){
         this.direction = "up";
-        if(this.room.wallCollision([this.x, this.y - 2]) &&
+        if(this.room.wallCollision([this.x, this.y - 1]) &&
            this.room.objectCollision([this.x, this.y - 1]))
         {
             this.y --;
