@@ -107,7 +107,6 @@ room.prototype.drawTallBG = function() {
 	for(var i = 0; i < this.tallBG.length; i++)
 	{
 		//starts at 1 so it doesn't redraw the floor, just everything else
-		console.log(this.tallBG[i][0], " ", this.tallBG[i][1]);
 		for(var j = 1; j < this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]].length; j++)
 		{
 			game.context.drawImage(backgroundSpriteSheet,
@@ -179,14 +178,7 @@ room.prototype.onObject = function(playerPos) {
  */
 room.prototype.wallCollision = function(playerNextPos){
     
-    for(var i = 0; i < this.walls.length; i++)
-    {
-        if(playerNextPos[0] == this.walls[i][0] && playerNextPos[1] == this.walls[i][1])
-        {
-            return false;
-        }
-    }
-    return true;
+    return !firstRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
 }
 
 //new function objectCollision, can just be placed under the wallCollision function
