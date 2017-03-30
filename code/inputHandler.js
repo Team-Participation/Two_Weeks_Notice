@@ -143,7 +143,9 @@ function interactAction(obj){
 	if(states.currentState == "game")
 	{
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-		if (obj.canTake) // If the object is an inventory item, it will be taken
+    obj.onUse();
+/*
+    if (obj.canTake) // If the object is an inventory item, it will be taken
 		{
 			drawTextBox(obj.takeText);
 			addObjectInv(obj);
@@ -153,6 +155,7 @@ function interactAction(obj){
 		}
 		else if (obj.canUse) // If the object is an interactable map object
 		{
+
 			// Under construction
 
 
@@ -162,7 +165,7 @@ function interactAction(obj){
 			drawTextBox(obj.failTake);
 			timedText(); //canvas becomes hidden again
 			return obj.failTake; // on fail - ie; "It's stuck to the wall"
-		}
+		} */
 	}
 }
 

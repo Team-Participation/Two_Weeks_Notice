@@ -132,6 +132,7 @@ room.prototype.objectCollision = function(playerNextPos) {
     return true;
 }
 
+
 room.prototype.initObjects = function() {
     var goldFish = new Object();
     goldFish.img = new Image();
@@ -150,6 +151,15 @@ room.prototype.initObjects = function() {
     goldFish.canUse = false;
     goldFish.usedWith = null;
 
+    goldFish.onUse = function() // all future object use effects will be defined in onUse() function
+    {
+      delete firstRoom.BGArray[goldFish.y][goldFish.x][goldFish.z];
+      firstRoom.BGArray[goldFish.y][goldFish.x][goldFish.z] = goldFish.tileIDalt;
+      addObjectInv(goldFish);
+      drawTextBox(goldFish.takeText);
+      timedText();
+    }
+
     goldFish.x = 6;
     goldFish.y = 7;
     goldFish.width = 1;
@@ -157,7 +167,7 @@ room.prototype.initObjects = function() {
 
     goldFish.z = 2;
     goldFish.tileID = 124;
-    goldFish.tileIDalt = 125;
+    goldFish.tileIDalt = 134;
 
     this.objects.push(goldFish);
 
@@ -180,7 +190,13 @@ room.prototype.initObjects = function() {
     waterCooler.altState = false;
 	  waterCooler.altLookText = "Fishy! Fishy! Wake up! Wake up!"
 
-    waterCooler.spcUse = function()
+    waterCooler.onUse = function()
+    {
+      drawTextBox(waterCooler.failTake);
+      timedText();
+    }
+
+    waterCooler.spcUse = function() // special use
     {
       waterCooler.altState = true;
       delete firstRoom.BGArray[waterCooler.y][waterCooler.x][waterCooler.z];
@@ -212,6 +228,12 @@ room.prototype.initObjects = function() {
     reception.canUse = false;
     reception.usedWith = null;
 
+    reception.onUse = function()
+    {
+      drawTextBox(reception.failTake);
+      timedText();
+    }
+
 	reception.diaText = "Receptionist: What do you want?";
 	reception.diaText2 = "You:  O -- How's your day?  OR  P -- You in the backseat of my Corolla";
 	reception.diaText3 = "Receptionist: Whatever.";
@@ -239,4 +261,19 @@ room.prototype.initObjects = function() {
     reception.height = 2;
 
     this.objects.push(reception);
+/*
+    var self = new Object();
+    self.useText = "Player: Uh... that can wait until after work.";
+    self.id = "self";
+    self.x = player.x;
+    self.y = player.y;
+
+    self.onUse = function()
+    {
+      drawTextBox(self.useText);
+      timedText();
+    }
+
+    this.objects.push(self);
+*/
 }
