@@ -1,4 +1,4 @@
-const TILESIZE = 48;
+const TILESIZE = 32;
 const HEIGHT = 18;
 const WIDTH = 32;
 //this is how many frames it takes to move 1 tile
@@ -10,10 +10,10 @@ var mouseY;
 
 var textDiv = document.getElementById("textScreen"); //makes a varible for the textScreen div
 var textBox = document.getElementById("textCanvas"); //makes a varible for the textCanvas canvas
-var writing = textBox.getContext("2d"); //to allow drawing 
+var writing = textBox.getContext("2d"); //to allow drawing
 
 var lastObj;
-	 
+
 var keyHandler = {
     keyPressed: {},
     keyUp: {},
@@ -44,11 +44,11 @@ var keyHandler = {
     isDown: function(keyCode) {
         return this.keyPressed[keyCode];
     },
-    
+
     isKeyUp: function(keyCode) {
         return this.keyUp[keyCode];
     },
-    
+
     deleteIsKeyUp: function(keyCode) {
         delete this.keyUp[keyCode];
     },
@@ -70,7 +70,7 @@ var keyHandler = {
 function onLeftClick(event) {
 	mouseX = (Math.floor(menuEst.mouse.x / TILESIZE));
 	mouseY = (Math.floor(menuEst.mouse.y / TILESIZE));
-	
+
 	for (i = 0; i < game.player.room.objects.length; i++){
 		//console.log(game.player.room.objects[i].x + " " + game.player.room.objects[i].y);
 		if (game.player.room.objects[i].x == mouseX && game.player.room.objects[i].y == mouseY){
@@ -92,8 +92,8 @@ function onLeftClick(event) {
 
 // creates a timer for 2.5 seconds
 function timedText() {
-   
-    setTimeout(myTimeout1, 2500) 
+
+    setTimeout(myTimeout1, 2500)
 }
 
 // after the timer the canvas will become hidden
@@ -120,10 +120,10 @@ function drawTextBox(text)
 	writing.font = "15px Arial";
 	writing.textAlign = "center"
 	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
-	
-	
+
+
 }
-	
+
 function examineAction(obj){
 	if(states.currentState == "game")
 	{
@@ -170,12 +170,12 @@ function speakAction(obj){
 	if(states.currentState == "game")
 	{
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-		
+
 		if (obj.canSpeak){ // If the object can be spoken too
 			dialogueFunction(obj);
 		}
 		else{
-			
+
 			drawTextBox(obj.failSpeak);
 			timedText();
 			return obj.failSpeak;
@@ -229,9 +229,11 @@ function dialogueFunction(obj)
 }
 
 function removeObject(obj){
+	delete firstRoom.BGArray[obj.y][obj.x][obj.z];
 	obj.x = -1;
 	obj.y = -1;
-	obj.img.src = "";
+	//obj.img.src = "";
+
 }
 
 window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);

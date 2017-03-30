@@ -1,9 +1,9 @@
 var inventory = [];
 
 function Inventory(slotNumber) {
-	
+
 	if (slotNumber < inventory.length){
-		
+
 		game.player.examineActive = false;
 		game.player.interactActive = false;
 		game.player.speakActive = false;
@@ -12,15 +12,15 @@ function Inventory(slotNumber) {
 		invContext.drawImage(eye.img, 0, 0, 80, 80);
 		invContext.drawImage(hand.img, 80, 0, 80, 80);
 		invContext.drawImage(talk.img, 160, 0, 80, 80);
-		
+
 		inventory[slotNumber].canUse = true;
 		invContext.clearRect((slotNumber+1) * 240, 0, 80, 80);
 		invContext.drawImage(inventory[slotNumber].aimg, (slotNumber+1) * 240, 0, 80, 80);
 		invContext.drawImage(empty.img, (slotNumber+1) * 240, 0, 80, 80);
-		
+
 	}
-	
-	
+
+
 }
 
 function useItem(obj){
@@ -29,7 +29,8 @@ function useItem(obj){
 			if (obj.usedWith == inventory[i].id){
 				drawTextBox(obj.usedWithText);
 				inventory.splice (0,i + 1);
-				obj.altState = true;
+				obj.spcUse();
+				//obj.altState = true;
 				invContext.clearRect((i+1) * 240, 0, 80, 80);
 				invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
 			}
@@ -38,14 +39,14 @@ function useItem(obj){
 }
 
 function deactivateItems(){
-	
+
 	for (var i = 0; i < inventory.length; i++){
 			inventory[i].canUse = false;
 			invContext.clearRect((i+1) * 240, 0, 80, 80);
 			//console.log(inventory[i].id);
 			invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
 			invContext.drawImage(inventory[i].oimg, (i+1) * 240, 0, 80, 80);
-			
+
 		}
 }
 
