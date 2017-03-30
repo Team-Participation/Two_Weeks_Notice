@@ -12,14 +12,16 @@ function Player() {
 	
 	this.optSelect = 0;
     
-    this.playerUpSprite = new Image();
-    this.playerUpSprite.src = "assets/sprites/playerUp.png";
-    this.playerDownSprite = new Image();
-    this.playerDownSprite.src = "assets/sprites/playerDown.png";
-    this.playerLeftSprite = new Image();
-    this.playerLeftSprite.src = "assets/sprites/playerLeft.png";
-    this.playerRightSprite = new Image();
-    this.playerRightSprite.src = "assets/sprites/playerRight.png";
+	this.playerSpriteSheet = new Image();
+	this.playerSpriteSheet.src = "assets/sprites/playerSpriteSheet.png";
+    //this.playerUpSprite = new Image();
+    //this.playerUpSprite.src = "assets/sprites/playerUp.png";
+    //this.playerDownSprite = new Image();
+    //this.playerDownSprite.src = "assets/sprites/playerDown.png";
+    //this.playerLeftSprite = new Image();
+    //this.playerLeftSprite.src = "assets/sprites/playerLeft.png";
+    //this.playerRightSprite = new Image();
+    //this.playerRightSprite.src = "assets/sprites/playerRight.png";
 }
 
 Player.prototype.update = function() {
@@ -179,18 +181,94 @@ Player.prototype.onObject = function() {
     return this.room.onObject([this.x, this.y]);
 };
 
-Player.prototype.draw = function(context) {
-    if(this.direction == "up"){
-        this.time != 0 ? context.drawImage(this.playerUpSprite, this.x * this.hop, this.y * this.hop - this.hop * this.time / 30) :
-        context.drawImage(this.playerUpSprite, this.x * this.hop, (this.y - 1) * this.hop);
-    }else if(this.direction == "down"){
-        this.time != 0 ? context.drawImage(this.playerDownSprite, this.x * this.hop, (this.y - 2) * this.hop  + this.hop * this.time / 30) :
-        context.drawImage(this.playerDownSprite, this.x * this.hop, (this.y - 1) * this.hop);
-    }else if(this.direction == "right"){
-        this.time != 0 ? context.drawImage(this.playerRightSprite, (this.x - 1) * this.hop + this.hop * this.time / 30, (this.y - 1) * this.hop) :
-        context.drawImage(this.playerRightSprite, this.x * this.hop, (this.y - 1) * this.hop);
-    }else if(this.direction == "left"){
-        this.time != 0 ? context.drawImage(this.playerLeftSprite, (this.x + 1) * this.hop - this.hop * this.time / 30, (this.y - 1) * this.hop) :
-        context.drawImage(this.playerLeftSprite, this.x * this.hop, (this.y - 1) * this.hop);
+Player.prototype.draw = function(context) 
+{
+    if(this.direction == "up")
+	{
+        if(this.time != 0)
+		{
+			switch(Math.floor(this.time / 15))
+			{
+				case 0:
+					context.drawImage(this.playerSpriteSheet, 32, 128, 32, 64, this.x * this.hop, (this.y - 1) * this.hop - this.hop * this.time / 30, 32, 64);
+					break;
+				case 1:
+					context.drawImage(this.playerSpriteSheet, 96, 128, 32, 64, this.x * this.hop, (this.y - 1) * this.hop - this.hop * this.time / 30, 32, 64);
+					break;
+				case 2:
+					context.drawImage(this.playerSpriteSheet, 96, 128, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
+					break;
+			}
+		}
+		else
+		{
+			context.drawImage(this.playerSpriteSheet, 0, 128, 32, 64, this.x * this.hop, (this.y - 2) * this.hop, 32, 64);
+		}
+    }
+	else if(this.direction == "down")
+	{
+        if(this.time != 0)
+		{
+			switch(Math.floor(this.time / 15))
+			{
+				case 0:
+					context.drawImage(this.playerSpriteSheet, 32, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
+					break;
+				case 1:
+					context.drawImage(this.playerSpriteSheet, 96, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
+					break;
+				case 2:
+					context.drawImage(this.playerSpriteSheet, 96, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
+					break;
+			}
+		}
+		else
+		{
+			context.drawImage(this.playerSpriteSheet, 0, 192, 32, 64, this.x * this.hop, (this.y - 2) * this.hop, 32, 64);
+		}
+    }
+	else if(this.direction == "right")
+	{
+        if(this.time != 0)
+		{
+			switch(Math.floor(this.time / 15))
+			{
+				case 0:
+					context.drawImage(this.playerSpriteSheet, 32, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					break;
+				case 1:
+					context.drawImage(this.playerSpriteSheet, 96, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					break;
+				case 2:
+					context.drawImage(this.playerSpriteSheet, 96, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					break;
+			}
+		}
+		else
+		{
+			context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, this.x * this.hop, (this.y - 2) * this.hop, 32, 64);
+		}
+    }
+	else if(this.direction == "left")
+	{
+        if(this.time != 0)
+		{
+			switch(Math.floor(this.time / 15))
+			{
+				case 0:
+					context.drawImage(this.playerSpriteSheet, 32, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					break;
+				case 1:
+					context.drawImage(this.playerSpriteSheet, 96, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					break;
+				case 2:
+					context.drawImage(this.playerSpriteSheet, 96, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					break;
+			}
+		}
+		else
+		{
+			context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, this.x * this.hop, (this.y - 2) * this.hop, 32, 64);
+		}
     }
 }
