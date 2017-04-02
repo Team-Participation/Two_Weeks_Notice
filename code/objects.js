@@ -1,7 +1,4 @@
-/*
-function for making new objects inherit from existing objects
-*/
-
+// function for making new objects inherit from existing objects without calling class constructor
 if (typeof Object.create !== 'function') {
     Object.create = function (o) {
         function F() {}
@@ -40,12 +37,12 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
   this.look = function()
   {
     drawTextBox(this.text.active.look);
-    timedText();
+    dlog.active = true;
   };
   this.talk = function()
   {
     drawTextBox(this.text.active.talk);
-    timedText();
+    dlog.active = true;
   };
   this.use = function()
   {
@@ -55,11 +52,11 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
       delete firstRoom.BGArray[this.y][this.x][this.z];
       addObjectInv(this.item);
       drawTextBox(this.text.active.use);
-      timedText();
+      dlog.active = true;
       break;
     case "container":
       drawTextBox(this.text.active.use);
-      timedText();
+      dlog.active = true;
       if (!this.alt)
       {
         addObjectInv(this.item);
@@ -71,20 +68,20 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
     case "dispenser":
       addObjectInv(this.item);
       drawTextBox(this.text.active.use);
-      timedText();
+      dlog.active = true;
       break;
     default:
       drawTextBox(this.text.active.use);
-      timedText();
+      dlog.active = true;
       break;
     }
   };
-  this.spUse = function(item)
+  this.spUse = function(item) // special use method for using items on object
   {
     if (this.alt)
     {
       drawTextBox(this.text.active.sp);
-      timedText();
+      dlog.active = true;
       this.text.active = this.text.reg;
       firstRoom.BGArray[this.y][this.x][this.z] = this.tileID;
       this.alt = false;
@@ -92,7 +89,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
     else
     {
       drawTextBox(this.text.active.sp);
-      timedText();
+      dlog.active = true;
       this.text.active = this.text.alt;
       firstRoom.BGArray[this.y][this.x][this.z] = this.tileIDalt;
       this.alt = true;
@@ -102,16 +99,33 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
 
 function Npc (id, x, y) // NPC class
 {
-  RoomObject.call(this, id, x, y);
+  RoomObject.call(this, id, x, y); // inherit RoomObject class
   this.img = new Image;
   this.img.src ="assets/background/"+ this.id +".png"; // to be changed to sprite folder with sprite sheets
   this.text.reg.use = "I could get in trouble with HR if I do that.";
   this.text.reg.look = "It's " + id + ".";
-  this.dlogIdx = 0;
+  this.dlogIdx = 0; // index of dialogue progression
   this.dlog = [];
-  this.talk = function()
+  this.talk = function() // this version works around drawTextBox in current state
   {
-    // dialogue function
+    writing.clear();
+    dlog.active = true;
+    if (this.dlog[this.dlogIdx].options !== undefined) // if not a terminal node
+    {
+      dlog.id = this.id;
+      var t = ""; // for holding string concatenation
+      for (var i = 0; i < this.dlog[this.dlogIdx].options.length; i++) // go through reply options
+      {
+        t += ("\n" + this.dlog[this.dlogIdx].options[i].reply); // bulk up t
+      }
+      drawTextBox(this.dlog[this.dlogIdx].text + t); // display NPC initial text and your reply options in one string
+    }
+    else
+    {
+      drawTextBox(this.dlog[this.dlogIdx].text);
+      this.dlogIdx = 0; // reset to start
+      dlog.id = null;
+    }
   };
 }
 Npc.prototype = Object.create(RoomObject.prototype);
@@ -119,12 +133,12 @@ Npc.prototype = Object.create(RoomObject.prototype);
 var reception = new Npc("reception", 7, 5);
 reception.text.reg.look = "I could look at that all day.";
 reception.dlog[0] = {	text: "What do you want?",
-                         options:	[	{	reply: "How's your day?", next: 1},
-                                     { reply: "You, in the back seat of my Corolla.", next: 2}]};
+                         options:	[	{	reply: "<1> How's your day?", next: 1},
+                                     { reply: "<2> You, in the back seat of my Corolla.", next: 2}]};
 reception.dlog[1] = {	text: "Whatever."};
 reception.dlog[2] = {	text: "In your dreams, creep.",
-                         options:	[	{	reply: "Feelsbadman.", next: 1},
-                                     { reply: "Been there, done that.", next: 3}]};
+                         options:	[	{	reply: "<1> Feelsbadman.", next: 1},
+                                     { reply: "<2> Been there, done that.", next: 3}]};
 reception.dlog[3] = {	text: "Like, eww."};
 reception.init(firstRoom);
 
@@ -145,7 +159,6 @@ fishbowl.text.alt = {
   sp: "I'm really not a bad person."};
 fishbowl.init(firstRoom);
 
-
 var watercooler = new RoomObject("watercooler", 9, 8, 2, 125, 126);
 watercooler.usedWith = "goldfish";
 watercooler.text.reg = {
@@ -164,17 +177,4 @@ watercooler.init(firstRoom);
     var self = new Npc("Me", player.x, player.y);
     self.text.reg.look = "I'd need a mirror to do that.";
     self.text.reg.use = "Uh... that can wait until after work.";
-*/
-
-/*  old dialogue stuff
-
-    reception.img = new Image();
-    reception.img.src = "assets/background/reception.png";
-
-    reception.diaText = "Receptionist: What do you want?";
-  	reception.diaText2 = "You:  O -- How's your day?  OR  P -- You in the backseat of my Corolla";
-  	reception.diaText3 = "Receptionist: Whatever.";
-  	reception.diaText4 = "Receptionist: In your dreams, creep.";
-  	reception.diaText5 = "You: U: Feelsbadman.  I: Been there, done that.";
-  	reception.diaText6 = "Receptionist: Like ewww...";
 */

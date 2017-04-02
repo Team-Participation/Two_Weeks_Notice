@@ -1,6 +1,12 @@
 /* tiles are set so that when each tile is a square, the aspect
  * ratio is 16*9. This is just temporary.
  */
+
+function debug()
+{
+  console.log("!");
+}
+
 var game = {
     fps: 60,
     tileSize: 32,
@@ -8,8 +14,6 @@ var game = {
     height: 576,
     bgmemory: 0
 };
-
-
 
 game.onEachFrame = (function() {
     var requestAnimationFrame = window.requestAnimationFrame ||

@@ -6,14 +6,12 @@ function Player() {
     this.room = new room();
 
     this.direction = "down";
-	this.examineActive = true;
+	  this.examineActive = true;
     this.interactActive = false;
     this.speakActive = false;
 
-	this.optSelect = 0;
-
-	this.playerSpriteSheet = new Image();
-	this.playerSpriteSheet.src = "assets/sprites/playerSpriteSheet.png";
+	  this.playerSpriteSheet = new Image();
+	  this.playerSpriteSheet.src = "assets/sprites/playerSpriteSheet.png";
     //this.playerUpSprite = new Image();
     //this.playerUpSprite.src = "assets/sprites/playerUp.png";
     //this.playerDownSprite = new Image();
@@ -25,53 +23,63 @@ function Player() {
 }
 
 Player.prototype.update = function() {
-    if(this.time == 30)
+  if(this.time == 30)
+  {
+    this.time = 0;
+  }else if(this.time != 0){
+    this.time++;
+  }
+
+  if (dlog.active) // overrides other inputs while active dialogue
+  {
+    if (dlog.id === null && keyHandler.lastKey !== null)
     {
-        this.time = 0;
-    }else if(this.time != 0){
-        this.time++;
+      dlog.active = false;
+      keyHandler.lastKey = null;
+      writing.clear();
     }
+    else
+    {
+      for (var i = 0; i < this.room.objects.length; i++)
+      {
+        if (this.room.objects[i].id == dlog.id)
+        {
+          switch (keyHandler.lastKey)
+          {
+            case 49:
+            this.room.objects[i].dlogIdx = this.room.objects[i].dlog[this.room.objects[i].dlogIdx].options[0].next;
+            keyHandler.lastKey = null;
+            this.room.objects[i].talk(); // continue until terminal node
+            break;
+            case 50:
+            this.room.objects[i].dlogIdx = this.room.objects[i].dlog[this.room.objects[i].dlogIdx].options[1].next;
+            keyHandler.lastKey = null;
+            this.room.objects[i].talk(); // continue until terminal node
+            break;
+          }
+        }
+      }
+    }
+  }
+  else
+  {
     if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
     if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
     if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
     if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
 
-	if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
-	if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
-	if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
+    if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
+    if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
+    if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
 
-	if (keyHandler.isDown(keyHandler.OPT1) && game.player.speakActive && optSelect == 1){
-		this.optSelect = "O";
-		dialogueFunction(lastObj);
-		console.log(this.optSelect);
-		this.optSelect = 0;
-	}
-	if (keyHandler.isDown(keyHandler.OPT2) && game.player.speakActive && optSelect == 1){
-		this.optSelect = "P";
-		dialogueFunction(lastObj);
-		console.log(this.optSelect);
-		this.optSelect = 0;
-	}
-	if (keyHandler.isDown(keyHandler.OPT3) && game.player.speakActive && optSelect == 2){
-		this.optSelect = "U";
-		dialogueFunction(lastObj);
-		console.log(this.optSelect);
-		this.optSelect = 0;
-	}
-	if (keyHandler.isDown(keyHandler.OPT4) && game.player.speakActive && optSelect == 2){
-		this.optSelect = "I";
-		dialogueFunction(lastObj);
-		console.log(this.optSelect);
-		this.optSelect = 0;
-	}
-
-	if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
-	if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
-	if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
-	if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
-	if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
-	if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
-	if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
+    if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
+    if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
+    if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
+    if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
+    if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
+    if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
+    if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
+  }
 };
 
 Player.prototype.moveRight = function() {

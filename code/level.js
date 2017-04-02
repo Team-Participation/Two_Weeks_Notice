@@ -53,18 +53,6 @@ room.prototype.drawTallBG = function() {
 		}
 	}
 }
-/*
-room.prototype.drawObjects = function(objectLayer) {
-    for(var i = 0; i < this.objects.length; i++)
-    {
-        if(this.objects[i].layerCode == objectLayer)
-        {
-            game.context.drawImage(this.objects[i].img,
-                                   (this.objects[i].x) * this.tileSize,
-                                   (this.objects[i].y) * this.tileSize);
-        }
-    }
-}
 
 /* function returns false if the player bumps into a wall
  * playerNextPos needs to be an array containing the coords

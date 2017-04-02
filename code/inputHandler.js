@@ -13,8 +13,10 @@ var textBox = document.getElementById("textCanvas"); //makes a varible for the t
 var writing = textBox.getContext("2d"); //to allow drawing
 
 var lastObj;
+var dlog = {active: false, id: null};
 
 var keyHandler = {
+    lastKey: null, // keeps dialogue from skipping through multiple choices
     keyPressed: {},
     keyUp: {},
     RIGHT: 39,
@@ -64,54 +66,47 @@ var keyHandler = {
             this.keyUp[event.keyCode] = true;
         }
         delete this.keyPressed[event.keyCode];
+        if (dlog.active)
+          this.lastKey = event.keyCode;
+    },
+
+    onKeypress: function(event) {
+
     }
 }
 
 function onLeftClick(event) {
-	mouseX = (Math.floor(menuEst.mouse.x / TILESIZE));
-	mouseY = (Math.floor(menuEst.mouse.y / TILESIZE));
+  if (dlog.active) // so that mouse clicks can also dismiss text windows
+    keyHandler.lastKey = 999;
+  else
+  {
+  	mouseX = (Math.floor(menuEst.mouse.x / TILESIZE));
+  	mouseY = (Math.floor(menuEst.mouse.y / TILESIZE));
 
-	for (i = 0; i < game.player.room.objects.length; i++){
-		//console.log(game.player.room.objects[i].x + " " + game.player.room.objects[i].y);
-		if (game.player.room.objects[i].x == mouseX && game.player.room.objects[i].y == mouseY){
-			if (game.player.examineActive){
-				examineAction(game.player.room.objects[i]);
-			} else if (game.player.interactActive){
-				interactAction(game.player.room.objects[i]);
-			} else if (game.player.speakActive){
-				lastObj = game.player.room.objects[i];
-				speakAction(game.player.room.objects[i]);
-			} else{
-				useItem(game.player.room.objects[i]);
-			}
-		}
-
+  	for (i = 0; i < game.player.room.objects.length; i++){
+  		//console.log(game.player.room.objects[i].x + " " + game.player.room.objects[i].y);
+  		if (game.player.room.objects[i].x == mouseX && game.player.room.objects[i].y == mouseY){
+  			if (game.player.examineActive){
+  				examineAction(game.player.room.objects[i]);
+  			} else if (game.player.interactActive){
+  				interactAction(game.player.room.objects[i]);
+  			} else if (game.player.speakActive){
+  				lastObj = game.player.room.objects[i];
+  				speakAction(game.player.room.objects[i]);
+  			} else{
+  				useItem(game.player.room.objects[i]);
+  			}
+  		}
+    }
 	}
 	//alert (mouseX + " " + mouseY);
 }
 
-// creates a timer for 2.5 seconds
-function timedText() {
-
-    setTimeout(myTimeout1, 2500)
-}
-
-// after the timer the canvas will become hidden
-function myTimeout1() {
-    document.getElementById("textScreen").style.visibility = "hidden";
-	writing.clearRect(0,0,textCanvas.width, textCanvas.height);
-
-}
-
-function timedText2()
+writing.clear = function()
 {
-	setTimeout(myTimeout2, 1300);
-}
-
-function myTimeout2()
-{
-	writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-}
+  document.getElementById("textScreen").style.visibility = "hidden";
+  this.clearRect(0,0,textCanvas.width, textCanvas.height);
+};
 
 // function for creating the textbox that appears during object interaction
 function drawTextBox(text)
@@ -149,54 +144,10 @@ function speakAction(obj){
 	}
 }
 
-var optSelect = 0;
-
-function dialogueFunction(obj)
-{
-	if(states.currentState == "game")
-	{
-		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-		if (optSelect == 0){
-			drawTextBox(obj.diaText); //prints the first line of the convo
-			timedText2(); // clears the canvas on a timer
-			setTimeout(function() { drawTextBox(obj.diaText2)}, 1400); //prints first option line of convo on a timer
-			optSelect = 1;
-		}
-		else if (optSelect == 1){
-			if (game.player.optSelect == "O"){
-				writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-				drawTextBox(obj.diaText3); //prints the last line of the convo
-				timedText(); //canvas becomes hidden again
-				optSelect = 0;
-			}
-			else if (game.player.optSelect == "P"){
-				writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-				drawTextBox(obj.diaText4); //prints the second line of the convo
-				timedText2(); // clears the canvas on a timer
-				setTimeout(function() { drawTextBox(obj.diaText5)}, 1400); //prints second option line of convo on a timer
-				optSelect = 2;
-			}
-		}
-		else if (optSelect == 2){
-			if (game.player.optSelect == "U"){
-				writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-				drawTextBox(obj.diaText3); //prints the last line of the convo
-				timedText(); //canvas becomes hidden again
-				optSelect = 0;
-			}
-			else if (game.player.optSelect == "I"){
-				writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-				drawTextBox(obj.diaText6); //prints the alt last line of the convo
-				timedText(); //canvas becomes hidden again
-				optSelect = 0;
-			}
-		}
-	}
-}
-
 function removeObject(obj){
 	delete firstRoom.BGArray[obj.y][obj.x][obj.z];
 }
 
 window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);
 window.addEventListener('keydown', function(event) { keyHandler.onKeydown(event); }, false);
+//window.addEventListener('keypress', function(event) { keyHandler.onKeypress(event); }, false);
