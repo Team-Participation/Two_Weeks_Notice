@@ -77,8 +77,7 @@ Player.prototype.update = function() {
 Player.prototype.moveRight = function() {
     if(this.time == 0){
         this.direction = "right";
-        if(this.room.wallCollision([this.x + 1, this.y]) &&
-           this.room.objectCollision([this.x + 1, this.y]))
+        if(this.room.collision([this.x + 1, this.y]))
         {
             this.x ++;
             this.time ++;
@@ -90,8 +89,7 @@ Player.prototype.moveRight = function() {
 Player.prototype.moveLeft = function() {
     if(this.time == 0){
         this.direction = "left";
-        if(this.room.wallCollision([this.x - 1, this.y]) &&
-           this.room.objectCollision([this.x - 1, this.y]))
+        if(this.room.collision([this.x - 1, this.y]))
         {
             this.x --;
             this.time ++;
@@ -102,8 +100,7 @@ Player.prototype.moveLeft = function() {
 Player.prototype.moveDown = function() {
     if(this.time == 0){
         this.direction = "down";
-        if(this.room.wallCollision([this.x, this.y + 1]) &&
-           this.room.objectCollision([this.x, this.y + 1]))
+        if(this.room.collision([this.x, this.y + 1]))
         {
             this.y ++;
             this.time ++;
@@ -114,8 +111,7 @@ Player.prototype.moveDown = function() {
 Player.prototype.moveUp = function() {
     if(this.time == 0){
         this.direction = "up";
-        if(this.room.wallCollision([this.x, this.y - 1]) &&
-           this.room.objectCollision([this.x, this.y - 1]))
+        if(this.room.collision([this.x, this.y - 1]))
         {
             this.y --;
             this.time ++;
@@ -176,11 +172,11 @@ Player.prototype.speak = function(){
 		}
 	}
 }
-
+/*
 Player.prototype.onObject = function() {
     return this.room.onObject([this.x, this.y]);
 };
-
+*/
 Player.prototype.draw = function(context)
 {
     if(this.direction == "up")

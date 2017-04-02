@@ -12,7 +12,6 @@ function Inventory(slotNumber) {
 		invContext.drawImage(eye.img, 0, 0, 80, 80);
 		invContext.drawImage(hand.img, 80, 0, 80, 80);
 		invContext.drawImage(talk.img, 160, 0, 80, 80);
-
 		inventory[slotNumber].canUse = true;
 		invContext.clearRect((slotNumber+1) * 240, 0, 80, 80);
 		invContext.drawImage(inventory[slotNumber].aimg, (slotNumber+1) * 240, 0, 80, 80);
@@ -25,12 +24,12 @@ function Inventory(slotNumber) {
 
 function useItem(obj){
 	for (var i = 0; i < inventory.length; i++){
-		if (inventory[i].canUse == true){
-			if (obj.usedWith == inventory[i].id){
-				drawTextBox(obj.usedWithText);
+		if (inventory[i].canUse == true)
+		{
+			if (obj.usedWith == inventory[i].id)
+			{
+				obj.spUse(inventory[i]);
 				inventory.splice (0,i + 1);
-				obj.spcUse();
-				//obj.altState = true;
 				invContext.clearRect((i+1) * 240, 0, 80, 80);
 				invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
 			}
@@ -52,7 +51,7 @@ function deactivateItems(){
 
 function addObjectInv(obj){
 	inventory.push(obj);
-	invContext.drawImage(obj.img, inventory.length * 240, 0, 80, 80);
+	invContext.drawImage(obj.oimg, inventory.length * 240, 0, 80, 80);
 }
 
 

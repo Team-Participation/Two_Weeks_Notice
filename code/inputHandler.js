@@ -128,13 +128,7 @@ function examineAction(obj){
 	if(states.currentState == "game")
 	{
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-		if (obj.altState){
-			drawTextBox(obj.altLookText);
-		} else{
-			drawTextBox(obj.lookText);
-		}
-		timedText(); //canvas becomes hidden again
-		return obj.lookText;
+		obj.look();
 	}
 
 }
@@ -143,29 +137,7 @@ function interactAction(obj){
 	if(states.currentState == "game")
 	{
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-    obj.onUse();
-/*
-    if (obj.canTake) // If the object is an inventory item, it will be taken
-		{
-			drawTextBox(obj.takeText);
-			addObjectInv(obj);
-			removeObject(obj);
-			timedText(); //canvas becomes hidden again
-			return obj.takeText; // "You took the _____"
-		}
-		else if (obj.canUse) // If the object is an interactable map object
-		{
-
-			// Under construction
-
-
-		}
-		else
-		{
-			drawTextBox(obj.failTake);
-			timedText(); //canvas becomes hidden again
-			return obj.failTake; // on fail - ie; "It's stuck to the wall"
-		} */
+    obj.use();
 	}
 }
 
@@ -173,16 +145,7 @@ function speakAction(obj){
 	if(states.currentState == "game")
 	{
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-
-		if (obj.canSpeak){ // If the object can be spoken too
-			dialogueFunction(obj);
-		}
-		else{
-
-			drawTextBox(obj.failSpeak);
-			timedText();
-			return obj.failSpeak;
-		}
+    obj.talk();
 	}
 }
 
@@ -233,10 +196,6 @@ function dialogueFunction(obj)
 
 function removeObject(obj){
 	delete firstRoom.BGArray[obj.y][obj.x][obj.z];
-	obj.x = -1;
-	obj.y = -1;
-	//obj.img.src = "";
-
 }
 
 window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);

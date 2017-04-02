@@ -42,7 +42,7 @@ game.start = function() {
     game.player = new Player();
 
     game.ui.drawInitial();
-    game.player.room.initObjects();
+    game.player.room.objects = firstRoom.objects;
 
     game.onEachFrame(game.run);
 };
@@ -71,18 +71,7 @@ game.draw = function() {
         game.context.clearRect(0, 0, game.width, game.height);
 		//game.player.room.drawRoom();
 		firstRoom.drawBG();
-	   if(game.player.onObject() || game.bgmemory >= 1 && game.bgmemory <= 60){
-            game.player.draw(game.context);
-			game.player.room.drawObjects(1);
-            //game.player.room.drawObjects(2);
-            //game.player.room.drawObjects(3);
-			game.bgmemory = (game.bgmemory == 60 ? 0 : game.bgmemory+1);
-        }else{
-            game.player.room.drawObjects(1);
-            //game.player.room.drawObjects(2);
-            //game.player.room.drawObjects(3);
-            game.player.draw(game.context);
-        }
+    game.player.draw(game.context);
 		firstRoom.drawTallBG();
 
     }else if(states.currentState == "menu"){
@@ -106,4 +95,4 @@ game.update = function() {
 		}
 };
 
-game.start();
+window.onload = game.start;
