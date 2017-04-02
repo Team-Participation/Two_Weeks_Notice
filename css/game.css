@@ -1,14 +1,14 @@
 body
 {
-    background-color: purple;
+    background-color: black;
 }
 
 #gameScreen
 {
     background-color: black;
     margin: auto;
-    width: 1536px;
-    height: 864px;
+    width: 1024px;
+    height: 576px;
     border: 10px solid gray;
     border-radius: 5px;
 	position: static;

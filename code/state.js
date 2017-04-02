@@ -5,11 +5,17 @@ function gameMenu(){
     this.buttonsHover;
     this.assetsLoaded = 0;
     this.mouse = {x:0, y:0};
-    this.buttonsData = [{id:"start", img:"assets/gui/StartN.png", imgHover:"assets/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:true, click: startGame}, // Start button
-                        {id:"resume", img:"assets/gui/StartN.png", imgHover:"assets/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:false, click: startGame}, // needs png for resume
-                        {id:"options", img:"assets/gui/OptionN.png", imgHover:"assets/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: enterOptions},
-                        {id:"help", img:"assets/gui/HelpN.png", imgHover:"assets/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: enterHelp}, // Help button
-                        {id:"exit", img:"assets/gui/ExitN.png", imgHover:"assets/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: enterGame}]
+    this.buttonsData = [{id:"start", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:true, click: startGame}, // Start button
+                        {id:"resume", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:false, click: startGame}, // needs png for resume
+                        {id:"options", img:"assets/sprites/gui/OptionN.png", imgHover:"assets/sprites/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: enterOptions},
+                        {id:"help", img:"assets/sprites/gui/HelpN.png", imgHover:"assets/sprites/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: enterHelp}, // Help button
+                        {id:"exit", img:"assets/sprites/gui/ExitN.png", imgHover:"assets/sprites/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: enterGame}]
+	//temporary fix to buttons position for new resolution
+	for(var i = 0; i < this.buttonsData.length; i++)
+	{
+		this.buttonsData[i].x /= 1.5;
+		this.buttonsData[i].y /= 1.5;
+	}
 };
 
 gameMenu.prototype.setActive = function(id,bool){
@@ -29,7 +35,7 @@ gameMenu.prototype.initButtons = function(){
             this.buttonsHover.src = this.buttonsData[i].imgHover;
             this.buttonsHover.addEventListener("load", this.onAssetLoad(this));
             this.buttonsData[i].imgHover = this.buttonsHover;
-       
+
     }
 };
 
@@ -49,6 +55,7 @@ gameMenu.prototype.drawMenu = function(){
         if(this.buttonsData[i].active == true){
             if (this.buttonsData[i].over == true)
             {
+				//set these to /1.5 when the resolution changed
                 game.context.drawImage(this.buttonsData[i].imgHover, this.buttonsData[i].x, this.buttonsData[i].y);
                 document.body.style.cursor = "pointer";
             }
@@ -135,7 +142,7 @@ gameMenu.prototype.updateMenu = function() {
              this.mouse.y < this.buttonsData[i].y ||
              this.mouse.y > this.buttonsData[i].y+this.buttonsData[i].h))
         {
-            this.buttonsData[i].over = true; // If our mouse is inside the button box, flip the over flag to true.
+            this.buttonsData[i].over = true; // If the mouse is inside the button box, flip the over flag to true.
         }
     }
 };
@@ -156,7 +163,7 @@ var states = {
 var menuEst = new gameMenu();
 
 function enterMenu() {
-    game.stage.style.backgroundColor = "cyan";
+    game.stage.style.backgroundColor = "#404040";
     menuEst.initMenu();
 };
 
