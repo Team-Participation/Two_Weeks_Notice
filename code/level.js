@@ -12,10 +12,8 @@ function room ()
 	this.tallBG = [];
 }
 
-//var invSpriteSheet = new Image();
-
-var backgroundSpriteSheet = new Image();
-backgroundSpriteSheet.src = "assets/background/newSpriteSheet.png";
+var tileset = new Image();
+tileset.src = "assets/sprites/bg/tileset.png";
 
 
 room.prototype.drawBG = function() {
@@ -27,7 +25,7 @@ room.prototype.drawBG = function() {
 			{
 				//console.log("sx: ", (this.BGArray[row][col][i] % 10));
 				//console.log("sy: ", (Math.floor(this.BGArray[row][col][i] / 10)));
-				game.context.drawImage(backgroundSpriteSheet,
+				game.context.drawImage(tileset,
 							(this.BGArray[row][col][i] % 10) * this.tileSize,
 							(Math.floor(this.BGArray[row][col][i] / 10) * this.tileSize),
 							this.tileSize, this.tileSize,
@@ -44,7 +42,7 @@ room.prototype.drawTallBG = function() {
 		//starts at 1 so it doesn't redraw the floor, just everything else
 		for(var j = 1; j < this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]].length; j++)
 		{
-			game.context.drawImage(backgroundSpriteSheet,
+			game.context.drawImage(tileset,
 						(this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]][j] % 10) * this.tileSize,
 						Math.floor(this.BGArray[this.tallBG[i][1]][this.tallBG[i][0]][j] / 10) * this.tileSize,
 						this.tileSize, this.tileSize,

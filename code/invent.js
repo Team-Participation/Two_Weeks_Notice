@@ -63,31 +63,31 @@ var invContext = invBox.getContext("2d");
 
 var eye = new Object();
 eye.img = new Image();
-eye.img.src = "assets/gui/eye.png";
+eye.img.src = "assets/sprites/gui/eye.png";
 
 var eyeA = new Object();
 eyeA.img = new Image();
-eyeA.img.src = "assets/gui/eyeActive.png";
+eyeA.img.src = "assets/sprites/gui/eyeActive.png";
 
 var hand = new Object();
 hand.img = new Image();
-hand.img.src = "assets/gui/hand.png";
+hand.img.src = "assets/sprites/gui/hand.png";
 
 var handA = new Object();
 handA.img = new Image();
-handA.img.src = "assets/gui/handActive.png";
+handA.img.src = "assets/sprites/gui/handActive.png";
 
 var talk = new Object();
 talk.img = new Image();
-talk.img.src = "assets/gui/talk.png";
+talk.img.src = "assets/sprites/gui/talk.png";
 
 var talkA = new Object();
 talkA.img = new Image();
-talkA.img.src = "assets/gui/talkActive.png";
+talkA.img.src = "assets/sprites/gui/talkActive.png";
 
 var empty = new Object();
 empty.img = new Image();
-empty.img.src = "assets/gui/empty.png";
+empty.img.src = "assets/sprites/gui/empty.png";
 
 setTimeout(drawInv, 100);
 

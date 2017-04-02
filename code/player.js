@@ -11,7 +11,7 @@ function Player() {
     this.speakActive = false;
 
 	  this.playerSpriteSheet = new Image();
-	  this.playerSpriteSheet.src = "assets/sprites/playerSpriteSheet.png";
+	  this.playerSpriteSheet.src = "assets/sprites/char/Player.png";
     //this.playerUpSprite = new Image();
     //this.playerUpSprite.src = "assets/sprites/playerUp.png";
     //this.playerDownSprite = new Image();

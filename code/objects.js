@@ -13,8 +13,8 @@ function Item (id) // default ui item class, all src images must follow naming c
   this.canUse = false;
   this.aimg = new Image();
   this.oimg = new Image();
-  this.aimg.src = "assets/gui/" + id + "A.png";
-  this.oimg.src = "assets/gui/" + id + ".png";
+  this.aimg.src = "assets/sprites/gui/" + id + "A.png";
+  this.oimg.src = "assets/sprites/gui/" + id + ".png";
 }
 
 function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room interactable object class
@@ -101,7 +101,7 @@ function Npc (id, x, y) // NPC class
 {
   RoomObject.call(this, id, x, y); // inherit RoomObject class
   this.img = new Image;
-  this.img.src ="assets/background/"+ this.id +".png"; // to be changed to sprite folder with sprite sheets
+  this.img.src ="assets/sprites/char/"+ this.id +".png"; // to be changed to sprite folder with sprite sheets
   this.text.reg.use = "I could get in trouble with HR if I do that.";
   this.text.reg.look = "It's " + id + ".";
   this.dlogIdx = 0; // index of dialogue progression
@@ -130,7 +130,7 @@ function Npc (id, x, y) // NPC class
 }
 Npc.prototype = Object.create(RoomObject.prototype);
 
-var reception = new Npc("reception", 7, 5);
+var reception = new Npc("Bridget", 7, 5);
 reception.text.reg.look = "I could look at that all day.";
 reception.dlog[0] = {	text: "What do you want?",
                          options:	[	{	reply: "<1> How's your day?", next: 1},

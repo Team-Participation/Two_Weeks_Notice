@@ -5,11 +5,11 @@ function gameMenu(){
     this.buttonsHover;
     this.assetsLoaded = 0;
     this.mouse = {x:0, y:0};
-    this.buttonsData = [{id:"start", img:"assets/gui/StartN.png", imgHover:"assets/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:true, click: startGame}, // Start button
-                        {id:"resume", img:"assets/gui/StartN.png", imgHover:"assets/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:false, click: startGame}, // needs png for resume
-                        {id:"options", img:"assets/gui/OptionN.png", imgHover:"assets/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: enterOptions},
-                        {id:"help", img:"assets/gui/HelpN.png", imgHover:"assets/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: enterHelp}, // Help button
-                        {id:"exit", img:"assets/gui/ExitN.png", imgHover:"assets/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: enterGame}]
+    this.buttonsData = [{id:"start", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:true, click: startGame}, // Start button
+                        {id:"resume", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:false, click: startGame}, // needs png for resume
+                        {id:"options", img:"assets/sprites/gui/OptionN.png", imgHover:"assets/sprites/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: enterOptions},
+                        {id:"help", img:"assets/sprites/gui/HelpN.png", imgHover:"assets/sprites/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: enterHelp}, // Help button
+                        {id:"exit", img:"assets/sprites/gui/ExitN.png", imgHover:"assets/sprites/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: enterGame}]
 	//temporary fix to buttons position for new resolution
 	for(var i = 0; i < this.buttonsData.length; i++)
 	{
@@ -35,7 +35,7 @@ gameMenu.prototype.initButtons = function(){
             this.buttonsHover.src = this.buttonsData[i].imgHover;
             this.buttonsHover.addEventListener("load", this.onAssetLoad(this));
             this.buttonsData[i].imgHover = this.buttonsHover;
-       
+
     }
 };
 
