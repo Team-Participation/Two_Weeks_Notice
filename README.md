@@ -1,6 +1,6 @@
 Changes since Alpha:
 <br><br>
-New assets
+New assets (note paths have changed)
 <br>
 New map framework
 <br>
