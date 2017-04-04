@@ -46,7 +46,7 @@ game.start = function() {
     game.player = new Player();
 
     game.ui.drawInitial();
-    game.player.room.objects = firstRoom.objects;
+    game.player.room.objects = breakRoom.objects;
 
     game.onEachFrame(game.run);
 };
@@ -74,9 +74,9 @@ game.draw = function() {
     if(states.currentState == "game"){
         game.context.clearRect(0, 0, game.width, game.height);
 		//game.player.room.drawRoom();
-		firstRoom.drawBG();
+		breakRoom.drawBG();
     game.player.draw(game.context);
-		firstRoom.drawTallBG();
+		breakRoom.drawTallBG();
 
     }else if(states.currentState == "menu"){
 

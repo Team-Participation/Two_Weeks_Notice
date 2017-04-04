@@ -57,10 +57,10 @@ room.prototype.drawTallBG = function() {
  * of the tile the player is tring to move to
  */
 room.prototype.collision = function(playerNextPos){
-    if(playerNextPos[0] < firstRoom.width && playerNextPos[0] >= 0 &&
-			playerNextPos[1] <= firstRoom.height && playerNextPos[1] >= 0)
+    if(playerNextPos[0] < breakRoom.width && playerNextPos[0] >= 0 &&
+			playerNextPos[1] <= breakRoom.height && playerNextPos[1] >= 0)
 	{
-		return !firstRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
+		return !breakRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
 	}
     else
 	{

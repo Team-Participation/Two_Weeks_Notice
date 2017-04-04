@@ -145,7 +145,7 @@ function speakAction(obj){
 }
 
 function removeObject(obj){
-	delete firstRoom.BGArray[obj.y][obj.x][obj.z];
+	delete breakRoom.BGArray[obj.y][obj.x][obj.z];
 }
 
 window.addEventListener('keyup', function(event) { keyHandler.onKeyup(event); }, false);
