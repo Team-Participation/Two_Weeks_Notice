@@ -101,7 +101,7 @@ function Npc (id, x, y) // NPC class
 {
   RoomObject.call(this, id, x, y); // inherit RoomObject class
   this.img = new Image;
-  this.img.src ="assets/sprites/char/"+ this.id +".png"; // to be changed to sprite folder with sprite sheets
+  this.img.src ="assets/sprites/char/"+ this.id +".png";
   this.text.reg.use = "I could get in trouble with HR if I do that.";
   this.text.reg.look = "It's " + id + ".";
   this.dlogIdx = 0; // index of dialogue progression
