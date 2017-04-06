@@ -49,7 +49,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
     switch (this.useType)
     {
     case "item":
-      delete breakRoom.BGArray[this.y][this.x][this.z];
+      delete game.player.room.BGArray[this.y][this.x][this.z];
       addObjectInv(this.item);
       drawTextBox(this.text.active.use);
       dlog.active = true;
@@ -61,7 +61,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
       {
         addObjectInv(this.item);
         this.text.active = this.text.alt;
-        breakRoom.BGArray[this.y][this.x][this.z] = this.tileIDalt;
+        game.player.room.BGArray[this.y][this.x][this.z] = this.tileIDalt;
         this.alt = true;
       }
       break;
@@ -83,7 +83,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
       drawTextBox(this.text.active.sp);
       dlog.active = true;
       this.text.active = this.text.reg;
-      breakRoom.BGArray[this.y][this.x][this.z] = this.tileID;
+      game.player.room[this.y][this.x][this.z] = this.tileID;
       this.alt = false;
     }
     else
@@ -91,7 +91,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
       drawTextBox(this.text.active.sp);
       dlog.active = true;
       this.text.active = this.text.alt;
-      breakRoom.BGArray[this.y][this.x][this.z] = this.tileIDalt;
+      game.player.room.BGArray[this.y][this.x][this.z] = this.tileIDalt;
       this.alt = true;
     }
   };
@@ -140,7 +140,7 @@ reception.dlog[2] = {	text: "In your dreams, creep.",
                          options:	[	{	reply: "<1> Feelsbadman.", next: 1},
                                      { reply: "<2> Been there, done that.", next: 3}]};
 reception.dlog[3] = {	text: "Like, eww."};
-reception.init(breakRoom);
+reception.init(mainRoom);
 
 var goldfish = new Item("goldfish");
 
@@ -157,7 +157,7 @@ fishbowl.text.alt = {
   use: "Really? The bowl too?",
   talk: "But nobody came.",
   sp: "I'm really not a bad person."};
-fishbowl.init(breakRoom);
+fishbowl.init(mainRoom);
 
 var watercooler = new RoomObject("watercooler", 9, 8, 2, 125, 126);
 watercooler.usedWith = "goldfish";
@@ -170,7 +170,7 @@ watercooler.text.alt = {
   look: "No time for regrets.",
   use: "Now I'm really not thirsty.",
   talk: "This is more tolerable than usual."};
-watercooler.init(breakRoom);
+watercooler.init(mainRoom);
 
 /*  WIP
 

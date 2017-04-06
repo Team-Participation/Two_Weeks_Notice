@@ -15,6 +15,35 @@ function room ()
 var tileset = new Image();
 tileset.src = "assets/sprites/bg/tileset.png";
 
+function swapRoom(target) // room transition
+{
+  switch (target)
+  {
+    case "main":
+    var newRoom = mainRoom;
+    break;
+    case "break":
+    var newRoom = breakRoom;
+    break;
+  }
+  for(var i = 0; i < newRoom.spawn.length; i++) // decide where to move player coordinates based on origin room
+  {
+    if(game.player.room.id == newRoom.spawn[i].id)
+    {
+      game.player.x = newRoom.spawn[i].x;
+      game.player.y = newRoom.spawn[i].y;
+    }
+  }
+  switch (game.player.room.id) // save current state of origin room into old room object
+  {
+    case "main":
+    mainRoom = game.player.room;
+    break;
+    case "break":
+    breakRoom = game.player.room;
+  }
+  game.player.room = newRoom; // change current room to new room
+}
 
 room.prototype.drawBG = function() {
 	for(var row = 0; row < this.BGArray.length; row++)
@@ -57,10 +86,10 @@ room.prototype.drawTallBG = function() {
  * of the tile the player is tring to move to
  */
 room.prototype.collision = function(playerNextPos){
-    if(playerNextPos[0] < breakRoom.width && playerNextPos[0] >= 0 &&
-			playerNextPos[1] <= breakRoom.height && playerNextPos[1] >= 0)
+    if(playerNextPos[0] < this.width && playerNextPos[0] >= 0 &&
+			playerNextPos[1] <= this.height && playerNextPos[1] >= 0)
 	{
-		return !breakRoom.collisionArray[playerNextPos[1]][playerNextPos[0]];
+		return !this.collisionArray[playerNextPos[1]][playerNextPos[0]];
 	}
     else
 	{

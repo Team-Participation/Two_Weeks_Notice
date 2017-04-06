@@ -4,6 +4,8 @@ function Player() {
     this.hop = 32;
     this.time = 0;
     this.room = new room();
+    this.onDoor = false;
+    this.theDoor = {};
 
     this.direction = "down";
 	  this.examineActive = true;
@@ -63,6 +65,25 @@ Player.prototype.update = function() {
   }
   else
   {
+  if (this.onDoor) // door check
+  {
+    switch (this.theDoor.dir)
+    {
+      case "up":
+        if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) swapRoom(this.theDoor.target);
+        break;
+      case "down":
+        if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) swapRoom(this.theDoor.target);
+        break;
+      case "left":
+        if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) swapRoom(this.theDoor.target);
+        break;
+      case "right":
+        if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) swapRoom(this.theDoor.target);
+        break;
+    }
+  }
+
     if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
     if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
     if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
@@ -80,7 +101,27 @@ Player.prototype.update = function() {
     if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
     if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
   }
+  if (this.time == 0)
+    this.doorCheck();
 };
+
+Player.prototype.doorCheck = function()
+{
+  for (var i = 0; i < game.player.room.doors.length; i++)
+  {
+    if (this.x == game.player.room.doors[i].x && this.y == game.player.room.doors[i].y)
+    {
+      this.onDoor = true;
+      this.theDoor = game.player.room.doors[i];
+    }
+    else
+    {
+      this.onDoor = false;
+      this.theDoor = {};
+    }
+  }
+};
+
 
 Player.prototype.moveRight = function() {
     if(this.time == 0){
