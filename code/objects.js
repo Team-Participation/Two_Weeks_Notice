@@ -331,7 +331,7 @@ coffeeMaker.text.reg = {
   sp: "Heh."};
 coffeeMaker.text.alt = {
   look: "Productivity, in liquid form. Heh.",
-  use: "Have you ever damaged the part of your brain that handles short term memory?"};
+  use: "Did you damage the part of your brain that handles short term memory?"};
 coffeeMaker.init(breakRoom);
 
 var microwave = new RoomObject("microwave", 5, 1, 2, 145, 145);
