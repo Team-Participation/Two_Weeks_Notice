@@ -1,9 +1,9 @@
 var inventory = [];
 
-function Inventory(slotNumber) {
-
-	if (slotNumber < inventory.length){
-
+function Inventory(slotNumber)
+{
+	if (slotNumber < inventory.length)
+	{
 		game.player.examineActive = false;
 		game.player.interactActive = false;
 		game.player.speakActive = false;
@@ -16,10 +16,7 @@ function Inventory(slotNumber) {
 		invContext.clearRect((slotNumber+1) * 240, 0, 80, 80);
 		invContext.drawImage(inventory[slotNumber].aimg, (slotNumber+1) * 240, 0, 80, 80);
 		invContext.drawImage(empty.img, (slotNumber+1) * 240, 0, 80, 80);
-
 	}
-
-
 }
 
 function useItem(obj){
@@ -28,10 +25,13 @@ function useItem(obj){
 		{
 			if (obj.usedWith == inventory[i].id)
 			{
-				obj.spUse(inventory[i]);
-				inventory.splice (0,i + 1);
-				invContext.clearRect((i+1) * 240, 0, 80, 80);
-				invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
+				var b = obj.spUse();
+				if (b)
+				{
+					inventory.splice (0,i + 1);
+					invContext.clearRect((i+1) * 240, 0, 80, 80);
+					invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
+				}
 			}
 		}
 	}

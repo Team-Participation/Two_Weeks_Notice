@@ -8,6 +8,7 @@ function room ()
     this.walls = [];
 	this.collisionArray = [];
     this.objects = [];
+    this.npcs = [];
 	this.BGArray = [];
 	this.tallBG = [];
 }

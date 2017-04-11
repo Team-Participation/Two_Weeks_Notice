@@ -75,7 +75,11 @@ game.draw = function() {
         game.context.clearRect(0, 0, game.width, game.height);
 		//game.player.room.drawRoom();
 		game.player.room.drawBG();
-    game.player.draw(game.context);
+		game.player.draw(game.context);
+    for (i = 0; i < game.player.room.npcs.length; i++)
+    {
+		    drawNPC(game.context, game.player.room.npcs[i]);
+    }
 		game.player.room.drawTallBG();
 
     }else if(states.currentState == "menu"){
