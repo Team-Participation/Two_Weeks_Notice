@@ -226,6 +226,102 @@ Player.prototype.onObject = function() {
     return this.room.onObject([this.x, this.y]);
 };
 */
+
+drawNPC = function(context, npc)
+{
+	if(npc.room == game.player.room.id)
+	{
+		if(npc.direction == "up")
+		{
+			if(npc.time != 0 && npc.moves)
+			{
+				switch(Math.floor(npc.time / 15))
+				{
+					case 0:
+						context.drawImage(npc.img, 32, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						break;
+					case 1:
+						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						break;
+					case 2:
+						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						break;
+				}
+			}
+			else
+			{
+				context.drawImage(npc.img, 0, 128, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+			}
+		}
+		else if(npc.direction == "down")
+		{
+			if(npc.time != 0 && npc.moves)
+			{
+				switch(Math.floor(npc.time / 15))
+				{
+					case 0:
+						context.drawImage(npc.img, 32, 192, 32, 64, npc.x * TILESIZE, (npc.y + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						break;
+					case 1:
+						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, (npc.y + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						break;
+					case 2:
+						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, (npc.y + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						break;
+				}
+			}
+			else
+			{
+				context.drawImage(npc.img, 0, 192, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+			}
+		}
+		else if(npc.direction == "right")
+		{
+			if(npc.time != 0 && npc.moves)
+			{
+				switch(Math.floor(npc.time / 15))
+				{
+					case 0:
+						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						break;
+					case 1:
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						break;
+					case 2:
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						break;
+				}
+			}
+			else
+			{
+				context.drawImage(npc.img, 0, 0, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+			}
+		}
+		else if(npc.direction == "left")
+		{
+			if(npc.time != 0 && npc.moves)
+			{
+				switch(Math.floor(npc.time / 15))
+				{
+					case 0:
+						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						break;
+					case 1:
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						break;
+					case 2:
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						break;
+				}
+			}
+			else
+			{
+				context.drawImage(npc.img, 0, 64, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+			}
+		}
+	}
+}
+
 Player.prototype.draw = function(context)
 {
     if(this.direction == "up")

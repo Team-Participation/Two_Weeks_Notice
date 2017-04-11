@@ -106,6 +106,11 @@ function Npc (id, x, y) // NPC class
   this.text.reg.look = "It's " + id + ".";
   this.dlogIdx = 0; // index of dialogue progression
   this.dlog = [];
+  this.direction = "left"; // direction the npc faces
+  this.room = "main"; // the room the npc is in
+  this.moves = false; // whether or not the npc moves around randomly
+  this.time = 0; // controls render position during tile movement
+  this.totalTime = 30; // total time it takes for the npc to move 1 tile
   this.talk = function() // this version works around drawTextBox in current state
   {
     writing.clear();
