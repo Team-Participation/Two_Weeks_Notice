@@ -13,9 +13,9 @@ function Inventory(slotNumber)
 		invContext.drawImage(hand.img, 80, 0, 80, 80);
 		invContext.drawImage(talk.img, 160, 0, 80, 80);
 		inventory[slotNumber].canUse = true;
-		invContext.clearRect((slotNumber+1) * 240, 0, 80, 80);
-		invContext.drawImage(inventory[slotNumber].aimg, (slotNumber+1) * 240, 0, 80, 80);
-		invContext.drawImage(empty.img, (slotNumber+1) * 240, 0, 80, 80);
+		invContext.clearRect((slotNumber) * 80 + 240, 0, 80, 80);
+		invContext.drawImage(inventory[slotNumber].aimg, (slotNumber) * 80 + 240, 0, 80, 80);
+		invContext.drawImage(empty.img, (slotNumber) * 80 + 240, 0, 80, 80);
 	}
 }
 
@@ -29,8 +29,9 @@ function useItem(obj){
 				if (b)
 				{
 					inventory.splice (0,i + 1);
-					invContext.clearRect((i+1) * 240, 0, 80, 80);
-					invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
+					invContext.clearRect(inventory.length * 80 + 240, 0, 80, 80);
+					invContext.drawImage(empty.img, inventory.length * 80 + 240, 0, 80, 80);
+					invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
 				}
 			}
 		}
@@ -41,17 +42,17 @@ function deactivateItems(){
 
 	for (var i = 0; i < inventory.length; i++){
 			inventory[i].canUse = false;
-			invContext.clearRect((i+1) * 240, 0, 80, 80);
+			invContext.clearRect((i) * 80 + 240, 0, 80, 80);
 			//console.log(inventory[i].id);
-			invContext.drawImage(empty.img, (i+1) * 240, 0, 80, 80);
-			invContext.drawImage(inventory[i].oimg, (i+1) * 240, 0, 80, 80);
+			invContext.drawImage(empty.img, (i) * 80 + 240, 0, 80, 80);
+			invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
 
 		}
 }
 
 function addObjectInv(obj){
 	inventory.push(obj);
-	invContext.drawImage(obj.oimg, inventory.length * 240, 0, 80, 80);
+	invContext.drawImage(obj.oimg, (inventory.length-1) * 80 + 240, 0, 80, 80);
 }
 
 
