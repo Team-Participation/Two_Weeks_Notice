@@ -116,7 +116,7 @@ function Npc (id, x, y, dir) // NPC class
   RoomObject.call(this, id, x, y); // inherit RoomObject class
   this.img = new Image;
   this.img.src ="assets/sprites/char/"+ this.id +".png";
-  this.text.reg.use = "I could get in trouble with HR if I do that.";
+  this.text.reg.use = "Um, I'm trying to get fired, not arrested.";
   this.text.reg.look = "It's " + id + ".";
   this.dlogIdx = 0; // index of dialogue progression
   this.dlog = [{text: "..."}];
@@ -260,8 +260,7 @@ fishbowl.usedWith = "goldfish";
 fishbowl.text.reg = {
   look: "Unprocessed fish sticks.",
   use: "Took the goldfish.",
-  talk: "It stares back with a blank expression.",
-  sp: "I'm really not a bad person."};
+  talk: "It stares back with a blank expression."};
 fishbowl.text.alt = {
   look: "No time for regrets.",
   use: "Really? The bowl too?",
@@ -289,7 +288,7 @@ fridge.text.reg = {
   use: "All I have in here are some wieners.",
   sp: "...you need help dude."};
 fridge.text.alt = {
-  use: "Nothing else in there belongs to me.",
+  use: "Nothing else in here belongs to me.",
   sp: "...you need help dude."};
 fridge.spUse = function()
 {
