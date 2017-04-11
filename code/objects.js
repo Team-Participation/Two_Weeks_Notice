@@ -153,7 +153,10 @@ function Npc (id, x, y, dir) // NPC class
 }
 Npc.prototype = Object.create(RoomObject.prototype);
 
-var reception = new Npc("Bridget", 7, 5, "left");
+var boss = new Npc("Bruce", 7, 4, "down");
+boss.init(mainRoom);
+
+var reception = new Npc("Bridget", 7, 6, "left");
 reception.text.reg.look = "I could look at that all day.";
 reception.dlog[0] = {	text: "What do you want?",
                          options:	[	{	reply: "<1> How's your day?", next: 1},
@@ -165,29 +168,26 @@ reception.dlog[2] = {	text: "In your dreams, creep.",
 reception.dlog[3] = {	text: "Like, eww."};
 reception.init(mainRoom);
 
-var boss = new Npc("Bruce", 7, 3, "down");
-boss.init(mainRoom);
-
-var moron = new Npc("Chad", 16, 5, "left");
+var moron = new Npc("Chad", 16, 6, "left");
 moron.init(mainRoom);
 
-var weeb = new Npc("Oswald", 13, 5, "right");
+var weeb = new Npc("Oswald", 13, 6, "right");
 weeb.init(mainRoom);
-
-var ceo = new Npc("CEO", -1, -1, "right");
 
 /*
 var partner = new Npc("Greg", 16, 11, "left");
 partner.init(mainRoom);
 
-var waifu = new Npc("Emily", 7, 11, "down");
+var waifu = new Npc("Emily", 7, 12, "down");
 waifu.init(mainRoom);
 
-var tech = new Npc("Boris", 4, 11, "down");
+var tech = new Npc("Boris", 4, 12, "down");
 tech.init(mainRoom);
 
-var hr = new Npc("Sue", 1, 11, "down");
+var hr = new Npc("Sue", 1, 12, "down");
 hr.init(mainRoom)
+
+var ceo = new Npc("CEO", -1, -1, "right");
 */
 
 var goldfish = new Item("goldfish");

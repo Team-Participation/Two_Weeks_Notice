@@ -87,6 +87,7 @@ function onLeftClick(event)
 
   	checkTile(game.player.room.objects, mouseX, mouseY);
     checkTile(game.player.room.npcs, mouseX, mouseY);
+    checkTile(game.player.room.npcs, mouseX, mouseY+1);
   }
 }
 
