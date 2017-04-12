@@ -125,7 +125,7 @@ writing.clear = function()
 function drawTextBox(text)
 {
 	textDiv.style.visibility = "visible"; //canvas is now visable
-	writing.font = "15px Arial";
+	writing.font = "20px Arial";
 	writing.textAlign = "center"
 	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
 }
