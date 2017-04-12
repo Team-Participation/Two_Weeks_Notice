@@ -173,53 +173,51 @@ function Npc (id, x, y, dir) // NPC class
             dlog.id = null;
         }
     };
-}
-Npc.prototype = Object.create(RoomObject.prototype);
-
-Npc.prototype.move = new function(direction)
-{
-	if(this.time == 0)
+	this.npcUpdate = function()
 	{
-		time = 1;
-		switch(direction)
+		//checks the queue for commands and executes them
+		if(this.time == 0 && this.commands.length != 0)
 		{
-			case "left":
-				this.x --;
-				this.time ++;
-				break;
-			case "right":
-				this.x ++;
-				this.time ++;
-				break;
-			case "up":
-				this.y --;
-				this.time ++;
-				break;
-			case "down":
-				this.y ++;
-				this.time ++;
-				break;
+			this.move(this.commands[0]);
+			this.commands.splice(0, 1);
+		}
+		else if(this.time == 30)
+		{
+			this.time = 0;
+		}
+		else if(this.time != 0)
+		{
+			this.time++;
+		}
+	}
+	this.move = function(direction)
+	{
+		if(this.time == 0)
+		{
+			time = 1;
+			switch(direction)
+			{
+				case "left":
+					this.x --;
+					this.time ++;
+					break;
+				case "right":
+					this.x ++;
+					this.time ++;
+					break;
+				case "up":
+					this.y --;
+					this.time ++;
+					break;
+				case "down":
+					this.y ++;
+					this.time ++;
+					break;
+			}
 		}
 	}
 }
-
-Npc.prototype.update = new function()
-{
-	//checks the queue for commands and executes them
-	if(this.time == 0 && this.commands.length != 0)
-	{
-		this.move(this.commands[0]);
-		this.commands.splice(0, 1);
-	}
-	else if(this.time == 30)
-	{
-		this.time = 0;
-	}
-	else if(this.time != 0)
-	{
-		this.time++;
-	}
-}
+Npc.prototype = Object.create(RoomObject.prototype);
 
 Player.prototype.dlogAdvance = function()
 {

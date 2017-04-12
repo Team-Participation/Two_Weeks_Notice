@@ -106,9 +106,11 @@ game.update = function() {
 	game.ui.checkState();
     if(states.currentState == "game"){
         game.player.update();
+		console.log(game.player.room.npcs);
 		for(var i = 0; i < game.player.room.npcs.length; i++)
 		{
-			game.player.room.npcs[i].update();
+			console.log("whee");
+			game.player.room.npcs[i].npcUpdate();
 		}
     }else if(states.currentState == "menu"){
         game.ui.updateMenu();
