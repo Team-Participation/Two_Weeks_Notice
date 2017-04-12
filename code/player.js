@@ -115,7 +115,7 @@ Player.prototype.doorCheck = function()
 Player.prototype.moveRight = function() {
     if(this.time == 0){
         this.direction = "right";
-        if(this.room.collision([this.x + 1, this.y]))
+        if(this.room.collision([this.x + 1, this.y]) && this.room.npcCollision([this.x + 1, this.y]))
         {
             this.x ++;
             this.time ++;
@@ -126,7 +126,7 @@ Player.prototype.moveRight = function() {
 Player.prototype.moveLeft = function() {
     if(this.time == 0){
         this.direction = "left";
-        if(this.room.collision([this.x - 1, this.y]))
+        if(this.room.collision([this.x - 1, this.y]) && this.room.npcCollision([this.x - 1, this.y]))
         {
             this.x --;
             this.time ++;
@@ -137,7 +137,7 @@ Player.prototype.moveLeft = function() {
 Player.prototype.moveDown = function() {
     if(this.time == 0){
         this.direction = "down";
-        if(this.room.collision([this.x, this.y + 1]))
+        if(this.room.collision([this.x, this.y + 1]) && this.room.npcCollision([this.x, this.y + 1]))
         {
             this.y ++;
             this.time ++;
@@ -148,7 +148,7 @@ Player.prototype.moveDown = function() {
 Player.prototype.moveUp = function() {
     if(this.time == 0){
         this.direction = "up";
-        if(this.room.collision([this.x, this.y - 1]))
+        if(this.room.collision([this.x, this.y - 1]) && this.room.npcCollision([this.x, this.y - 1]))
         {
             this.y --;
             this.time ++;
@@ -219,7 +219,7 @@ drawNPC = function(context, npc)
 {
 		if(npc.direction == "up")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
@@ -241,7 +241,7 @@ drawNPC = function(context, npc)
 		}
 		else if(npc.direction == "down")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
@@ -263,7 +263,7 @@ drawNPC = function(context, npc)
 		}
 		else if(npc.direction == "right")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
@@ -285,7 +285,7 @@ drawNPC = function(context, npc)
 		}
 		else if(npc.direction == "left")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
@@ -363,10 +363,10 @@ Player.prototype.draw = function(context)
 					context.drawImage(this.playerSpriteSheet, 32, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 1:
-					context.drawImage(this.playerSpriteSheet, 64, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 96, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 			}
 		}
@@ -385,10 +385,10 @@ Player.prototype.draw = function(context)
 					context.drawImage(this.playerSpriteSheet, 32, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 1:
-					context.drawImage(this.playerSpriteSheet, 64, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 96, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 			}
 		}

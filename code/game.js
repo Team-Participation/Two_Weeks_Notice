@@ -76,19 +76,19 @@ game.draw = function() {
 
 		game.player.room.drawBG();
 
-    for (i = 0; i < game.player.room.npcs.length; i++)
-    {
-      if(game.player.room.npcs[i].y < game.player.y)
-		    drawNPC(game.context, game.player.room.npcs[i]);
-    }
+		for (i = 0; i < game.player.room.npcs.length; i++)
+		{
+		  if(game.player.room.npcs[i].y < game.player.y)
+				drawNPC(game.context, game.player.room.npcs[i]);
+		}
 
-    game.player.draw(game.context);
+		game.player.draw(game.context);
 
-    for (i = 0; i < game.player.room.npcs.length; i++)
-    {
-      if(game.player.room.npcs[i].y >= game.player.y)
-        drawNPC(game.context, game.player.room.npcs[i]);
-    }
+		for (i = 0; i < game.player.room.npcs.length; i++)
+		{
+		  if(game.player.room.npcs[i].y >= game.player.y)
+			drawNPC(game.context, game.player.room.npcs[i]);
+		}
 
 		game.player.room.drawTallBG();
 
@@ -106,6 +106,10 @@ game.update = function() {
 	game.ui.checkState();
     if(states.currentState == "game"){
         game.player.update();
+		for(var i = 0; i < game.player.room.npcs.length; i++)
+		{
+			game.player.room.npcs[i].update();
+		}
     }else if(states.currentState == "menu"){
         game.ui.updateMenu();
     }else if(states.currentState == "pause"){

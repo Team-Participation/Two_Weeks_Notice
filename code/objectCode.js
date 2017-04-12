@@ -121,9 +121,9 @@ function Npc (id, x, y, dir) // NPC class
     this.dlogIdx = 0; // index of dialogue progression
     this.dlog = [{text: "...", next: 0}];
     this.direction = dir; // direction the npc faces
-    this.moves = false; // whether or not the npc moves around randomly
     this.time = 0; // controls render position during tile movement
     this.totalTime = 30; // total time it takes for the npc to move 1 tile
+	this.commands = [];
     this.init = function(target)
     {
         this.text.active = this.text.reg;
@@ -175,6 +175,51 @@ function Npc (id, x, y, dir) // NPC class
     };
 }
 Npc.prototype = Object.create(RoomObject.prototype);
+
+Npc.prototype.move = new function(direction)
+{
+	if(this.time == 0)
+	{
+		time = 1;
+		switch(direction)
+		{
+			case "left":
+				this.x --;
+				this.time ++;
+				break;
+			case "right":
+				this.x ++;
+				this.time ++;
+				break;
+			case "up":
+				this.y --;
+				this.time ++;
+				break;
+			case "down":
+				this.y ++;
+				this.time ++;
+				break;
+		}
+	}
+}
+
+Npc.prototype.update = new function()
+{
+	//checks the queue for commands and executes them
+	if(this.time == 0 && this.commands.length != 0)
+	{
+		this.move(this.commands[0]);
+		this.commands.splice(0, 1);
+	}
+	else if(this.time == 30)
+	{
+		this.time = 0;
+	}
+	else if(this.time != 0)
+	{
+		this.time++;
+	}
+}
 
 Player.prototype.dlogAdvance = function()
 {
