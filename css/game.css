@@ -7,31 +7,17 @@ body
 {
     background-color: black;
     margin: auto;
-    width: 1024px;
-    height: 576px;
-    border: 10px solid gray;
-    border-radius: 5px;
+    width: 800px;
+    height: 600px;
 	position: static;
-}
-
-#textScreen
-{
-	background-color: white;
-	width: 1536px;
-	height: 45px;
-	border: 5px solid black;
-	border-radius; 5px;
-	position: static;
-	margin: auto;
-	visibility: hidden;
 }
 
 #inventoryScreen
 {
-	width: 1536px;
+	width: 800px;
 	height: 80px;
 	border: 5px solid black;
-	border-radius; 5px;
+	border-radius: 5px;
 	position: static;
 	margin: auto;
 	background-color: white;

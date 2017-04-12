@@ -41,7 +41,7 @@ Player.prototype.update = function()
         {
             dlog.active = false;
             keyHandler.lastKey = null;
-            writing.clear();
+            dlog.Clear();
         }
         else
         {

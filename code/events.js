@@ -63,10 +63,10 @@ var cutScene =
         this.initExtra = function() {},
         this.run = function()
         {
-            writing.clear();
+            dlog.Clear();
             if (this.dlogIdx !== null)
             {
-                drawTextBox(this.dlog[this.dlogIdx].text);
+                dlog.Push(this.dlog[this.dlogIdx].text);
             }
             else
             {

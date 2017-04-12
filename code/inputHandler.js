@@ -8,12 +8,7 @@ const error = 0;
 var mouseX;
 var mouseY;
 
-var textDiv = document.getElementById("textScreen"); //makes a varible for the textScreen div
-var textBox = document.getElementById("textCanvas"); //makes a varible for the textCanvas canvas
-var writing = textBox.getContext("2d"); //to allow drawing
-
 var lastObj;
-var dlog = {active: false, id: null};
 
 var keyHandler = {
     lastKey: null, // keeps dialogue from skipping through multiple choices
@@ -115,25 +110,9 @@ function checkTile(array, x, y)
   }
 }
 
-writing.clear = function()
-{
-  document.getElementById("textScreen").style.visibility = "hidden";
-  this.clearRect(0,0,textCanvas.width, textCanvas.height);
-};
-
-// function for creating the textbox that appears during object interaction
-function drawTextBox(text)
-{
-	textDiv.style.visibility = "visible"; //canvas is now visable
-	writing.font = "15px Arial";
-	writing.textAlign = "center"
-	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
-}
-
 function examineAction(obj){
 	if(states.currentState == "game")
 	{
-		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
 		obj.look();
 	}
 }
@@ -141,16 +120,14 @@ function examineAction(obj){
 function interactAction(obj){
 	if(states.currentState == "game")
 	{
-		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-    obj.use();
+	   obj.use();
 	}
 }
 
 function speakAction(obj){
 	if(states.currentState == "game")
 	{
-		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
-    obj.talk();
+        obj.talk();
 	}
 }
 

@@ -28,7 +28,7 @@ function useItem(obj){
 				var b = obj.spUse();
 				if (b)
 				{
-					inventory.splice (0,i + 1);
+					inventory.splice (i, 1);
 					invContext.clearRect(inventory.length * 80 + 240, 0, 80, 80);
 					invContext.drawImage(empty.img, inventory.length * 80 + 240, 0, 80, 80);
 					invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
@@ -111,4 +111,6 @@ function drawInv()
 	invContext.drawImage(empty.img, 400, 0, 80, 80);
 	invContext.drawImage(empty.img, 480, 0, 80, 80);
 	invContext.drawImage(empty.img, 560, 0, 80, 80);
+	invContext.drawImage(empty.img, 640, 0, 80, 80);
+	invContext.drawImage(empty.img, 720, 0, 80, 80);
 }

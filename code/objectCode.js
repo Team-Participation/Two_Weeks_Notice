@@ -39,7 +39,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
     {
         if (this.text.active.look !== undefined)
         {
-            drawTextBox(this.text.active.look);
+            dlog.Push(this.text.active.look);
             dlog.active = true;
         }
     };
@@ -47,7 +47,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
     {
         if (this.text.active.talk !== undefined)
         {
-            drawTextBox(this.text.active.talk);
+            dlog.Push(this.text.active.talk);
             dlog.active = true;
         }
     };
@@ -60,13 +60,13 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
                 case "item":
                 delete game.player.room.BGArray[this.y][this.x][this.z];
                 addObjectInv(this.item);
-                drawTextBox(this.text.active.use);
+                dlog.Push(this.text.active.use);
                 dlog.active = true;
                 this.x = -1;
                 this.y = -1;
                 break;
                 case "container":
-                drawTextBox(this.text.active.use);
+                dlog.Push(this.text.active.use);
                 dlog.active = true;
                 if (!this.alt)
                 {
@@ -78,11 +78,11 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
                 break;
                 case "dispenser":
                 addObjectInv(this.item);
-                drawTextBox(this.text.active.use);
+                dlog.Push(this.text.active.use);
                 dlog.active = true;
                 break;
                 default:
-                drawTextBox(this.text.active.use);
+                dlog.Push(this.text.active.use);
                 dlog.active = true;
                 break;
             }
@@ -92,7 +92,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
     {
         if (this.alt)
         {
-            drawTextBox(this.text.active.sp);
+            dlog.Push(this.text.active.sp);
             dlog.active = true;
             this.text.active = this.text.reg;
             game.player.room.BGArray[this.y][this.x][this.z] = this.tileID;
@@ -101,7 +101,7 @@ function RoomObject (id, x, y, z, tileID, tileIDalt, useType) // default room in
         }
         else
         {
-            drawTextBox(this.text.active.sp);
+            dlog.Push(this.text.active.sp);
             dlog.active = true;
             this.text.active = this.text.alt;
             game.player.room.BGArray[this.y][this.x][this.z] = this.tileIDalt;
@@ -141,9 +141,9 @@ function Npc (id, x, y, dir) // NPC class
         var i = game.player.room.npcs.indexOf(this);
         game.player.room.npcs.splice(i, 1);
     },
-    this.talk = function() // this version works around drawTextBox in current state
+    this.talk = function()
     {
-        writing.clear();
+        dlog.Clear();
         dlog.active = true;
         if (this.dlog[this.dlogIdx].flag !== undefined)
         {
@@ -159,16 +159,15 @@ function Npc (id, x, y, dir) // NPC class
         if (this.dlog[this.dlogIdx].options !== undefined) // if not a terminal node
         {
             dlog.id = this.id;
-            var t = ""; // for holding string concatenation
+            dlog.Push(this.dlog[this.dlogIdx].text);
             for (var i = 0; i < this.dlog[this.dlogIdx].options.length; i++) // go through reply options
             {
-                t += ("\n" + this.dlog[this.dlogIdx].options[i].reply); // bulk up t
+                dlog.Push(this.dlog[this.dlogIdx].options[i].reply);
             }
-            drawTextBox(this.dlog[this.dlogIdx].text + t); // display NPC initial text and your reply options in one string
         }
         else
         {
-            drawTextBox(this.dlog[this.dlogIdx].text);
+            dlog.Push(this.dlog[this.dlogIdx].text);
             this.dlogIdx = this.dlog[this.dlogIdx].next; // reset node
             dlog.id = null;
         }

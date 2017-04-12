@@ -142,7 +142,7 @@ myComp.text.reg = {
 };
 myComp.use = function()
 {
-    writing.clear();
+    dlog.Clear();
     dlog.active = true;
     if (this.dlog[this.dlogIdx].flag !== undefined)
     {
@@ -158,16 +158,15 @@ myComp.use = function()
     if (this.dlog[this.dlogIdx].options !== undefined) // if not a terminal node
     {
         dlog.id = this.id;
-        var t = ""; // for holding string concatenation
+        dlog.Push(this.dlog[this.dlogIdx].text);
         for (var i = 0; i < this.dlog[this.dlogIdx].options.length; i++) // go through reply options
         {
-            t += ("\n" + this.dlog[this.dlogIdx].options[i].reply); // bulk up t
+            dlog.Push(this.dlog[this.dlogIdx].options[i].reply);
         }
-        drawTextBox(this.dlog[this.dlogIdx].text + t); // display NPC initial text and your reply options in one string
     }
     else
     {
-        drawTextBox(this.dlog[this.dlogIdx].text);
+        dlog.Push(this.dlog[this.dlogIdx].text);
         this.dlogIdx = 0; // reset to start
         dlog.id = null;
     }
@@ -175,7 +174,7 @@ myComp.use = function()
 myComp.dlogIdx = 0;
 myComp.dlog = [];
 myComp.dlog[0] = {
-    text: "C:\\Users\\PlayerJuan \n ...Waiting for input...",
+    text: "C:\\Users\\PlayerJuan~Waiting for input...",
     options: [ {
             reply: "<1> Today's event reminders", next: 1
         }, {
@@ -194,7 +193,7 @@ var meetingDoor = new RoomObject("meetingDoor", 7, 1, 11, 11);
 meetingDoor.flag = {id: "checkedDoor", used: false};
 meetingDoor.text.reg =
 {
-    look: "Meeting Room Booking Sheet \n 2:00PM Oswald + Chad, Client Meeting",
+    look: "'Meeting Room Booking Sheet'~'2:00PM Oswald + Chad, Client Meeting'",
     use: "It's locked."
 };
 meetingDoor.init(mainRoom);
@@ -202,7 +201,7 @@ meetingDoor.init(mainRoom);
 var bossDoor = new RoomObject("bossDoor", 12, 1, 11, 11);
 bossDoor.text.reg =
 {
-    look: "Bruce J. Burns, \n Branch Manager",
+    look: "'Bruce J. Burns'~'Regional Branch Manager'",
     use: "It's locked."
 };
 bossDoor.init(mainRoom);
@@ -273,7 +272,7 @@ fridge.text.alt =
 };
 fridge.spUse = function()
 {
-    drawTextBox(fridge.text.active.sp);
+    dlog.Push(fridge.text.active.sp);
     dlog.active = true;
     return false;
 };
@@ -336,7 +335,7 @@ microwave.text.reg =
 };
 microwave.spUse = function()
 {
-    drawTextBox(fridge.text.active.sp);
+    dlog.Push(fridge.text.active.sp);
     dlog.active = true;
     return false;
 };
