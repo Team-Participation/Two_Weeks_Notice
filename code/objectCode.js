@@ -123,6 +123,7 @@ function Npc (id, x, y, dir) // NPC class
     this.direction = dir; // direction the npc faces
     this.time = 0; // controls render position during tile movement
     this.totalTime = 30; // total time it takes for the npc to move 1 tile
+	this.commands = [];
     this.init = function(target)
     {
         this.text.active = this.text.reg;
@@ -177,7 +178,7 @@ Npc.prototype = Object.create(RoomObject.prototype);
 
 Npc.prototype.move = new function(direction)
 {
-	if(this.time = 0)
+	if(this.time == 0)
 	{
 		time = 1;
 		switch(direction)
@@ -204,7 +205,13 @@ Npc.prototype.move = new function(direction)
 
 Npc.prototype.update = new function()
 {
-	if(this.time = 30)
+	//checks the queue for commands and executes them
+	if(this.time == 0 && this.commands.length != 0)
+	{
+		this.move(this.commands[0]);
+		this.commands.splice(0, 1);
+	}
+	else if(this.time == 30)
 	{
 		this.time = 0;
 	}
