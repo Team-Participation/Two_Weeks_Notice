@@ -127,7 +127,24 @@ function drawTextBox(text)
 	textDiv.style.visibility = "visible"; //canvas is now visable
 	writing.font = "20px Arial";
 	writing.textAlign = "center"
-	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
+	if (text.length > 90){
+		var lastChar;
+		for (var i = 90; i > 0; i--){
+			if (text.charAt(i) == " "){
+				lastChar = i;
+				i = 0;
+			}
+		}
+		//alert(lastChar);
+		var text2 = text.slice(lastChar,text.length);
+		text = text.slice(0,lastChar);
+		writing.fillText(text, textCanvas.width/2, textCanvas.height/2.5); //fills box with text from objects
+		writing.fillText(text2, textCanvas.width/2, textCanvas.height/1.3); //fills box with text from objects
+	}else{
+		writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
+	}
+	
+	
 }
 
 function examineAction(obj){
