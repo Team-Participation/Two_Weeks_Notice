@@ -1,49 +1,20 @@
 // a class to contain all the info of the current room
 function room ()
 {
-    this.height = 18;
-    this.width = 32;
-    this.tileSize = 32;
+  this.height = 18;
+  this.width = 32;
+  this.tileSize = 32;
 
-    this.walls = [];
+  this.walls = [];
 	this.collisionArray = [];
-    this.objects = [];
+  this.objects = [];
+  this.npcs = [];
 	this.BGArray = [];
 	this.tallBG = [];
 }
 
 var tileset = new Image();
 tileset.src = "assets/sprites/bg/tileset.png";
-
-function swapRoom(target) // room transition
-{
-  switch (target)
-  {
-    case "main":
-    var newRoom = mainRoom;
-    break;
-    case "break":
-    var newRoom = breakRoom;
-    break;
-  }
-  for(var i = 0; i < newRoom.spawn.length; i++) // decide where to move player coordinates based on origin room
-  {
-    if(game.player.room.id == newRoom.spawn[i].id)
-    {
-      game.player.x = newRoom.spawn[i].x;
-      game.player.y = newRoom.spawn[i].y;
-    }
-  }
-  switch (game.player.room.id) // save current state of origin room into old room object
-  {
-    case "main":
-    mainRoom = game.player.room;
-    break;
-    case "break":
-    breakRoom = game.player.room;
-  }
-  game.player.room = newRoom; // change current room to new room
-}
 
 room.prototype.drawBG = function() {
 	for(var row = 0; row < this.BGArray.length; row++)
@@ -95,4 +66,18 @@ room.prototype.collision = function(playerNextPos){
 	{
 	return false;
 	}
+}
+
+//checks if the next position of the player overlaps with any npcs and returns false if it does
+room.prototype.npcCollision = function(playerNextPos)
+{
+	for(var i = 0; i < this.npcs.length; i++)
+	{
+		//player
+		if(this.npcs[i].x == playerNextPos[0] && this.npcs[i].y + 1 == playerNextPos[1])
+		{
+			return false;
+		}
+	}
+	return true;
 }

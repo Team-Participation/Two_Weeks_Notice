@@ -27,6 +27,7 @@ var keyHandler = {
     UP2: 87,
     DOWN: 40,
     DOWN2: 83,
+    SPACE: 32,
 	EXAMINE: 49, 	//1 on Keyboard
 	INTERACT: 50, 	//2 on Keyboard
 	SPEAK: 51,    	//3 on Keyboard
@@ -66,7 +67,7 @@ var keyHandler = {
             this.keyUp[event.keyCode] = true;
         }
         delete this.keyPressed[event.keyCode];
-        if (dlog.active)
+        if (dlog.active || cutScene.active)
           this.lastKey = event.keyCode;
     },
 
@@ -75,31 +76,43 @@ var keyHandler = {
     }
 }
 
-function onLeftClick(event) {
-  if (dlog.active) // so that mouse clicks can also dismiss text windows
+function onLeftClick(event)
+{
+  if (dlog.active || cutScene.active) // so that mouse clicks can also dismiss text windows
     keyHandler.lastKey = 999;
   else
   {
   	mouseX = (Math.floor(menuEst.mouse.x / TILESIZE));
   	mouseY = (Math.floor(menuEst.mouse.y / TILESIZE));
 
-  	for (i = 0; i < game.player.room.objects.length; i++){
-  		//console.log(game.player.room.objects[i].x + " " + game.player.room.objects[i].y);
-  		if (game.player.room.objects[i].x == mouseX && game.player.room.objects[i].y == mouseY){
-  			if (game.player.examineActive){
-  				examineAction(game.player.room.objects[i]);
-  			} else if (game.player.interactActive){
-  				interactAction(game.player.room.objects[i]);
-  			} else if (game.player.speakActive){
-  				lastObj = game.player.room.objects[i];
-  				speakAction(game.player.room.objects[i]);
-  			} else{
-  				useItem(game.player.room.objects[i]);
-  			}
-  		}
+  	checkTile(game.player.room.objects, mouseX, mouseY);
+    checkTile(game.player.room.npcs, mouseX, mouseY);
+    checkTile(game.player.room.npcs, mouseX, mouseY+1);
+  }
+}
+
+function checkTile(array, x, y)
+{
+  for (i = 0; i < array.length; i++)
+  {
+    if (array[i].x == x && array[i].y == y)
+    {
+      if (game.player.examineActive){
+        examineAction(array[i]);
+      }
+      else if (game.player.interactActive){
+        interactAction(array[i]);
+      }
+      else if (game.player.speakActive){
+        lastObj = array[i];
+        speakAction(array[i]);
+      }
+      else
+      {
+        useItem(array[i]);
+      }
     }
-	}
-	//alert (mouseX + " " + mouseY);
+  }
 }
 
 writing.clear = function()
@@ -112,11 +125,9 @@ writing.clear = function()
 function drawTextBox(text)
 {
 	textDiv.style.visibility = "visible"; //canvas is now visable
-	writing.font = "15px Arial";
+	writing.font = "20px Arial";
 	writing.textAlign = "center"
 	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
-
-
 }
 
 function examineAction(obj){
@@ -125,7 +136,6 @@ function examineAction(obj){
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
 		obj.look();
 	}
-
 }
 
 function interactAction(obj){

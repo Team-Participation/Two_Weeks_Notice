@@ -24,85 +24,75 @@ function Player() {
     //this.playerRightSprite.src = "assets/sprites/playerRight.png";
 }
 
-Player.prototype.update = function() {
-  if(this.time == 30)
-  {
-    this.time = 0;
-  }else if(this.time != 0){
-    this.time++;
-  }
-
-  if (dlog.active) // overrides other inputs while active dialogue
-  {
-    if (dlog.id === null && keyHandler.lastKey !== null)
+Player.prototype.update = function()
+{
+    if(this.time == 30)
     {
-      dlog.active = false;
-      keyHandler.lastKey = null;
-      writing.clear();
+        this.time = 0;
+    }
+    else if(this.time != 0)
+    {
+        this.time++;
+    }
+
+    if (dlog.active) // overrides other inputs while active dialogue
+    {
+        if (dlog.id === null && keyHandler.lastKey !== null)
+        {
+            dlog.active = false;
+            keyHandler.lastKey = null;
+            writing.clear();
+        }
+        else
+        {
+            this.dlogAdvance();
+        }
+    }
+    else if (cutScene.active)
+    {
+        cutScene.id.run();
     }
     else
     {
-      for (var i = 0; i < this.room.objects.length; i++)
-      {
-        if (this.room.objects[i].id == dlog.id)
+        CheckFlags();
+        if (this.onDoor) // use door on appropriate directional input
         {
-          switch (keyHandler.lastKey)
-          {
-            case 49:
-            this.room.objects[i].dlogIdx = this.room.objects[i].dlog[this.room.objects[i].dlogIdx].options[0].next;
-            keyHandler.lastKey = null;
-            this.room.objects[i].talk(); // continue until terminal node
-            break;
-            case 50:
-            this.room.objects[i].dlogIdx = this.room.objects[i].dlog[this.room.objects[i].dlogIdx].options[1].next;
-            keyHandler.lastKey = null;
-            this.room.objects[i].talk(); // continue until terminal node
-            break;
-          }
+            switch (this.theDoor.dir)
+            {
+                case "up":
+                if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.swapRoom(this.theDoor.target);
+                break;
+                case "down":
+                if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.swapRoom(this.theDoor.target);
+                break;
+                case "left":
+                if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.swapRoom(this.theDoor.target);
+                break;
+                case "right":
+                if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.swapRoom(this.theDoor.target);
+                break;
+            }
         }
-      }
+        if (this.time == 0)
+            this.doorCheck();
+
+        if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
+        if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
+        if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
+        if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
+
+        if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
+        if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
+        if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
+
+        if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
+        if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
+        if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
+        if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
+        if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
+        if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
+        if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
     }
-  }
-  else
-  {
-  if (this.onDoor) // door check
-  {
-    switch (this.theDoor.dir)
-    {
-      case "up":
-        if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) swapRoom(this.theDoor.target);
-        break;
-      case "down":
-        if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) swapRoom(this.theDoor.target);
-        break;
-      case "left":
-        if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) swapRoom(this.theDoor.target);
-        break;
-      case "right":
-        if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) swapRoom(this.theDoor.target);
-        break;
-    }
-  }
-
-    if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
-    if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
-    if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
-    if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
-
-    if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
-    if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
-    if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
-
-    if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
-    if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
-    if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
-    if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
-    if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
-    if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
-    if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
-  }
-  if (this.time == 0)
-    this.doorCheck();
 };
 
 Player.prototype.doorCheck = function()
@@ -122,23 +112,21 @@ Player.prototype.doorCheck = function()
   }
 };
 
-
 Player.prototype.moveRight = function() {
     if(this.time == 0){
         this.direction = "right";
-        if(this.room.collision([this.x + 1, this.y]))
+        if(this.room.collision([this.x + 1, this.y]) && this.room.npcCollision([this.x + 1, this.y]))
         {
             this.x ++;
             this.time ++;
         }
     }
-
 };
 
 Player.prototype.moveLeft = function() {
     if(this.time == 0){
         this.direction = "left";
-        if(this.room.collision([this.x - 1, this.y]))
+        if(this.room.collision([this.x - 1, this.y]) && this.room.npcCollision([this.x - 1, this.y]))
         {
             this.x --;
             this.time ++;
@@ -149,7 +137,7 @@ Player.prototype.moveLeft = function() {
 Player.prototype.moveDown = function() {
     if(this.time == 0){
         this.direction = "down";
-        if(this.room.collision([this.x, this.y + 1]))
+        if(this.room.collision([this.x, this.y + 1]) && this.room.npcCollision([this.x, this.y + 1]))
         {
             this.y ++;
             this.time ++;
@@ -160,7 +148,7 @@ Player.prototype.moveDown = function() {
 Player.prototype.moveUp = function() {
     if(this.time == 0){
         this.direction = "up";
-        if(this.room.collision([this.x, this.y - 1]))
+        if(this.room.collision([this.x, this.y - 1]) && this.room.npcCollision([this.x, this.y - 1]))
         {
             this.y --;
             this.time ++;
@@ -229,97 +217,94 @@ Player.prototype.onObject = function() {
 
 drawNPC = function(context, npc)
 {
-	if(npc.room == game.player.room.id)
-	{
 		if(npc.direction == "up")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 128, 32, 64, npc.x * TILESIZE, ((npc.y-1) - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, ((npc.y-1) - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, ((npc.y-1) - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 				}
 			}
 			else
 			{
-				context.drawImage(npc.img, 0, 128, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+				context.drawImage(npc.img, 0, 128, 32, 64, npc.x * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 			}
 		}
 		else if(npc.direction == "down")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 192, 32, 64, npc.x * TILESIZE, (npc.y + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 192, 32, 64, npc.x * TILESIZE, ((npc.y-1) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, (npc.y + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, ((npc.y-1) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, (npc.y + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, ((npc.y-1) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 				}
 			}
 			else
 			{
-				context.drawImage(npc.img, 0, 192, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+				context.drawImage(npc.img, 0, 192, 32, 64, npc.x * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 			}
 		}
 		else if(npc.direction == "right")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 				}
 			}
 			else
 			{
-				context.drawImage(npc.img, 0, 0, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+				context.drawImage(npc.img, 0, 0, 32, 64, npc.x * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 			}
 		}
 		else if(npc.direction == "left")
 		{
-			if(npc.time != 0 && npc.moves)
+			if(npc.time != 0)
 			{
 				switch(Math.floor(npc.time / 15))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, npc.y * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 				}
 			}
 			else
 			{
-				context.drawImage(npc.img, 0, 64, 32, 64, npc.x * TILESIZE, npc.y * TILESIZE, 32, 64);
+				context.drawImage(npc.img, 0, 64, 32, 64, npc.x * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 			}
 		}
-	}
 }
 
 Player.prototype.draw = function(context)
@@ -378,10 +363,10 @@ Player.prototype.draw = function(context)
 					context.drawImage(this.playerSpriteSheet, 32, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 1:
-					context.drawImage(this.playerSpriteSheet, 64, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 96, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 			}
 		}
@@ -400,10 +385,10 @@ Player.prototype.draw = function(context)
 					context.drawImage(this.playerSpriteSheet, 32, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 1:
-					context.drawImage(this.playerSpriteSheet, 64, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 96, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 			}
 		}
@@ -413,3 +398,45 @@ Player.prototype.draw = function(context)
 		}
     }
 }
+
+Player.prototype.swapRoom = function (target, x, y, dir) // room transition
+{
+  switch (target)
+  {
+    case "main":
+    var newRoom = mainRoom;
+    break;
+    case "break":
+    var newRoom = breakRoom;
+    break;
+  }
+  if (dir !== undefined)
+  {
+      this.direction = dir;
+  }
+  if (x !== undefined && y !== undefined)
+  {
+      this.x = x;
+      this.y = y;
+  }
+  else
+  {
+    for(var i = 0; i < newRoom.spawn.length; i++) // decide where to move player coordinates based on origin room
+    {
+        if(this.room.id == newRoom.spawn[i].id)
+        {
+            this.x = newRoom.spawn[i].x;
+            this.y = newRoom.spawn[i].y;
+        }
+    }
+}
+  switch (this.room.id) // save current state of origin room into old room object
+  {
+    case "main":
+    mainRoom = this.room;
+    break;
+    case "break":
+    breakRoom = this.room;
+  }
+  this.room = newRoom; // change current room to new room
+};
