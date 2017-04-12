@@ -24,111 +24,75 @@ function Player() {
     //this.playerRightSprite.src = "assets/sprites/playerRight.png";
 }
 
-Player.prototype.update = function() {
-  if(this.time == 30)
-  {
-    this.time = 0;
-  }else if(this.time != 0){
-    this.time++;
-  }
-
-  if (dlog.active) // overrides other inputs while active dialogue
-  {
-    if (dlog.id === null && keyHandler.lastKey !== null)
+Player.prototype.update = function()
+{
+    if(this.time == 30)
     {
-      dlog.active = false;
-      keyHandler.lastKey = null;
-      writing.clear();
+        this.time = 0;
+    }
+    else if(this.time != 0)
+    {
+        this.time++;
+    }
+
+    if (dlog.active) // overrides other inputs while active dialogue
+    {
+        if (dlog.id === null && keyHandler.lastKey !== null)
+        {
+            dlog.active = false;
+            keyHandler.lastKey = null;
+            writing.clear();
+        }
+        else
+        {
+            this.dlogAdvance();
+        }
+    }
+    else if (cutScene.active)
+    {
+        cutScene.id.run();
     }
     else
     {
-      for (i = 0; i < this.room.objects.length; i++)
-      {
-        if (this.room.objects[i].id == dlog.id)
+        CheckFlags();
+        if (this.onDoor) // use door on appropriate directional input
         {
-          switch (keyHandler.lastKey)
-          {
-            case 49:
-            this.room.objects[i].dlogIdx = this.room.objects[i].dlog[this.room.objects[i].dlogIdx].options[0].next;
-            keyHandler.lastKey = null;
-            this.room.objects[i].use(); // continue until terminal node
-            break;
-            case 50:
-            this.room.objects[i].dlogIdx = this.room.objects[i].dlog[this.room.objects[i].dlogIdx].options[1].next;
-            keyHandler.lastKey = null;
-            this.room.objects[i].use(); // continue until terminal node
-            break;
-          }
+            switch (this.theDoor.dir)
+            {
+                case "up":
+                if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.swapRoom(this.theDoor.target);
+                break;
+                case "down":
+                if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.swapRoom(this.theDoor.target);
+                break;
+                case "left":
+                if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.swapRoom(this.theDoor.target);
+                break;
+                case "right":
+                if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.swapRoom(this.theDoor.target);
+                break;
+            }
         }
-      }
-      for (i = 0; i < this.room.npcs.length; i++)
-      {
-        if (this.room.npcs[i].id == dlog.id)
-        {
-          switch (keyHandler.lastKey)
-          {
-            case 49:
-            this.room.npcs[i].dlogIdx = this.room.npcs[i].dlog[this.room.npcs[i].dlogIdx].options[0].next;
-            keyHandler.lastKey = null;
-            this.room.npcs[i].talk(); // continue until terminal node
-            break;
-            case 50:
-            this.room.npcs[i].dlogIdx = this.room.npcs[i].dlog[this.room.npcs[i].dlogIdx].options[1].next;
-            keyHandler.lastKey = null;
-            this.room.npcs[i].talk(); // continue until terminal node
-            break;
-          }
-        }
-      }
-    }
-  }
-  else
-  {
-  if (this.onDoor) // door check
-  {
-    switch (this.theDoor.dir)
-    {
-      case "up":
-        if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) swapRoom(this.theDoor.target);
-        break;
-      case "down":
-        if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) swapRoom(this.theDoor.target);
-        break;
-      case "left":
-        if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) swapRoom(this.theDoor.target);
-        break;
-      case "right":
-        if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) swapRoom(this.theDoor.target);
-        break;
-    }
-  }
+        if (this.time == 0)
+            this.doorCheck();
 
-    if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
-    if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
-    if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
-    if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
+        if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
+        if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
+        if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
+        if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
 
-    if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
-    if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
-    if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
+        if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
+        if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
+        if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
 
-    if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
-    if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
-    if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
-    if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
-    if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
-    if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
-    if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
-    /*
-    if (keyHandler.isDown(keyHandler.SPACE)
-    {
-      checkTile(game.player.room.objects, this.nextX, this.nextY);
-      checkTile(game.player.room.npcs, this.nextX, this.nextY);
+        if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
+        if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
+        if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
+        if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
+        if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
+        if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
+        if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
     }
-    */
-  }
-  if (this.time == 0)
-    this.doorCheck();
 };
 
 Player.prototype.doorCheck = function()
@@ -434,3 +398,45 @@ Player.prototype.draw = function(context)
 		}
     }
 }
+
+Player.prototype.swapRoom = function (target, x, y, dir) // room transition
+{
+  switch (target)
+  {
+    case "main":
+    var newRoom = mainRoom;
+    break;
+    case "break":
+    var newRoom = breakRoom;
+    break;
+  }
+  if (dir !== undefined)
+  {
+      this.direction = dir;
+  }
+  if (x !== undefined && y !== undefined)
+  {
+      this.x = x;
+      this.y = y;
+  }
+  else
+  {
+    for(var i = 0; i < newRoom.spawn.length; i++) // decide where to move player coordinates based on origin room
+    {
+        if(this.room.id == newRoom.spawn[i].id)
+        {
+            this.x = newRoom.spawn[i].x;
+            this.y = newRoom.spawn[i].y;
+        }
+    }
+}
+  switch (this.room.id) // save current state of origin room into old room object
+  {
+    case "main":
+    mainRoom = this.room;
+    break;
+    case "break":
+    breakRoom = this.room;
+  }
+  this.room = newRoom; // change current room to new room
+};

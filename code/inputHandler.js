@@ -67,7 +67,7 @@ var keyHandler = {
             this.keyUp[event.keyCode] = true;
         }
         delete this.keyPressed[event.keyCode];
-        if (dlog.active)
+        if (dlog.active || cutScene.active)
           this.lastKey = event.keyCode;
     },
 
@@ -78,7 +78,7 @@ var keyHandler = {
 
 function onLeftClick(event)
 {
-  if (dlog.active) // so that mouse clicks can also dismiss text windows
+  if (dlog.active || cutScene.active) // so that mouse clicks can also dismiss text windows
     keyHandler.lastKey = 999;
   else
   {
@@ -128,8 +128,6 @@ function drawTextBox(text)
 	writing.font = "15px Arial";
 	writing.textAlign = "center"
 	writing.fillText(text, textCanvas.width/2, textCanvas.height/2); //fills box with text from objects
-
-
 }
 
 function examineAction(obj){
@@ -138,7 +136,6 @@ function examineAction(obj){
 		writing.clearRect(0,0,textCanvas.width, textCanvas.height); //clears the text in the canvas
 		obj.look();
 	}
-
 }
 
 function interactAction(obj){
