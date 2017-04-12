@@ -165,23 +165,23 @@ game.draw = function() {
     if(states.currentState == "game"){
         game.context.clearRect(0, 0, game.width, game.height);
 
-		game.player.room.drawBG();
+        game.player.room.drawBG();
 
-    for (i = 0; i < game.player.room.npcs.length; i++)
-    {
-      if(game.player.room.npcs[i].y < game.player.y)
-		    drawNPC(game.context, game.player.room.npcs[i]);
-    }
+        for (i = 0; i < game.player.room.npcs.length; i++)
+        {
+            if(game.player.room.npcs[i].y < game.player.y)
+            drawNPC(game.context, game.player.room.npcs[i]);
+        }
 
-    game.player.draw(game.context);
+        game.player.draw(game.context);
 
-    for (i = 0; i < game.player.room.npcs.length; i++)
-    {
-      if(game.player.room.npcs[i].y >= game.player.y)
-        drawNPC(game.context, game.player.room.npcs[i]);
-    }
+        for (i = 0; i < game.player.room.npcs.length; i++)
+        {
+            if(game.player.room.npcs[i].y >= game.player.y)
+            drawNPC(game.context, game.player.room.npcs[i]);
+        }
 
-		game.player.room.drawTallBG();
+        game.player.room.drawTallBG();
         dlog.Draw();
     }else if(states.currentState == "menu"){
 
@@ -189,14 +189,18 @@ game.draw = function() {
             game.ui.drawMenu();
         }
     }else if(states.currentState == "pause"){
-			game.ui.drawPauseMenu();
-		}
+        game.ui.drawPauseMenu();
+    }
 };
 
 game.update = function() {
 	game.ui.checkState();
     if(states.currentState == "game"){
         game.player.update();
+		for(var i = 0; i < game.player.room.npcs.length; i++)
+		{
+			game.player.room.npcs[i].Update();
+		}
     }else if(states.currentState == "menu"){
         game.ui.updateMenu();
     }else if(states.currentState == "pause"){

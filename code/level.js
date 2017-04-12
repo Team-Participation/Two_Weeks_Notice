@@ -67,3 +67,17 @@ room.prototype.collision = function(playerNextPos){
 	return false;
 	}
 }
+
+//checks if the next position of the player overlaps with any npcs and returns false if it does
+room.prototype.npcCollision = function(playerNextPos)
+{
+	for(var i = 0; i < this.npcs.length; i++)
+	{
+		//player
+		if(this.npcs[i].x == playerNextPos[0] && this.npcs[i].y + 1 == playerNextPos[1])
+		{
+			return false;
+		}
+	}
+	return true;
+}

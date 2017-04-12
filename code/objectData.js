@@ -357,7 +357,7 @@ cupboard.text.reg =
 };
 cupboard.init(breakRoom);
 
-var pickles = new RoomObject("pickles", 2, 5, 2, 150, 150);
+var cheese = new RoomObject("cheese", 2, 5, 2, 150, 150);
 var fruitsalad = new RoomObject("fruitsalad", 3, 5, 2, 151, 151);
 var pastrami = new RoomObject("pastrami", 4, 5, 2, 152, 152);
 var liver = new RoomObject("liver", 7, 5, 2, 153, 153);
