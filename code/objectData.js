@@ -1,5 +1,7 @@
 var ceo = new Npc("CEO", 5, 5, "right");
 
+var delivery = new Npc("Delivery", 5, 5, "right");
+
 var boss = new Npc("Bruce", 12, 2, "down");
 
 var reception = new Npc("Bridget", 7, 6, "left");
@@ -16,6 +18,7 @@ reception.dlog[4] = {text: "BRIDGET: 'Ugh, every year Bruce makes me order the c
 reception.dlog[5] = {text: "BRIDGET: '...yes and one pastrami party platter...'", next: 6};
 reception.dlog[6] = {text: "(She's on the phone)", next: 4, flag: {id: "talkReception", used: false}};
 reception.dlog[7] = {text: "BRIDGET: 'Don't you have work to do?'", next: 7};
+reception.dlog[8] = {text: "BRIDGET: 'Not now!'", next: 8};
 
 var moron = new Npc("Chad", 16, 6, "left");
 moron.text.reg.look = "Chad, the boss's dimwitted son. A walking example of why humans stopped letting their leaders be chosen by bloodline.";
@@ -48,8 +51,17 @@ weeb.dlog[2] = {text: "OSWALD: 'Thanks.'", next: 3, flag: {id: "talkWeeb", used:
 weeb.dlog[3] = {text: "OSWALD: '...'", next: 4};
 weeb.dlog[4] = {text: "(He's ignoring you.)", next: 3};
 
-var partner = new Npc("Greg", 16, 11, "left");
+var partner = new Npc("Greg", 16, 11, "right");
 partner.text.reg.look = "My sales partner Greg. He's strictly business. I wonder what he thinks about having to work with me.";
+partner.dlog[0] = {
+    text: "GREG: 'Hey, you got any leads? Come on, you gotta help old Gil out! They're gonna foreclose on me!",
+    options: [ {
+        reply: "<1> 'Gil? I thought your name was Greg.'", next: 1
+    }, {
+        reply: "<2> 'Uh, I have to go over there now.'", next: 1
+    } ]
+};
+partner.dlog[1] = {text: "GREG: '...'", next: 0};
 
 var waifu = new Npc("Emily", 7, 12, "down");
 waifu.text.reg.look = "Emily works in accounting. She's one of the few people here I can call a friend.";
@@ -115,12 +127,55 @@ waifu.dlog[9] = {text: "EMILY: 'I know right?!' (* ﾟ□ ﾟ )", next: 4, flag:
 waifu.dlog[10] = {text: "EMILY: (*＾▽＾)／", next: 4, flag: {id: "talkWaifu2", used: false}};
 
 var techie = new Npc("Boris", 4, 12, "down");
+techie.text.reg.use = "Are you out of your mind?";
 techie.text.reg.look = "Boris is in charge of IT around here, but he spends most of his time at his desk yelling 'sookah bullyat'. Frankly he scares me.";
 techie.dlog[0] = {text: "BORIS: 'Hallo my friend. I am DLC!'", next: 0};
 
 var hrlady = new Npc("Sue", 1, 12, "down");
 hrlady.text.reg.look = "Sue 'Mrs. Robinson' Robinson. Head of human resources. How ironic.";
 hrlady.dlog[0] = {text: "SUE: 'Hi, I'm a DLC!'", next: 0};
+
+var doggy = new Npc("Doggy", 7, 7, "right");
+doggy.use = function()
+{
+    this.talk();
+};
+doggy.text.reg.look = "Free at last!";
+doggy.dlog[0] = {text: "He suddenly looks full of energy.", next: 1};
+doggy.dlog[1] = {
+    text: "DOGGY: 'Woof!'",
+    options: [ {
+        reply: "<1> Pet him.", next: 2
+    }, {
+        reply: "<2> 'Hi Doggy!'", next: 3
+    } ]
+};
+doggy.dlog[2] = {text: "DOGGY: 'Woof!'~He starts running around the office.", next: 6, flag: {id: "fedDog", used: false}};
+doggy.dlog[3] = {
+    text: "DOGGY: 'Oh hi Johnny I didn't know it was you.'",
+    options: [ {
+        reply: "<1> 'That's me!'", next: 4
+    }, {
+        reply: "<2> 'Huh?'", next: 2
+    } ]
+};
+doggy.dlog[4] = {
+    text: "DOGGY: 'That'll be eighteen dol-'",
+    options: [ {
+        reply: "<1> 'Here you go! Keep the change!'", next: 5
+    }, {
+        reply: "<2> 'Huh?'", next: 2
+    } ]
+};
+doggy.dlog[5] = {
+    text: "DOGGY: 'You're my favourite customer!'",
+    options: [ {
+        reply: "<1> 'Hi Doggy!'", next: 3
+    }, {
+        reply: "<2> 'Huh?'", next: 2
+    } ]
+};
+doggy.dlog[6] = {text: "DOGGY: 'Woof!'", next: 6};
 
 reception.init(mainRoom);
 weeb.init(mainRoom);
@@ -174,7 +229,7 @@ myComp.use = function()
 myComp.dlogIdx = 0;
 myComp.dlog = [];
 myComp.dlog[0] = {
-    text: "C:\\Users\\PlayerJuan~Waiting for input...",
+    text: "C:\\USERS\\PLAYERJUAN\\~_waiting for input...",
     options: [ {
             reply: "<1> Today's event reminders", next: 1
         }, {
@@ -189,8 +244,34 @@ myComp.dlog[2] = {text: "Six new forwards from Bruce. Wonderful."};
 myComp.dlog[3] = {text: "Look for clues on how to sabotage sales."};
 myComp.init(mainRoom);
 
+var dogCage = new RoomObject("dogCage", 8, 6, 1, 127, 128);
+dogCage.usedWith = "wieners";
+dogCage.text.reg = {
+    look: "Poor guy. At least it's better than being in a handbag.",
+    use: "You pet the dog. He looks hungry.~DOGGY: '...'",
+    talk: "DOGGY: 'Arf?'",
+    sp: "BRIDGET: 'Hey! What are you doing?'"
+};
+dogCage.spUse = function()
+{
+    if (!cutScene.delivery.flag)
+    {
+        dlog.Push(dogCage.text.active.sp);
+        dlog.active = true;
+    }
+    else
+    {
+        game.player.room.BGArray[this.y][this.x][this.z] = this.tileIDalt;
+        this.text.active = this.text.alt;
+        this.alt = true;
+        doggy.init(mainRoom);
+        doggy.talk();
+        return true;
+    }
+};
+dogCage.init(mainRoom);
+
 var meetingDoor = new RoomObject("meetingDoor", 7, 1, 11, 11);
-meetingDoor.flag = {id: "checkedDoor", used: false};
 meetingDoor.text.reg =
 {
     look: "'Meeting Room Booking Sheet'~'2:00PM Oswald + Chad, Client Meeting'",
@@ -358,11 +439,175 @@ cupboard.text.reg =
 cupboard.init(breakRoom);
 
 var cheese = new RoomObject("cheese", 2, 5, 2, 150, 150);
+cheese.text.reg = {
+    look: "Some assorted cheeses.",
+    use: "BRIDGET: 'Hey! Get away from that!'",
+    sp: "BRIDGET: 'Hey! Get away from that!'"
+};
+cheese.text.alt = {
+    look: "Some assorted cheeses.",
+    use: "Where are your manners?",
+    sp: "Uh, no. I plan on having some of that."
+};
+cheese.spUse = function()
+{
+    dlog.Push(this.text.active.sp);
+    dlog.active = true;
+};
+
 var fruitsalad = new RoomObject("fruitsalad", 3, 5, 2, 151, 151);
+fruitsalad.usedWith = "jarMayo";
+fruitsalad.text.reg = {
+    look: "An assorted fruit platter.",
+    use: "BRIDGET: 'Hey! Get away from that!'",
+    sp: "BRIDGET: 'Hey! Get away from that!'"
+};
+fruitsalad.text.alt = {
+    look: "An assorted fruit platter.",
+    use: "Where are your manners?",
+    sp: "Uh, no. I plan on having some of that."
+};
+fruitsalad.spUse = function()
+{
+    dlog.Push(this.text.active.sp);
+    dlog.active = true;
+};
+
 var pastrami = new RoomObject("pastrami", 4, 5, 2, 152, 152);
-var liver = new RoomObject("liver", 7, 5, 2, 153, 153);
+pastrami.usedWith = "jarMayo";
+pastrami.text.reg = {
+    look: "Finely sliced pastrami on rye.",
+    use: "BRIDGET: 'Hey! Get away from that!'",
+    sp: "BRIDGET: 'Hey! Get away from that!'"
+};
+pastrami.text.alt = {
+    look: "Finely sliced pastrami on rye.",
+    use: "Where are your manners?",
+    sp: "Uh, no. I plan on having some of that."
+};
+pastrami.spUse = function()
+{
+    dlog.Push(this.text.active.sp);
+    dlog.active = true;
+};
+
 var pie = new RoomObject("pie", 8, 5, 2, 154, 154);
+pie.usedWith = "jarMayo";
+pie.text.reg = {
+    look: "A freshly baked apple pie.",
+    use: "BRIDGET: 'Hey! Get away from that!'",
+    sp: "BRIDGET: 'Hey! Get away from that!'"
+};
+pie.text.alt = {
+    look: "A freshly baked apple pie.",
+    use: "Where are your manners?",
+    sp: "Uh, no. I plan on having some of that."
+};
+pie.spUse = function()
+{
+    dlog.Push(this.text.active.sp);
+    dlog.active = true;
+};
+
 var fish = new RoomObject("fish", 9, 5, 2, 155, 155);
+fish.usedWith = "jarMayo";
+fish.text.reg = {
+    look: "Gefilte fish. Oy vey!",
+    use: "BRIDGET: 'Hey! Get away from that!'",
+    sp: "BRIDGET: 'Hey! Get away from that!'"
+};
+fish.text.alt = {
+    look: "Gefilte fish. Oy vey!",
+    use: "Where are your manners?",
+    sp: "Uh, no. I plan on having some of that."
+};
+fish.spUse = function()
+{
+    dlog.Push(this.text.active.sp);
+    dlog.active = true;
+};
+
+var liver = new RoomObject("liver", 7, 5, 2, 153, 153);
+liver.usedWith = "jarMayo";
+liver.useIdx = 0;
+liver.text.reg = {
+    look: "Chopper liver. Yuck!",
+    use: "BRIDGET: 'Hey! Get away from that!'",
+    sp: "BRIDGET: 'Hey! Get away from that!'"
+};
+liver.text.alt = {
+    look: "Chopper liver. Yuck!",
+    use: "Oh hell no.",
+    sp: "You mix some mayo in with the chopped liver."
+};
+liver.spUse = function()
+{
+    if (!cutScene.dogchase.flag)
+    {
+        dlog.Push(this.text.active.sp);
+        dlog.active = true;
+    }
+    else
+    {
+        switch (this.useIdx)
+        {
+            case 0:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.active = true;
+            flag.push({id:"usedMayo", used: false});
+            break;
+            case 1:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.active = true;
+            break;
+            case 2:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.Push("...~'That looks like enough.'");
+            dlog.active = true;
+            break;
+            case 3:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.Push("...~'Really, I think that's enough.'");
+            dlog.active = true;
+            break;
+            case 4:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.Push("...~'I don't want to make him too sick.'");
+            dlog.active = true;
+            break;
+            case 5:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.Push("...~'This is a level of sociopathy I'm uncomfortable with.'");
+            dlog.active = true;
+            break;
+            case 6:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.Push("'...'");
+            dlog.active = true;
+            break;
+            case 7:
+            this.useIdx++;
+            dlog.Push(this.text.active.sp);
+            dlog.Push("'...'");
+            dlog.active = true;
+            break;
+            case 8:
+            dlog.Push(this.text.active.sp);
+            dlog.Push("'...'~The jar is now empty.");
+            dlog.active = true;
+            flag.push({id:"emptiedMayo", used: false});
+            return true;
+            break;
+        }
+    }
+};
 
 /*  WIP
 

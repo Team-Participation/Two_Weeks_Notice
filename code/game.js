@@ -75,7 +75,7 @@ var dlog =
     active: false,
     id: null,
     buffer: [],
-    maxChar: 70,
+    maxChar: 72,
     margin: 20,
     padding: 40,
     line: 30,

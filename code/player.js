@@ -399,6 +399,13 @@ Player.prototype.draw = function(context)
     }
 }
 
+Player.prototype.setPos = function (x, y, dir)
+{
+    this.x = x;
+    this.y = y;
+    this.direction = dir;
+}
+
 Player.prototype.swapRoom = function (target, x, y, dir) // room transition
 {
   switch (target)
@@ -439,4 +446,5 @@ Player.prototype.swapRoom = function (target, x, y, dir) // room transition
     breakRoom = this.room;
   }
   this.room = newRoom; // change current room to new room
+  cutScene.OnRoomSwitch();
 };

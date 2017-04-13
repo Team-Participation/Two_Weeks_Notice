@@ -124,8 +124,11 @@ function Npc (id, x, y, dir) // NPC class
     this.commands = [];
     this.time = 0; // controls render position during tile movement
     this.totalTime = 30; // total time it takes for the npc to move 1 tile
-    this.init = function(target)
+    this.init = function(target, x, y, dir)
     {
+        if (x !== undefined) this.x = x;
+        if (y !== undefined) this.y = y;
+        if (dir !== undefined) this.direction = dir;
         this.text.active = this.text.reg;
         target.npcs.push(this);
     };
@@ -140,6 +143,12 @@ function Npc (id, x, y, dir) // NPC class
         target.npcs.push(this);
         var i = game.player.room.npcs.indexOf(this);
         game.player.room.npcs.splice(i, 1);
+    },
+    this.setPos = function(x, y, dir)
+    {
+        this.x = x;
+        this.y = y;
+        this.direction = dir;
     },
     this.talk = function()
     {
@@ -193,7 +202,6 @@ function Npc (id, x, y, dir) // NPC class
 	{
 		if(this.time == 0)
 		{
-			time = 1;
 			switch(direction)
 			{
 				case "left":
