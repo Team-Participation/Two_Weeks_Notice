@@ -34,64 +34,84 @@ Player.prototype.update = function()
     {
         this.time++;
     }
-
-    if (dlog.active) // overrides other inputs while active dialogue
+    if (!fadeActive)
     {
-        if (dlog.id === null && keyHandler.lastKey !== null)
+        if (dlog.active) // overrides other inputs while active dialogue
         {
-            dlog.active = false;
-            keyHandler.lastKey = null;
-            dlog.Clear();
+            if (dlog.id === null && keyHandler.lastKey !== null)
+            {
+                dlog.active = false;
+                keyHandler.lastKey = null;
+                dlog.Clear();
+            }
+            else
+            {
+                this.dlogAdvance();
+            }
+        }
+        else if (cutScene.active)
+        {
+            cutScene.id.run();
         }
         else
         {
-            this.dlogAdvance();
-        }
-    }
-    else if (cutScene.active)
-    {
-        cutScene.id.run();
-    }
-    else
-    {
-        CheckFlags();
-        if (this.onDoor) // use door on appropriate directional input
-        {
-            switch (this.theDoor.dir)
+            CheckFlags();
+            if (this.onDoor) // use door on appropriate directional input
             {
-                case "up":
-                if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.swapRoom(this.theDoor.target);
-                break;
-                case "down":
-                if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.swapRoom(this.theDoor.target);
-                break;
-                case "left":
-                if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.swapRoom(this.theDoor.target);
-                break;
-                case "right":
-                if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.swapRoom(this.theDoor.target);
-                break;
+                switch (this.theDoor.dir)
+                {
+                    case "up":
+                    if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2))
+                    {
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        fadeActive = true;
+                    }
+                    break;
+                    case "down":
+                    if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2))
+                    {
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        fadeActive = true;
+                    }
+                    break;
+                    case "left":
+                    if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2))
+                    {
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        fadeActive = true;
+                    }
+                    break;
+                    case "right":
+                    if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2))
+                    {
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        fadeActive = true;
+                    }
+                    break;
+                }
+            }
+            if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
+            if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
+            if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
+            if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
+
+            if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
+            if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
+            if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
+
+            if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
+            if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
+            if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
+            if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
+            if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
+            if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
+            if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
+
+            if (this.time == 0)
+            {
+                this.doorCheck();
             }
         }
-        if (this.time == 0)
-            this.doorCheck();
-
-        if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2)) this.moveRight();
-        if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2)) this.moveUp();
-        if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2)) this.moveLeft();
-        if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2)) this.moveDown();
-
-        if (keyHandler.isDown(keyHandler.EXAMINE)) this.examine();
-        if (keyHandler.isDown(keyHandler.INTERACT)) this.interact();
-        if (keyHandler.isDown(keyHandler.SPEAK)) this.speak();
-
-        if (keyHandler.isDown(keyHandler.ITEM1)) Inventory(0);
-        if (keyHandler.isDown(keyHandler.ITEM2)) Inventory(1);
-        if (keyHandler.isDown(keyHandler.ITEM3)) Inventory(2);
-        if (keyHandler.isDown(keyHandler.ITEM4)) Inventory(3);
-        if (keyHandler.isDown(keyHandler.ITEM5)) Inventory(4);
-        if (keyHandler.isDown(keyHandler.ITEM6)) Inventory(5);
-        if (keyHandler.isDown(keyHandler.ITEM7)) Inventory(6);
     }
 };
 
@@ -119,6 +139,7 @@ Player.prototype.moveRight = function() {
         {
             this.x ++;
             this.time ++;
+            this.onDoor = false;
         }
     }
 };
@@ -130,6 +151,7 @@ Player.prototype.moveLeft = function() {
         {
             this.x --;
             this.time ++;
+            this.onDoor = false;
         }
     }
 };
@@ -141,6 +163,7 @@ Player.prototype.moveDown = function() {
         {
             this.y ++;
             this.time ++;
+            this.onDoor = false;
         }
     }
 };
@@ -152,6 +175,7 @@ Player.prototype.moveUp = function() {
         {
             this.y --;
             this.time ++;
+            this.onDoor = false;
         }
     }
 };
@@ -408,6 +432,7 @@ Player.prototype.setPos = function (x, y, dir)
 
 Player.prototype.swapRoom = function (target, x, y, dir) // room transition
 {
+    fadeActive = true;
   switch (target)
   {
     case "main":

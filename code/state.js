@@ -123,12 +123,15 @@ function updateMouse(event) {
 }
 
 function onMouseClick(event) {
-    for (var i = 0; i < menuEst.buttonsData.length; i++)
+    if (states.currentState != "game")
     {
-        if (menuEst.buttonsData[i].over == true)
+        for (var i = 0; i < menuEst.buttonsData.length; i++)
         {
-            menuEst.buttonsData[i].click();
-            break;
+            if (menuEst.buttonsData[i].over == true)
+            {
+                menuEst.buttonsData[i].click();
+                break;
+            }
         }
     }
 }
@@ -168,9 +171,13 @@ function enterMenu() {
 };
 
 function startGame() {
+    debug();
     keyHandler.deleteIsKeyUp(keyHandler.ESC);
     states.currentState = "game";
 	invDiv.style.visibility = "visible";
+    document.getElementById("gameScreen").style.opacity = opacity;
+    document.getElementById("gameScreen").style.filter = 'alpha(opacity=' + opacity * 100 + ")";
+    fadeActive = true;
 };
 
 function enterGame() {

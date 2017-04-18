@@ -46,7 +46,7 @@ game.start = function() {
     game.player = new Player();
 
     game.ui.drawInitial();
-    game.player.room = mainRoom;
+    game.player.room = breakRoom;
 
     game.onEachFrame(game.run);
 };
@@ -190,6 +190,10 @@ game.draw = function() {
         }
     }else if(states.currentState == "pause"){
         game.ui.drawPauseMenu();
+    }
+    if (fadeActive)
+    {
+        fade();
     }
 };
 

@@ -1,5 +1,29 @@
 var flag = []; // event scripting flags
 
+var fadeActive = false;
+var fadeDir = 1;
+var opacity = 0;
+
+function fade()
+{
+    opacity += fadeDir * 0.02;
+    if (opacity <= 0)
+    {
+        opacity = 0;
+        fadeActive = false;
+        fadeDir = 1;
+    }
+    if (opacity >= 1)
+    {
+        opacity = 1;
+        fadeActive = false;
+        fadeDir = -1;
+    }
+    document.getElementById("gameScreen").style.opacity = opacity;
+    document.getElementById("gameScreen").style.filter = 'alpha(opacity=' + opacity * 100 + ")";
+    console.log(opacity);
+}
+
 function CheckFlags()
 {
     for (i = 0; i < flag.length; i++)

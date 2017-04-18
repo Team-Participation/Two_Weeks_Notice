@@ -5,7 +5,7 @@ mainRoom.width = 21;
 mainRoom.height = 16;
 mainRoom.spawn = [
 	{id: "start", x: 0, y: 3},
-	{id: "break", x: 21, y: 12}
+	{id: "break", x: 20, y: 12}
 ];
 mainRoom.doors = [
 	{target: "break", x: 20, y: 12, dir: "right"}

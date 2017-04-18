@@ -4,7 +4,7 @@ breakRoom.id = "break";
 breakRoom.width = 12;
 breakRoom.height = 9;
 breakRoom.spawn = [
-  {id: "main", x: -1, y: 5}
+  {id: "main", x: 0, y: 5}
 ];
 breakRoom.doors = [
   {target: "main", x: 0, y: 5, dir: "left"}
