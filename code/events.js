@@ -4,6 +4,11 @@ var fadeActive = false;
 var fadeDir = 1;
 var opacity = 0;
 
+function setFade()
+{
+    fadeActive = true;
+}
+
 function fade()
 {
     opacity += fadeDir * 0.02;
@@ -21,7 +26,6 @@ function fade()
     }
     document.getElementById("gameScreen").style.opacity = opacity;
     document.getElementById("gameScreen").style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-    console.log(opacity);
 }
 
 function CheckFlags()
@@ -101,6 +105,7 @@ var cutScene =
 {
     id: null,
     active: false,
+    wait: false,
     Scene: function() // scene class
     {
         this.flag = false;
@@ -127,14 +132,18 @@ var cutScene =
                 cutScene.active = false;
                 cutScene.id = null;
             }
-            if (keyHandler.lastKey !== null)
+            if (!cutScene.wait)
             {
-                if (this.dlog[this.dlogIdx].action !== undefined)
+                if (keyHandler.lastKey !== null)
                 {
-                    this[this.dlog[this.dlogIdx].action]();
+                    if (this.dlog[this.dlogIdx].action !== undefined)
+                    {
+                        this[this.dlog[this.dlogIdx].action]();
+                        this.dlog[this.dlogIdx].action = undefined;
+                    }
+                    this.dlogIdx = this.dlog[this.dlogIdx].next;
+                    keyHandler.lastKey = null;
                 }
-                this.dlogIdx = this.dlog[this.dlogIdx].next;
-                keyHandler.lastKey = null;
             }
         }
     },
@@ -158,6 +167,17 @@ cutScene.driver.dlog =
 cutScene.driver.initExtra = function()
 {
     boss.init(mainRoom);
+    for (i = 0; i < game.player.room.npcs.length; i++)
+    {
+        if (game.player.room.npcs[i].id == "Bruce")
+        {
+            game.player.room.npcs[i].commands = ["down"];
+        }
+        if (game.player.room.npcs[i].id == "Oswald")
+        {
+            game.player.room.npcs[i].direction = "up";
+        }
+    }
 };
 cutScene.driver.end = function()
 {
@@ -165,11 +185,11 @@ cutScene.driver.end = function()
     {
         if (game.player.room.npcs[i].id == "Bruce")
         {
-            game.player.room.npcs[i].setPos(-1, -1, "right");
+            game.player.room.npcs[i].commands = ["left", "left", "left", "left"] ;
         }
         if (game.player.room.npcs[i].id == "Oswald")
         {
-            game.player.room.npcs[i].setPos(-1, -1, "right");
+            game.player.room.npcs[i].commands = ["up", "up", "left", "left"];
         }
         if (game.player.room.npcs[i].id == "Chad")
         {
@@ -184,7 +204,24 @@ cutScene.driver.end = function()
             game.player.room.npcs[i].dlogIdx = 4;
         }
     }
+    setTimeout(setFade, 1000);
+    setTimeout(cutScene.driver.endLoad, 2000);
 };
+cutScene.driver.endLoad = function()
+{
+    setFade();
+    for (i = 0; i < game.player.room.npcs.length; i++)
+    {
+        if (game.player.room.npcs[i].id == "Bruce")
+        {
+            game.player.room.npcs[i].setPos(-1, -1, "left");
+        }
+        if (game.player.room.npcs[i].id == "Oswald")
+        {
+            game.player.room.npcs[i].setPos(-1, -1, "left");
+        }
+    }
+}
 
 cutScene.delivery = new cutScene.Scene();
 cutScene.delivery.dlog =
@@ -197,18 +234,33 @@ cutScene.delivery.dlog =
 cutScene.delivery.initExtra = function()
 {
     delivery.init(mainRoom);
+    for (i = 0; i < game.player.room.npcs.length; i++)
+    {
+        if (game.player.room.npcs[i].id == "Delivery")
+        {
+            game.player.room.npcs[i].commands = ["right", "right", "right", "right", "right"];
+        }
+    }
 };
 cutScene.delivery.leave = function()
 {
     for (i = 0; i < game.player.room.npcs.length; i++)
     {
-        if (game.player.room.npcs[i].id == "Delivery")
+        for (i = 0; i < game.player.room.npcs.length; i++)
         {
-            game.player.room.npcs[i].setPos(-1, -1, "right");
+            if (game.player.room.npcs[i].id == "Delivery")
+            {
+                game.player.room.npcs[i].commands = ["left", "left", "left", "left", "left", "left"];
+            }
         }
     }
+    setTimeout(setFade, 1000);
 };
 cutScene.delivery.transition = function()
+{
+    setTimeout(cutScene.delivery.transitionLoad, 1000);
+};
+cutScene.delivery.transitionLoad = function()
 {
     for (i = 0; i < game.player.room.npcs.length; i++)
     {
@@ -251,16 +303,19 @@ cutScene.dogchase.initExtra = function()
     {
         if (game.player.room.npcs[i].id == "Doggy")
         {
-            game.player.room.npcs[i].setPos(7, 3, "left");
+            game.player.room.npcs[i].setPos(10, 7, "right");
+            game.player.room.npcs[i].commands = doggy.commandCache;
         }
     }
     for (i = 0; i < breakRoom.npcs.length; i++)
     {
         if (breakRoom.npcs[i].id == "Bridget")
         {
-            breakRoom.npcs[i].setPos(17, 4, "left");
+            breakRoom.npcs[i].setPos(20, 11, "left");
+            breakRoom.npcs[i].commands = ["left", "up", "up", "left", "left"];
             game.player.room.npcs.push(breakRoom.npcs[i]);
             breakRoom.npcs.splice(i, 1);
+
         }
     }
 };
@@ -316,7 +371,7 @@ cutScene.party.npcState = mainRoom.npcs;
 cutScene.party.dlog =
 [
     {text: "BRUCE: 'Listen up!'", next: 1},
-    {text: "BRUCE: 'Listen up! As you all know the company is paying to stuff you all with fat and carbs in honour of \"employee appreciation\" day.'", next: 2},
+    {text: "BRUCE: 'As you all know the company is paying to stuff you all with fat and carbs in honour of \"employee appreciation\" day.'", next: 2},
     {text: "BRUCE: 'So I’d \"appreciate\" if you would all find yourselves at the break room. Pronto.'", next: 3, action: "transition1"},
     {text: "BRUCE: '...so in conclusion, Philmore-Queensmum is proud to have you all as part of our family...'", next: 4},
     {text: "BRUCE: '...and we value each and every one of you...'", next: 5},
@@ -363,19 +418,22 @@ cutScene.party.initExtra = function()
     {
         if (game.player.room.npcs[i].id == "Bruce")
         {
-            game.player.room.npcs[i].setPos(4, 4, "right");
+            game.player.room.npcs[i].setPos(-1, 4, "right");
+            game.player.room.npcs[i].commands = ["right", "right", "right", "right"]
         }
         if (game.player.room.npcs[i].id == "Oswald")
         {
-            game.player.room.npcs[i].setPos(4, 3, "right");
-        }
-        if (game.player.room.npcs[i].id == "Doggy")
-        {
-            game.player.room.npcs[i].setPos(-1, -1, "right");
+            game.player.room.npcs[i].setPos(-1, 3, "right");
+            game.player.room.npcs[i].commands = ["right", "right", "right", "right"]
         }
     }
 };
 cutScene.party.transition1 = function()
+{
+    fadeActive = true;
+    setTimeout(cutScene.party.transition1Load, 1000);
+};
+cutScene.party.transition1Load = function()
 {
     for (i = 0; i < game.player.room.npcs.length; i++)
     {
@@ -396,6 +454,11 @@ cutScene.party.transition1 = function()
 };
 cutScene.party.transition2 = function()
 {
+    fadeActive = true;
+    setTimeout(cutScene.party.transition2Load, 1000);
+};
+cutScene.party.transition2Load = function()
+{
     game.player.swapRoom("main", 13, 12, "right");
     ceo.init(mainRoom);
     reception.init(mainRoom, 7, 6, "left");
@@ -411,6 +474,10 @@ cutScene.party.transition2 = function()
         if (game.player.room.npcs[i].id == "Bruce")
         {
             game.player.room.npcs[i].setPos(-1, -1, "right");
+        }
+        if (game.player.room.npcs[i].id == "CEO")
+        {
+            game.player.room.npcs[i].commands = ["right", "right", "right", "right", "right"];
         }
     }
 };
@@ -431,6 +498,7 @@ cutScene.party.boss = function()
         if (game.player.room.npcs[i].id == "Bruce")
         {
             game.player.room.npcs[i].setPos(12, 2, "down");
+            game.player.room.npcs[i].commands = ["down"];
         }
     }
 };

@@ -46,7 +46,7 @@ game.start = function() {
     game.player = new Player();
 
     game.ui.drawInitial();
-    game.player.room = breakRoom;
+    game.player.room = mainRoom;
 
     game.onEachFrame(game.run);
 };

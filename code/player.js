@@ -132,6 +132,59 @@ Player.prototype.doorCheck = function()
   }
 };
 
+Player.prototype.setPos = function (x, y, dir)
+{
+    this.x = x;
+    this.y = y;
+    this.direction = dir;
+}
+
+Player.prototype.swapRoom = function (target, x, y, dir) // room transition
+{
+    fadeActive = true;
+    switch (target)
+    {
+        case "main":
+        var newRoom = mainRoom;
+        break;
+        case "break":
+        var newRoom = breakRoom;
+        break;
+    }
+    if (dir !== undefined)
+    {
+        this.direction = dir;
+    }
+    if (x !== undefined && y !== undefined)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    else
+    {
+        for(var i = 0; i < newRoom.spawn.length; i++) // decide where to move player coordinates based on origin room
+        {
+            if(this.room.id == newRoom.spawn[i].id)
+            {
+                this.x = newRoom.spawn[i].x;
+                this.y = newRoom.spawn[i].y;
+            }
+        }
+        this.onDoor = false;
+        this.theDoor = null;
+    }
+    switch (this.room.id) // save current state of origin room into old room object
+    {
+        case "main":
+        mainRoom = this.room;
+        break;
+        case "break":
+        breakRoom = this.room;
+    }
+    this.room = newRoom; // change current room to new room
+    cutScene.OnRoomSwitch();
+};
+
 Player.prototype.moveRight = function() {
     if(this.time == 0){
         this.direction = "right";
@@ -245,16 +298,17 @@ drawNPC = function(context, npc)
 		{
 			if(npc.time != 0)
 			{
-				switch(Math.floor(npc.time / 15))
+				switch(Math.floor(npc.time / 10))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 128, 32, 64, npc.x * TILESIZE, ((npc.y-1) - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, ((npc.y-1) - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 0, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, ((npc.y-1) - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+                    case 3:
+						context.drawImage(npc.img, 96, 128, 32, 64, npc.x * TILESIZE, (npc.y - (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 				}
 			}
@@ -267,16 +321,17 @@ drawNPC = function(context, npc)
 		{
 			if(npc.time != 0)
 			{
-				switch(Math.floor(npc.time / 15))
+				switch(Math.floor(npc.time / 10))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 192, 32, 64, npc.x * TILESIZE, ((npc.y-1) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 192, 32, 64, npc.x * TILESIZE, ((npc.y-2) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, ((npc.y-1) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 0, 192, 32, 64, npc.x * TILESIZE, ((npc.y-2) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, ((npc.y-1) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
+                    case 3:
+						context.drawImage(npc.img, 96, 192, 32, 64, npc.x * TILESIZE, ((npc.y-2) + (npc.time / npc.totalTime)) * TILESIZE, 32, 64);
 						break;
 				}
 			}
@@ -289,16 +344,17 @@ drawNPC = function(context, npc)
 		{
 			if(npc.time != 0)
 			{
-				switch(Math.floor(npc.time / 15))
+				switch(Math.floor(npc.time / 10))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 0, 32, 64, ((npc.x-1) + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 0, 0, 32, 64, ((npc.x-1) + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
+                    case 3:
+						context.drawImage(npc.img, 96, 0, 32, 64, ((npc.x-1) + (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 				}
 			}
@@ -311,16 +367,17 @@ drawNPC = function(context, npc)
 		{
 			if(npc.time != 0)
 			{
-				switch(Math.floor(npc.time / 15))
+				switch(Math.floor(npc.time / 10))
 				{
 					case 0:
-						context.drawImage(npc.img, 32, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 32, 64, 32, 64, ((npc.x+1) - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 1:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
+						context.drawImage(npc.img, 0, 64, 32, 64, ((npc.x+1) - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 					case 2:
-						context.drawImage(npc.img, 96, 0, 32, 64, (npc.x - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
+                    case 3:
+						context.drawImage(npc.img, 96, 64, 32, 64, ((npc.x+1) - (npc.time / npc.totalTime)) * TILESIZE, (npc.y-1) * TILESIZE, 32, 64);
 						break;
 				}
 			}
@@ -337,16 +394,17 @@ Player.prototype.draw = function(context)
 	{
         if(this.time != 0)
 		{
-			switch(Math.floor(this.time / 15))
+			switch(Math.floor(this.time / 10))
 			{
 				case 0:
 					context.drawImage(this.playerSpriteSheet, 32, 128, 32, 64, this.x * this.hop, (this.y - 1) * this.hop - this.hop * this.time / 30, 32, 64);
 					break;
 				case 1:
-					context.drawImage(this.playerSpriteSheet, 96, 128, 32, 64, this.x * this.hop, (this.y - 1) * this.hop - this.hop * this.time / 30, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 128, 32, 64, this.x * this.hop, (this.y - 1) * this.hop - this.hop * this.time / 30, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 96, 128, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
+                case 3:
+                	context.drawImage(this.playerSpriteSheet, 96, 128, 32, 64, this.x * this.hop, (this.y - 1) * this.hop - this.hop * this.time / 30, 32, 64);
 					break;
 			}
 		}
@@ -359,15 +417,16 @@ Player.prototype.draw = function(context)
 	{
         if(this.time != 0)
 		{
-			switch(Math.floor(this.time / 15))
+			switch(Math.floor(this.time / 10))
 			{
 				case 0:
 					context.drawImage(this.playerSpriteSheet, 32, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
 					break;
 				case 1:
-					context.drawImage(this.playerSpriteSheet, 96, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
+					context.drawImage(this.playerSpriteSheet, 0, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
 					break;
 				case 2:
+                case 3:
 					context.drawImage(this.playerSpriteSheet, 96, 192, 32, 64, this.x * this.hop, (this.y - 3) * this.hop + this.hop * this.time / 30, 32, 64);
 					break;
 			}
@@ -381,7 +440,7 @@ Player.prototype.draw = function(context)
 	{
         if(this.time != 0)
 		{
-			switch(Math.floor(this.time / 15))
+			switch(Math.floor(this.time / 10))
 			{
 				case 0:
 					context.drawImage(this.playerSpriteSheet, 32, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
@@ -390,7 +449,8 @@ Player.prototype.draw = function(context)
 					context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 0, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+                case 3:
+					context.drawImage(this.playerSpriteSheet, 96, 0, 32, 64, (this.x - 1)  * this.hop + this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 			}
 		}
@@ -403,7 +463,7 @@ Player.prototype.draw = function(context)
 	{
         if(this.time != 0)
 		{
-			switch(Math.floor(this.time / 15))
+			switch(Math.floor(this.time / 10))
 			{
 				case 0:
 					context.drawImage(this.playerSpriteSheet, 32, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
@@ -412,7 +472,8 @@ Player.prototype.draw = function(context)
 					context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 				case 2:
-					context.drawImage(this.playerSpriteSheet, 0, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
+                case 3:
+					context.drawImage(this.playerSpriteSheet, 96, 64, 32, 64, (this.x + 1)  * this.hop - this.hop * this.time / 30, (this.y - 2) * this.hop, 32, 64);
 					break;
 			}
 		}
@@ -422,54 +483,3 @@ Player.prototype.draw = function(context)
 		}
     }
 }
-
-Player.prototype.setPos = function (x, y, dir)
-{
-    this.x = x;
-    this.y = y;
-    this.direction = dir;
-}
-
-Player.prototype.swapRoom = function (target, x, y, dir) // room transition
-{
-    fadeActive = true;
-  switch (target)
-  {
-    case "main":
-    var newRoom = mainRoom;
-    break;
-    case "break":
-    var newRoom = breakRoom;
-    break;
-  }
-  if (dir !== undefined)
-  {
-      this.direction = dir;
-  }
-  if (x !== undefined && y !== undefined)
-  {
-      this.x = x;
-      this.y = y;
-  }
-  else
-  {
-    for(var i = 0; i < newRoom.spawn.length; i++) // decide where to move player coordinates based on origin room
-    {
-        if(this.room.id == newRoom.spawn[i].id)
-        {
-            this.x = newRoom.spawn[i].x;
-            this.y = newRoom.spawn[i].y;
-        }
-    }
-}
-  switch (this.room.id) // save current state of origin room into old room object
-  {
-    case "main":
-    mainRoom = this.room;
-    break;
-    case "break":
-    breakRoom = this.room;
-  }
-  this.room = newRoom; // change current room to new room
-  cutScene.OnRoomSwitch();
-};

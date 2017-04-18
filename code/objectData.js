@@ -1,6 +1,6 @@
-var ceo = new Npc("CEO", 5, 5, "right");
+var ceo = new Npc("CEO", 0, 5, "right");
 
-var delivery = new Npc("Delivery", 5, 5, "right");
+var delivery = new Npc("Delivery", 0, 5, "right");
 
 var boss = new Npc("Bruce", 12, 2, "down");
 
@@ -136,9 +136,29 @@ hrlady.text.reg.look = "Sue 'Mrs. Robinson' Robinson. Head of human resources. H
 hrlady.dlog[0] = {text: "SUE: 'Hi, I'm a DLC!'", next: 0};
 
 var doggy = new Npc("Doggy", 7, 7, "down");
+doggy.commandCache = ["right", "right", "right", "down", "down", "down", "left", "left", "left", "up", "up", "up"];
+doggy.timer = 0;
 doggy.use = function()
 {
     this.talk();
+};
+doggy.Update = function()
+{
+    if(this.time == 0 && this.commands.length != 0)
+    {
+        this.move(this.commands[this.timer]);
+        this.timer++;
+        if (this.timer == 12)
+            this.timer = 0;
+    }
+    else if(this.time == 30)
+    {
+        this.time = 0;
+    }
+    else if(this.time != 0)
+    {
+        this.time++;
+    }
 };
 doggy.text.reg.look = "Free at last!";
 doggy.dlog[0] = {text: "He suddenly looks full of energy.", next: 1};
@@ -150,7 +170,7 @@ doggy.dlog[1] = {
         reply: "<2> 'Hi Doggy!'", next: 3
     } ]
 };
-doggy.dlog[2] = {text: "DOGGY: 'Woof!'~He starts running around the office.", next: 6, flag: {id: "fedDog", used: false}};
+doggy.dlog[2] = {text: "DOGGY: 'Woof!'~He starts running around.", next: 6, flag: {id: "fedDog", used: false}};
 doggy.dlog[3] = {
     text: "DOGGY: 'Oh hi Johnny I didn't know it was you.'",
     options: [ {
@@ -557,6 +577,20 @@ liver.spUse = function()
             dlog.Push(this.text.active.sp);
             dlog.active = true;
             flag.push({id:"usedMayo", used: false});
+            dogCage.init(mainRoom);
+            for (i = 0; i < mainRoom.npcs.length; i++)
+            {
+                if (mainRoom.npcs[i].id == "Doggy")
+                {
+                    mainRoom.npcs[i].setPos(-1, -1, "right");
+                    mainRoom.npcs[i].commands = [];
+                }
+                if (mainRoom.npcs[i].id == "Bridget")
+                {
+                    mainRoom.npcs[i].setPos(7, 6, "left");
+                    mainRoom.npcs[i].commands = [];
+                }
+            }
             break;
             case 1:
             this.useIdx++;

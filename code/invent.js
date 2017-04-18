@@ -30,7 +30,9 @@ function useItem(obj){
 				{
 					inventory.splice (i, 1);
 					invContext.clearRect(inventory.length * 80 + 240, 0, 80, 80);
-					invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
+					if (inventory[i] !== undefined)
+						invContext.drawImage(inventory[i].oimg, i * 80 + 240, 0, 80, 80);
+					invContext.drawImage(empty.img, i * 80 + 240, 0, 80, 80);
 					invContext.drawImage(empty.img, inventory.length * 80 + 240, 0, 80, 80);
 				}
 			}

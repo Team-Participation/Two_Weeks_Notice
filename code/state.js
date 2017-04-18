@@ -171,7 +171,6 @@ function enterMenu() {
 };
 
 function startGame() {
-    debug();
     keyHandler.deleteIsKeyUp(keyHandler.ESC);
     states.currentState = "game";
 	invDiv.style.visibility = "visible";

@@ -122,6 +122,7 @@ function Npc (id, x, y, dir) // NPC class
     this.dlog = [{text: "...", next: 0}];
     this.direction = dir; // direction the npc faces
     this.commands = [];
+    this.moving = false;
     this.time = 0; // controls render position during tile movement
     this.totalTime = 30; // total time it takes for the npc to move 1 tile
     this.init = function(target, x, y, dir)
@@ -186,6 +187,11 @@ function Npc (id, x, y, dir) // NPC class
 		//checks the queue for commands and executes them
 		if(this.time == 0 && this.commands.length != 0)
 		{
+            cutScene.wait = true;
+            if (this.commands.length == 1)
+            {
+                cutScene.wait = false;
+            }
 			this.move(this.commands[0]);
 			this.commands.splice(0, 1);
 		}
@@ -205,18 +211,22 @@ function Npc (id, x, y, dir) // NPC class
 			switch(direction)
 			{
 				case "left":
+                    this.direction = "left";
 					this.x --;
 					this.time ++;
 					break;
 				case "right":
+                    this.direction = "right";
 					this.x ++;
 					this.time ++;
 					break;
 				case "up":
+                    this.direction = "up";
 					this.y --;
 					this.time ++;
 					break;
 				case "down":
+                    this.direction = "down";
 					this.y ++;
 					this.time ++;
 					break;
