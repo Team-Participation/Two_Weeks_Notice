@@ -51,10 +51,10 @@ weeb.dlog[2] = {text: "OSWALD: 'Thanks.'", next: 3, flag: {id: "talkWeeb", used:
 weeb.dlog[3] = {text: "OSWALD: '...'", next: 4};
 weeb.dlog[4] = {text: "(He's ignoring you.)", next: 3};
 
-var partner = new Npc("Greg", 16, 11, "right");
+var partner = new Npc("Greg", 16, 11, "left");
 partner.text.reg.look = "My sales partner Greg. He's strictly business. I wonder what he thinks about having to work with me.";
 partner.dlog[0] = {
-    text: "GREG: 'Hey, you got any leads? Come on, you gotta help old Gil out! They're gonna foreclose on me!",
+    text: "GREG: 'Hey, you got any leads? Come on, you gotta help old Gil out! They're gonna foreclose on me!'",
     options: [ {
         reply: "<1> 'Gil? I thought your name was Greg.'", next: 1
     }, {
@@ -74,7 +74,7 @@ waifu.dlog[0] = {
     } ]
 };
 waifu.dlog[1] = {
-    text: "EMILY: 'I thought we were good enough friends to not have to resort to that kind of bullshit office small talk.",
+    text: "EMILY: 'I thought we were good enough friends to not have to resort to that kind of bullshit office small talk.'",
     options: [ {
         reply: "<1> 'Marry me...'", next: 3
     }, {
@@ -82,7 +82,7 @@ waifu.dlog[1] = {
     } ]
 };
 waifu.dlog[2] = {
-    text: "EMILY: 'I'm not the correct NPC for that response.",
+    text: "EMILY: 'I'm not the correct NPC for that response.'",
     options: [ {
         reply: "<1> 'What's an NPC?'", next: 3
     }, {
@@ -135,7 +135,7 @@ var hrlady = new Npc("Sue", 1, 12, "down");
 hrlady.text.reg.look = "Sue 'Mrs. Robinson' Robinson. Head of human resources. How ironic.";
 hrlady.dlog[0] = {text: "SUE: 'Hi, I'm a DLC!'", next: 0};
 
-var doggy = new Npc("Doggy", 7, 7, "right");
+var doggy = new Npc("Doggy", 7, 7, "down");
 doggy.use = function()
 {
     this.talk();
@@ -380,7 +380,7 @@ var snackMachine = new RoomObject("snackMachine", 8, 2, 1, 96, 96);
 snackMachine.text.reg =
 {
     look: "Salty carbs.",
-    use: "I gave all my change to a homeless man this morning. Just kidding, I'm broke."
+    use: "I gave all my change to a homeless man this morning.~Just kidding, I'm broke."
 };
 snackMachine.init(breakRoom);
 
@@ -388,7 +388,7 @@ var sodaMachine = new RoomObject("sodaMachine", 9, 2, 1, 97, 97);
 sodaMachine.text.reg =
 {
     look: "Sweet carbs.",
-    use: "I gave all my change to a homeless man this morning. Just kidding, I'm broke."
+    use: "I gave all my change to a homeless man this morning.~Just kidding, I'm broke."
 };
 sodaMachine.init(breakRoom);
 
@@ -439,6 +439,7 @@ cupboard.text.reg =
 cupboard.init(breakRoom);
 
 var cheese = new RoomObject("cheese", 2, 5, 2, 150, 150);
+cheese.usedWith = "jarMayo";
 cheese.text.reg = {
     look: "Some assorted cheeses.",
     use: "BRIDGET: 'Hey! Get away from that!'",

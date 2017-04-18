@@ -30,8 +30,8 @@ function useItem(obj){
 				{
 					inventory.splice (i, 1);
 					invContext.clearRect(inventory.length * 80 + 240, 0, 80, 80);
-					invContext.drawImage(empty.img, inventory.length * 80 + 240, 0, 80, 80);
 					invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
+					invContext.drawImage(empty.img, inventory.length * 80 + 240, 0, 80, 80);
 				}
 			}
 		}
@@ -44,8 +44,8 @@ function deactivateItems(){
 			inventory[i].canUse = false;
 			invContext.clearRect((i) * 80 + 240, 0, 80, 80);
 			//console.log(inventory[i].id);
-			invContext.drawImage(empty.img, (i) * 80 + 240, 0, 80, 80);
 			invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
+			invContext.drawImage(empty.img, (i) * 80 + 240, 0, 80, 80);
 
 		}
 }
@@ -53,6 +53,7 @@ function deactivateItems(){
 function addObjectInv(obj){
 	inventory.push(obj);
 	invContext.drawImage(obj.oimg, (inventory.length-1) * 80 + 240, 0, 80, 80);
+	invContext.drawImage(empty.img, (inventory.length-1) * 80 + 240, 0, 80, 80);
 }
 
 
