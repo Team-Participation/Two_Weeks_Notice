@@ -13,7 +13,7 @@ function gameMenu(){
 	//temporary fix to buttons position for new resolution
 	for(var i = 0; i < this.buttonsData.length; i++)
 	{
-		this.buttonsData[i].x /= 1.5;
+		this.buttonsData[i].x /= 2;
 		this.buttonsData[i].y /= 1.5;
 	}
 };
@@ -80,8 +80,8 @@ gameMenu.prototype.drawPauseMenu = function(){
 	{
         this.setActive("start",true);
         this.setActive("resume",false);
-		game.context.fillStyle = "orange";
-		game.context.fillRect(576, 96, 384, 624);
+		//game.context.fillStyle = "orange";
+		//game.context.fillRect(576, 96, 384, 624);
 		document.body.style.cursor = "default";
 		for (var i = 0; i < this.buttonsData.length; i++)
 		{
