@@ -162,7 +162,8 @@ var dlog =
 };
 
 game.draw = function() {
-    if(states.currentState == "game"){
+    if(states.currentState == "game")
+    {
         game.context.clearRect(0, 0, game.width, game.height);
 
         game.player.room.drawBG();
@@ -182,15 +183,21 @@ game.draw = function() {
         }
 
         game.player.room.drawTallBG();
-        dlog.Draw();
-    }else if(states.currentState == "menu"){
 
-        if (menuEst.assetsLoaded == menuEst.numAssetsLoaded()){
+    }
+    else if(states.currentState == "menu")
+    {
+
+        if (menuEst.assetsLoaded == menuEst.numAssetsLoaded())
+        {
             game.ui.drawMenu();
         }
-    }else if(states.currentState == "pause"){
+    }
+    else if(states.currentState == "pause")
+    {
         game.ui.drawPauseMenu();
     }
+    dlog.Draw();
     if (fadeActive)
     {
         fade();
