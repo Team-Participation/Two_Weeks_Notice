@@ -7,9 +7,9 @@ function gameMenu(){
     this.mouse = {x:0, y:0};
     this.buttonsData = [{id:"start", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:true, click: startGame}, // Start button
                         {id:"resume", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:false, click: startGame}, // needs png for resume
-                        {id:"options", img:"assets/sprites/gui/OptionN.png", imgHover:"assets/sprites/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: enterOptions},
-                        {id:"help", img:"assets/sprites/gui/HelpN.png", imgHover:"assets/sprites/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: enterHelp}, // Help button
-                        {id:"exit", img:"assets/sprites/gui/ExitN.png", imgHover:"assets/sprites/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: enterGame}]
+                        {id:"options", img:"assets/sprites/gui/OptionN.png", imgHover:"assets/sprites/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: Options},
+                        {id:"help", img:"assets/sprites/gui/HelpN.png", imgHover:"assets/sprites/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: Help}, // Help button
+                        {id:"exit", img:"assets/sprites/gui/ExitN.png", imgHover:"assets/sprites/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: Exit}]
 	//temporary fix to buttons position for new resolution
 	for(var i = 0; i < this.buttonsData.length; i++)
 	{
@@ -123,6 +123,7 @@ function updateMouse(event) {
 function onMouseClick(event) {
     if (states.currentState != "game")
     {
+        dlog.Clear();
         for (var i = 0; i < menuEst.buttonsData.length; i++)
         {
             if (menuEst.buttonsData[i].over == true)
@@ -181,7 +182,7 @@ function Options()
 {
     dlog.Clear();
     dlog.Push("You have the option to either play, or leave.")
-};
+}
 
 function Help()
 {
@@ -191,9 +192,34 @@ function Help()
     dlog.Push("WASD or Arrow Keys to move.")
     dlog.Push("Numerical keys to select action slot.")
     dlog.Push("Left click to interact.")
-};
+}
 
 function Exit()
 {
     window.close();
+}
+
+function enterHelp()
+{
+
+}
+
+function enterGame()
+{
+
+}
+
+function enterOptions()
+{
+
+}
+
+function pauseGame()
+{
+
+}
+
+function enterPauseMenu()
+{
+
 }
