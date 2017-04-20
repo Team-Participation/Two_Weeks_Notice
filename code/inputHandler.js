@@ -92,20 +92,21 @@ function checkTile(array, x, y)
   {
     if (array[i].x == x && array[i].y == y)
     {
-      if (game.player.examineActive){
-        examineAction(array[i]);
-      }
-      else if (game.player.interactActive){
-        interactAction(array[i]);
-      }
-      else if (game.player.speakActive){
-        lastObj = array[i];
-        speakAction(array[i]);
-      }
-      else
-      {
-        useItem(array[i]);
-      }
+		if (game.player.examineActive){
+			examineAction(array[i]);
+		  }else if (Math.abs(game.player.x - x) < 2 && Math.abs(game.player.y - y) < 2){
+		if (game.player.interactActive){
+			interactAction(array[i]);
+		  }else if (game.player.speakActive){
+			lastObj = array[i];
+			speakAction(array[i]);
+		  }else{
+			useItem(array[i]);
+		  }
+		} else{
+			dlog.active = true;
+			dlog.Push("I need to be closer to do that.");
+		}
     }
   }
 }
