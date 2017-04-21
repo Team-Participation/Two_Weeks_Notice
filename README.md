@@ -13,7 +13,8 @@ Range detection added for interactions
 Known Bugs:
 <br>
 Game crashes if you click start after pausing
-
+<br>
+Occaisional double-clicks from way input is handled
 
 <br><br>
 Changes since Alpha:
