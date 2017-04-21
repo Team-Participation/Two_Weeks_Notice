@@ -56,7 +56,7 @@ partner.text.reg.look = "My sales partner Greg. He's strictly business. I wonder
 partner.dlog[0] = {
     text: "GREG: 'Hey, you got any leads? Come on, you gotta help old Gil out! They're gonna foreclose on me!'",
     options: [ {
-        reply: "<1> 'Gil? I thought your name was Greg.'", next: 1
+        reply: "<1> 'I thought your name was Greg.'", next: 1
     }, {
         reply: "<2> 'Uh, I have to go over there now.'", next: 1
     } ]
@@ -393,8 +393,7 @@ jarjarbg.init(breakRoom);
 var television = new RoomObject("television", 11, 1, 1, 143, 143);
 television.text.reg =
 {
-    look: "Permanently tuned to the company propaganda channel.",
-    use: "It's too high for me to reach."
+    look: "Permanently tuned to the company propaganda channel."
 };
 television.init(breakRoom);
 
