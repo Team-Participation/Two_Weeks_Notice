@@ -63,28 +63,28 @@ Player.prototype.update = function()
                     case "up":
                     if (keyHandler.isDown(keyHandler.UP) || keyHandler.isDown(keyHandler.UP2))
                     {
-                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1200);
                         fadeActive = true;
                     }
                     break;
                     case "down":
                     if (keyHandler.isDown(keyHandler.DOWN) || keyHandler.isDown(keyHandler.DOWN2))
                     {
-                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1200);
                         fadeActive = true;
                     }
                     break;
                     case "left":
                     if (keyHandler.isDown(keyHandler.LEFT) || keyHandler.isDown(keyHandler.LEFT2))
                     {
-                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1200);
                         fadeActive = true;
                     }
                     break;
                     case "right":
                     if (keyHandler.isDown(keyHandler.RIGHT) || keyHandler.isDown(keyHandler.RIGHT2))
                     {
-                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1000);
+                        setTimeout(function(){game.player.swapRoom(game.player.theDoor.target);}, 1200);
                         fadeActive = true;
                     }
                     break;

@@ -1,7 +1,0 @@
-WASD or arrow keys: Move the player character
-O, P, U & I: Pick dialogue options
-1, 2 & 3: Switch your action between look, grab and talk
-Click: Click on something to use the currently selected action with it
-Escape: open up the pause menu
-
-Note: Text shows up underneath the main game, so on a low resolution monitor you might need to zoom out to see it

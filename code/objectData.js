@@ -575,22 +575,8 @@ liver.spUse = function()
             case 0:
             this.useIdx++;
             dlog.Push(this.text.active.sp);
-            dlog.active = true;
             flag.push({id:"usedMayo", used: false});
-            dogCage.init(mainRoom);
-            for (i = 0; i < mainRoom.npcs.length; i++)
-            {
-                if (mainRoom.npcs[i].id == "Doggy")
-                {
-                    mainRoom.npcs[i].setPos(-1, -1, "right");
-                    mainRoom.npcs[i].commands = [];
-                }
-                if (mainRoom.npcs[i].id == "Bridget")
-                {
-                    mainRoom.npcs[i].setPos(7, 6, "left");
-                    mainRoom.npcs[i].commands = [];
-                }
-            }
+            dlog.active = true;
             break;
             case 1:
             this.useIdx++;
@@ -624,18 +610,18 @@ liver.spUse = function()
             case 6:
             this.useIdx++;
             dlog.Push(this.text.active.sp);
-            dlog.Push("'...'");
+            dlog.Push("...");
             dlog.active = true;
             break;
             case 7:
             this.useIdx++;
             dlog.Push(this.text.active.sp);
-            dlog.Push("'...'");
+            dlog.Push("...");
             dlog.active = true;
             break;
             case 8:
             dlog.Push(this.text.active.sp);
-            dlog.Push("'...'~The jar is now empty.");
+            dlog.Push("...~The jar is now empty.");
             dlog.active = true;
             flag.push({id:"emptiedMayo", used: false});
             return true;

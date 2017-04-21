@@ -72,7 +72,20 @@ function CheckFlags()
                 flag[i].used = true;
                 cutScene.OnRoomSwitch = function()
                 {
-                    cutScene.active;
+                    dogCage.init(mainRoom);
+                    for (i = 0; i < mainRoom.npcs.length; i++)
+                    {
+                        if (mainRoom.npcs[i].id == "Doggy")
+                        {
+                            mainRoom.npcs[i].setPos(-1, -1, "right");
+                            mainRoom.npcs[i].commands = [];
+                        }
+                        if (mainRoom.npcs[i].id == "Bridget")
+                        {
+                            mainRoom.npcs[i].setPos(7, 6, "left");
+                            mainRoom.npcs[i].commands = [];
+                        }
+                    }
                     cutScene.party.checkPoints++;
                 };
                 break;
@@ -205,7 +218,7 @@ cutScene.driver.end = function()
         }
     }
     setTimeout(setFade, 1000);
-    setTimeout(cutScene.driver.endLoad, 2000);
+    setTimeout(cutScene.driver.endLoad, 2200);
 };
 cutScene.driver.endLoad = function()
 {
@@ -250,7 +263,7 @@ cutScene.delivery.leave = function()
         {
             if (game.player.room.npcs[i].id == "Delivery")
             {
-                game.player.room.npcs[i].commands = ["left", "left", "left", "left", "left", "left"];
+                game.player.room.npcs[i].commands = ["left", "left", "left", "left"];
             }
         }
     }
@@ -258,12 +271,16 @@ cutScene.delivery.leave = function()
 };
 cutScene.delivery.transition = function()
 {
-    setTimeout(cutScene.delivery.transitionLoad, 1000);
+    setTimeout(cutScene.delivery.transitionLoad, 1200);
 };
 cutScene.delivery.transitionLoad = function()
 {
     for (i = 0; i < game.player.room.npcs.length; i++)
     {
+        if (game.player.room.npcs[i].id == "Delivery")
+        {
+            game.player.room.npcs[i].setPos(-1, -1, "left");
+        }
         if (game.player.room.npcs[i].id == "Bridget")
         {
             game.player.room.npcs[i].swapRoom(breakRoom, 2, 4, "left");
@@ -315,7 +332,6 @@ cutScene.dogchase.initExtra = function()
             breakRoom.npcs[i].commands = ["left", "up", "up", "left", "left"];
             game.player.room.npcs.push(breakRoom.npcs[i]);
             breakRoom.npcs.splice(i, 1);
-
         }
     }
 };
@@ -431,7 +447,7 @@ cutScene.party.initExtra = function()
 cutScene.party.transition1 = function()
 {
     fadeActive = true;
-    setTimeout(cutScene.party.transition1Load, 1000);
+    setTimeout(cutScene.party.transition1Load, 1200);
 };
 cutScene.party.transition1Load = function()
 {
@@ -455,17 +471,18 @@ cutScene.party.transition1Load = function()
 cutScene.party.transition2 = function()
 {
     fadeActive = true;
-    setTimeout(cutScene.party.transition2Load, 1000);
+    setTimeout(cutScene.party.transition2Load, 1200);
 };
 cutScene.party.transition2Load = function()
 {
     game.player.swapRoom("main", 13, 12, "right");
     ceo.init(mainRoom);
+    weeb.init(mainRoom, 13, 6, "right");
+    boss.init(mainRoom, -1, -1, "down");
     reception.init(mainRoom, 7, 6, "left");
     partner.init(mainRoom, 16, 11, "right");
     moron.init(mainRoom, 16, 6, "left");
     waifu.init(mainRoom, 7, 12, "up");
-    weeb.init(mainRoom, 13, 6, "right");
     hrlady.init(mainRoom, 1, 12, "up");
     techie.init(mainRoom, 4, 12, "up");
     dogCage.init(mainRoom);
@@ -508,28 +525,35 @@ cutScene.party.meet = function()
     {
         if (game.player.room.npcs[i].id == "Bruce")
         {
-            game.player.room.npcs[i].setPos(5, 4, "down");
-        }
-        if (game.player.room.npcs[i].id == "Oswald")
-        {
-            game.player.room.npcs[i].setPos(6, 4, "left");
-        }
-        if (game.player.room.npcs[i].id == "Chad")
-        {
-            game.player.room.npcs[i].setPos(6, 3, "left");
+            game.player.room.npcs[i].commands = ["left", "left", "left", "left"];
         }
         if (game.player.room.npcs[i].id == "CEO")
         {
-            game.player.room.npcs[i].setPos(5, 5, "up");
+            game.player.room.npcs[i].commands = ["up", "up", "right", "right"];
+        }
+        if (game.player.room.npcs[i].id == "Chad")
+        {
+            game.player.room.npcs[i].commands = ["up", "up", "left", "left", "left", "left", "left", "left", "left", "left"];
         }
     }
     if (cutScene.psycho.flag)
     {
-        this.dlog[37] = {text: "BRUCE: 'It will be his pleasure to speak with you today on beha- HUURRRGHH!'", next: 38};
+        this.dlog[37] = {text: "BRUCE: 'It will be his pleasure to speak with you today on beha- HUURRRGHH!'", next: 38, action: "hurl"};
         this.dlog[38] = {text: "BRIDGET: 'Oh, GROSS!'", next: 39};
         this.dlog[39] = {text: "OSWALD: 'Senpai no!'", next: 40};
         this.dlog[40] = {text: "OSWALD: 'I mean... Jesus Christ Bridget, call an ambulance!'", next: 41};
         this.dlog[41] = {text: "BUSINESSMAN: 'Oh dear. I think we had better be on our way.", next: null, action: "end"};
+    }
+    setTimeout(cutScene.party.meet2, 1200);
+};
+cutScene.party.meet2 = function()
+{
+    for (i = 0; i < game.player.room.npcs.length; i++)
+    {
+        if (game.player.room.npcs[i].id == "Oswald")
+        {
+            game.player.room.npcs[i].commands = ["up", "up", "up,", "up", "up", "left", "left", "left", "left", "left"];
+        }
     }
 };
 cutScene.party.turn = function()
@@ -538,10 +562,28 @@ cutScene.party.turn = function()
     {
         if (game.player.room.npcs[i].id == "Bruce")
         {
-            game.player.room.npcs[i].setPos(5, 4, "right");
+            game.player.room.npcs[i].setPos(8, 3, "up");
         }
     }
 };
+cutScene.party.hurl = function()
+{
+    for (i = 0; i < game.player.room.npcs.length; i++)
+    {
+        if (game.player.room.npcs[i].id == "Bridget")
+        {
+            game.player.room.npcs[i].setPos(7, 6, "up");
+        }
+        if (game.player.room.npcs[i].id == "Oswald")
+        {
+            game.player.room.npcs[i].setPos(8, 2, "down");
+        }
+        if (game.player.room.npcs[i].id == "Chad")
+        {
+            game.player.room.npcs[i].setPos(8, 4, "up");
+        }
+    }
+}
 cutScene.party.end = function()
 {
     game.context.clearRect(0, 0, game.width, game.height);

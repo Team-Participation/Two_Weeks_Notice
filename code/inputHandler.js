@@ -65,10 +65,7 @@ var keyHandler = {
         if (dlog.active || cutScene.active)
           this.lastKey = event.keyCode;
     },
-
-    onKeypress: function(event) {
-
-    }
+    // onKeypress: function(event) {}
 }
 
 function onLeftClick(event)

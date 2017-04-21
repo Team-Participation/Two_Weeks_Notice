@@ -178,7 +178,7 @@ function Npc (id, x, y, dir) // NPC class
         else
         {
             dlog.Push(this.dlog[this.dlogIdx].text);
-            this.dlogIdx = this.dlog[this.dlogIdx].next; // reset node
+            this.dlogIdx = this.dlog[this.dlogIdx].next;
             dlog.id = null;
         }
     };
