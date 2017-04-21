@@ -385,7 +385,7 @@ var jarjarbg = new RoomObject("jarjarbg", 3, 1, 2, 148, 147, "item");
 jarjarbg.item = jarMayo;
 jarjarbg.text.reg =
 {
-    look: "Yuck, this jar of mayo looks like it was left out all weekend.",
+    look: "Yuck, this jar of mayonnaise looks like it was left out all weekend.",
     use: "Ugh, it's rancid. Someone could get very sick eating this."
 };
 jarjarbg.init(breakRoom);
@@ -560,7 +560,7 @@ liver.text.reg = {
 liver.text.alt = {
     look: "Chopper liver. Yuck!",
     use: "Oh hell no.",
-    sp: "You mix some mayo in with the chopped liver."
+    sp: "You mix some rancid mayonnaise in with the chopped liver."
 };
 liver.spUse = function()
 {
