@@ -6,7 +6,6 @@ function gameMenu(){
     this.assetsLoaded = 0;
     this.mouse = {x:0, y:0};
     this.buttonsData = [{id:"start", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:true, click: startGame}, // Start button
-                        {id:"resume", img:"assets/sprites/gui/StartN.png", imgHover:"assets/sprites/gui/StartH.png", x:676, y:144, w:184, h:72, over:false, active:false, click: startGame}, // needs png for resume
                         {id:"options", img:"assets/sprites/gui/OptionN.png", imgHover:"assets/sprites/gui/OptionH.png", x:656, y:288, w:224, h:72, over:false, active:true,  click: Options},
                         {id:"help", img:"assets/sprites/gui/HelpN.png", imgHover:"assets/sprites/gui/HelpH.png", x:692, y:432, w:152, h:72, over:false, active:true, click: Help}, // Help button
                         {id:"exit", img:"assets/sprites/gui/ExitN.png", imgHover:"assets/sprites/gui/ExitH.png", x:692, y:576, w:152, h:72, over:false, active:true, click: Exit}]
@@ -78,10 +77,10 @@ gameMenu.prototype.checkState = function(){
 gameMenu.prototype.drawPauseMenu = function(){
 	if (states.currentState == "pause")
 	{
-        //this.setActive("start",true);
-        //this.setActive("resume",false);
+        this.setActive("start",true);
+        this.setActive("resume",false);
 		document.body.style.cursor = "default";
-		for (var i = 2; i < this.buttonsData.length; i++)
+		for (var i = 1; i < this.buttonsData.length; i++)
 		{
             if(this.buttonsData[i].active == true){
                 if (this.buttonsData[i].over == true)
