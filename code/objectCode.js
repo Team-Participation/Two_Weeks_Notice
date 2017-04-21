@@ -118,6 +118,7 @@ function Npc (id, x, y, dir) // NPC class
     this.img.src ="assets/sprites/char/"+ this.id +".png";
     this.text.reg.use = "Um, I'm trying to get fired, not arrested.";
     this.text.reg.look = "It's " + id + ".";
+    this.text.reg.talk = "for checkTile";
     this.dlogIdx = 0; // index of dialogue progression
     this.dlog = [{text: "...", next: 0}];
     this.direction = dir; // direction the npc faces

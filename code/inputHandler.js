@@ -8,8 +8,6 @@ const error = 0;
 var mouseX;
 var mouseY;
 
-var lastObj;
-
 var keyHandler = {
     lastKey: null, // keeps dialogue from skipping through multiple choices
     keyPressed: {},
@@ -85,27 +83,52 @@ function onLeftClick(event)
 
 function checkTile(array, x, y)
 {
-  for (i = 0; i < array.length; i++)
-  {
-    if (array[i].x == x && array[i].y == y)
+    for (i = 0; i < array.length; i++)
     {
-		if (game.player.examineActive){
-			examineAction(array[i]);
-        }else if (Math.abs(game.player.x - x) < 3 && Math.abs(game.player.y - y -1) < 3){
-		if (game.player.interactActive){
-			interactAction(array[i]);
-		  }else if (game.player.speakActive){
-			lastObj = array[i];
-			speakAction(array[i]);
-		  }else{
-			useItem(array[i]);
-		  }
-		} else{
-			dlog.active = true;
-			dlog.Push("I need to be closer to do that.");
-		}
+        if (array[i].x == x && array[i].y == y)
+        {
+            if (game.player.examineActive)
+            {
+                examineAction(array[i]);
+            }
+            else if (game.player.interactActive && array[i].text.active.use !== undefined)
+            {
+                if (Math.abs(game.player.x - x) < 3 && Math.abs(game.player.y - y -1) < 3)
+                {
+                    interactAction(array[i]);
+                }
+                else
+                {
+                    dlog.active = true;
+                    dlog.Push("I need to be closer to do that.");
+                }
+            }
+            else if (game.player.speakActive && array[i].text.active.talk !== undefined)
+            {
+                if (Math.abs(game.player.x - x) < 3 && Math.abs(game.player.y - y -1) < 3)
+                {
+                    speakAction(array[i]);
+                }
+                else
+                {
+                    dlog.active = true;
+                    dlog.Push("I need to be closer to do that.");
+                }
+            }
+            else if (activeSlot !== null && array[i].usedWith == inventory[activeSlot].id)
+            {
+                if (Math.abs(game.player.x - x) < 3 && Math.abs(game.player.y - y -1) < 3)
+                {
+                    useItem(array[i]);
+                }
+                else
+                {
+                    dlog.active = true;
+                    dlog.Push("I need to be closer to do that.");
+                }
+            }
+        }
     }
-  }
 }
 
 function examineAction(obj){

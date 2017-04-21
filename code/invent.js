@@ -1,4 +1,5 @@
 var inventory = [];
+var activeSlot = null;
 
 function Inventory(slotNumber)
 {
@@ -16,6 +17,7 @@ function Inventory(slotNumber)
 		invContext.clearRect((slotNumber) * 80 + 240, 0, 80, 80);
 		invContext.drawImage(inventory[slotNumber].aimg, (slotNumber) * 80 + 240, 0, 80, 80);
 		invContext.drawImage(empty.img, (slotNumber) * 80 + 240, 0, 80, 80);
+		activeSlot = slotNumber;
 	}
 }
 
@@ -40,16 +42,16 @@ function useItem(obj){
 	}
 }
 
-function deactivateItems(){
-
-	for (var i = 0; i < inventory.length; i++){
-			inventory[i].canUse = false;
-			invContext.clearRect((i) * 80 + 240, 0, 80, 80);
-			//console.log(inventory[i].id);
-			invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
-			invContext.drawImage(empty.img, (i) * 80 + 240, 0, 80, 80);
-
-		}
+function deactivateItems()
+{
+	activeSlot = null;
+	for (var i = 0; i < inventory.length; i++)
+	{
+		inventory[i].canUse = false;
+		invContext.clearRect((i) * 80 + 240, 0, 80, 80);
+		invContext.drawImage(inventory[i].oimg, (i) * 80 + 240, 0, 80, 80);
+		invContext.drawImage(empty.img, (i) * 80 + 240, 0, 80, 80);
+	}
 }
 
 function addObjectInv(obj){

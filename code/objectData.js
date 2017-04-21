@@ -161,6 +161,7 @@ doggy.Update = function()
     }
 };
 doggy.text.reg.look = "Free at last!";
+doggy.text.reg.use = "DOGGY: 'Woof!'";
 doggy.dlog[0] = {text: "He suddenly looks full of energy.", next: 1};
 doggy.dlog[1] = {
     text: "DOGGY: 'Woof!'",
@@ -213,7 +214,8 @@ var laxative = new Item("laxative");
 
 var myComp = new RoomObject("myComp", 14, 10, 2, 131, 131);
 myComp.text.reg = {
-    look: "My 'work' station."
+    look: "My 'work' station.",
+    use: "for checkTile"
 };
 myComp.use = function()
 {
