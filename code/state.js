@@ -78,10 +78,10 @@ gameMenu.prototype.checkState = function(){
 gameMenu.prototype.drawPauseMenu = function(){
 	if (states.currentState == "pause")
 	{
-        this.setActive("start",true);
-        this.setActive("resume",false);
+        //this.setActive("start",true);
+        //this.setActive("resume",false);
 		document.body.style.cursor = "default";
-		for (var i = 0; i < this.buttonsData.length; i++)
+		for (var i = 2; i < this.buttonsData.length; i++)
 		{
             if(this.buttonsData[i].active == true){
                 if (this.buttonsData[i].over == true)
